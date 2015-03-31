@@ -11,9 +11,7 @@
 		895634E51ACA5DA300CA60E9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895634E41ACA5DA300CA60E9 /* ViewController.swift */; };
 		895634EA1ACA5DA300CA60E9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895634E91ACA5DA300CA60E9 /* Images.xcassets */; };
 		895634ED1ACA5DA300CA60E9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 895634EB1ACA5DA300CA60E9 /* LaunchScreen.xib */; };
-		895635041ACA60BF00CA60E9 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895635021ACA60BF00CA60E9 /* Alamofire.framework */; };
 		895635051ACA60BF00CA60E9 /* PureLayout_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895635031ACA60BF00CA60E9 /* PureLayout_iOS.framework */; };
-		895635071ACA60D500CA60E9 /* Alamofire.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 895635021ACA60BF00CA60E9 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		895635081ACA60D500CA60E9 /* PureLayout_iOS.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 895635031ACA60BF00CA60E9 /* PureLayout_iOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8956350B1ACA60E100CA60E9 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895635091ACA60E100CA60E9 /* Nimble.framework */; };
 		8956350C1ACA60E100CA60E9 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8956350A1ACA60E100CA60E9 /* Quick.framework */; };
@@ -22,6 +20,19 @@
 		895635111ACA627A00CA60E9 /* AppDelegateSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895635101ACA627A00CA60E9 /* AppDelegateSpec.swift */; };
 		895635121ACA628900CA60E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895634E21ACA5DA200CA60E9 /* AppDelegate.swift */; };
 		895635131ACA628C00CA60E9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895634E41ACA5DA300CA60E9 /* ViewController.swift */; };
+		895635151ACA664100CA60E9 /* LightsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895635141ACA664100CA60E9 /* LightsService.swift */; };
+		895635161ACA664100CA60E9 /* LightsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895635141ACA664100CA60E9 /* LightsService.swift */; };
+		895635191ACA6EBA00CA60E9 /* Ra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; };
+		8956351A1ACA6EC800CA60E9 /* Ra.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8956351D1ACA6EE800CA60E9 /* ApplicationModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8956351C1ACA6EE800CA60E9 /* ApplicationModule.swift */; };
+		8956351E1ACA6EE800CA60E9 /* ApplicationModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8956351C1ACA6EE800CA60E9 /* ApplicationModule.swift */; };
+		895635201ACA6FCA00CA60E9 /* SpecApplicationModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8956351F1ACA6FCA00CA60E9 /* SpecApplicationModule.swift */; };
+		895635231ACA701700CA60E9 /* LightsServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895635221ACA701700CA60E9 /* LightsServiceSpec.swift */; };
+		895635251ACB2FB100CA60E9 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895635241ACB2FB100CA60E9 /* Alamofire.framework */; };
+		895635261ACB2FB700CA60E9 /* Alamofire.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 895635241ACB2FB100CA60E9 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		895635281ACB34CE00CA60E9 /* Bulb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895635271ACB34CE00CA60E9 /* Bulb.swift */; };
+		895635291ACB34CE00CA60E9 /* Bulb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895635271ACB34CE00CA60E9 /* Bulb.swift */; };
+		8956352C1ACB391900CA60E9 /* BulbSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8956352B1ACB391900CA60E9 /* BulbSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,7 +52,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				895635071ACA60D500CA60E9 /* Alamofire.framework in Copy Frameworks */,
+				895635261ACB2FB700CA60E9 /* Alamofire.framework in Copy Frameworks */,
+				8956351A1ACA6EC800CA60E9 /* Ra.framework in Copy Frameworks */,
 				895635081ACA60D500CA60E9 /* PureLayout_iOS.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -70,11 +82,18 @@
 		895634EC1ACA5DA300CA60E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		895634F21ACA5DA300CA60E9 /* ApartmentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ApartmentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		895634F71ACA5DA300CA60E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		895635021ACA60BF00CA60E9 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = SOURCE_ROOT; };
 		895635031ACA60BF00CA60E9 /* PureLayout_iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PureLayout_iOS.framework; path = Carthage/Build/iOS/PureLayout_iOS.framework; sourceTree = SOURCE_ROOT; };
 		895635091ACA60E100CA60E9 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = SOURCE_ROOT; };
 		8956350A1ACA60E100CA60E9 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = SOURCE_ROOT; };
 		895635101ACA627A00CA60E9 /* AppDelegateSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegateSpec.swift; sourceTree = "<group>"; };
+		895635141ACA664100CA60E9 /* LightsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightsService.swift; sourceTree = "<group>"; };
+		895635181ACA6EBA00CA60E9 /* Ra.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ra.framework; path = Carthage/Build/iOS/Ra.framework; sourceTree = SOURCE_ROOT; };
+		8956351C1ACA6EE800CA60E9 /* ApplicationModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationModule.swift; sourceTree = "<group>"; };
+		8956351F1ACA6FCA00CA60E9 /* SpecApplicationModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecApplicationModule.swift; sourceTree = "<group>"; };
+		895635221ACA701700CA60E9 /* LightsServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightsServiceSpec.swift; sourceTree = "<group>"; };
+		895635241ACB2FB100CA60E9 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = SOURCE_ROOT; };
+		895635271ACB34CE00CA60E9 /* Bulb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bulb.swift; sourceTree = "<group>"; };
+		8956352B1ACB391900CA60E9 /* BulbSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulbSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,7 +102,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				895635051ACA60BF00CA60E9 /* PureLayout_iOS.framework in Frameworks */,
-				895635041ACA60BF00CA60E9 /* Alamofire.framework in Frameworks */,
+				895635251ACB2FB100CA60E9 /* Alamofire.framework in Frameworks */,
+				895635191ACA6EBA00CA60E9 /* Ra.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,11 +141,14 @@
 			isa = PBXGroup;
 			children = (
 				895634E21ACA5DA200CA60E9 /* AppDelegate.swift */,
-				895634E41ACA5DA300CA60E9 /* ViewController.swift */,
+				8956351C1ACA6EE800CA60E9 /* ApplicationModule.swift */,
+				8956351B1ACA6ED500CA60E9 /* Features */,
+				895635211ACA700300CA60E9 /* Services */,
 				895634E91ACA5DA300CA60E9 /* Images.xcassets */,
 				895634EB1ACA5DA300CA60E9 /* LaunchScreen.xib */,
-				895635021ACA60BF00CA60E9 /* Alamofire.framework */,
 				895635031ACA60BF00CA60E9 /* PureLayout_iOS.framework */,
+				895635181ACA6EBA00CA60E9 /* Ra.framework */,
+				895635241ACB2FB100CA60E9 /* Alamofire.framework */,
 				895634E01ACA5DA200CA60E9 /* Supporting Files */,
 			);
 			path = Apartment;
@@ -142,7 +165,9 @@
 		895634F51ACA5DA300CA60E9 /* ApartmentTests */ = {
 			isa = PBXGroup;
 			children = (
+				8956351F1ACA6FCA00CA60E9 /* SpecApplicationModule.swift */,
 				895635101ACA627A00CA60E9 /* AppDelegateSpec.swift */,
+				8956352D1ACB391D00CA60E9 /* Services */,
 				895635091ACA60E100CA60E9 /* Nimble.framework */,
 				8956350A1ACA60E100CA60E9 /* Quick.framework */,
 				895634F61ACA5DA300CA60E9 /* Supporting Files */,
@@ -156,6 +181,48 @@
 				895634F71ACA5DA300CA60E9 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8956351B1ACA6ED500CA60E9 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				895634E41ACA5DA300CA60E9 /* ViewController.swift */,
+			);
+			name = Features;
+			sourceTree = "<group>";
+		};
+		895635211ACA700300CA60E9 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				8956352A1ACB34D500CA60E9 /* Models */,
+				895635141ACA664100CA60E9 /* LightsService.swift */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
+		8956352A1ACB34D500CA60E9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				895635271ACB34CE00CA60E9 /* Bulb.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		8956352D1ACB391D00CA60E9 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				8956352E1ACB392200CA60E9 /* Models */,
+				895635221ACA701700CA60E9 /* LightsServiceSpec.swift */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
+		8956352E1ACB392200CA60E9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8956352B1ACB391900CA60E9 /* BulbSpec.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,8 +326,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				895635281ACB34CE00CA60E9 /* Bulb.swift in Sources */,
+				8956351D1ACA6EE800CA60E9 /* ApplicationModule.swift in Sources */,
 				895634E51ACA5DA300CA60E9 /* ViewController.swift in Sources */,
 				895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */,
+				895635151ACA664100CA60E9 /* LightsService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,8 +338,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8956351E1ACA6EE800CA60E9 /* ApplicationModule.swift in Sources */,
+				895635201ACA6FCA00CA60E9 /* SpecApplicationModule.swift in Sources */,
+				8956352C1ACB391900CA60E9 /* BulbSpec.swift in Sources */,
+				895635291ACB34CE00CA60E9 /* Bulb.swift in Sources */,
 				895635131ACA628C00CA60E9 /* ViewController.swift in Sources */,
 				895635121ACA628900CA60E9 /* AppDelegate.swift in Sources */,
+				895635161ACA664100CA60E9 /* LightsService.swift in Sources */,
+				895635231ACA701700CA60E9 /* LightsServiceSpec.swift in Sources */,
 				895635111ACA627A00CA60E9 /* AppDelegateSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,2 +1,3 @@
 github "alamofire/alamofire" "xcode-6.3"
 github "smileyborg/PureLayout"
+github "younata/Ra" "swift_1.2"
