@@ -33,6 +33,8 @@
 		895635281ACB34CE00CA60E9 /* Bulb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895635271ACB34CE00CA60E9 /* Bulb.swift */; };
 		895635291ACB34CE00CA60E9 /* Bulb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895635271ACB34CE00CA60E9 /* Bulb.swift */; };
 		8956352C1ACB391900CA60E9 /* BulbSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8956352B1ACB391900CA60E9 /* BulbSpec.swift */; };
+		895635B91ACC8A8800CA60E9 /* MockHTTP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895635B81ACC8A8800CA60E9 /* MockHTTP.framework */; };
+		895635BA1ACC8A9700CA60E9 /* MockHTTP.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 895635B81ACC8A8800CA60E9 /* MockHTTP.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +67,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				895635BA1ACC8A9700CA60E9 /* MockHTTP.framework in Copy Frameworks */,
 				8956350E1ACA60F900CA60E9 /* Nimble.framework in Copy Frameworks */,
 				8956350F1ACA60F900CA60E9 /* Quick.framework in Copy Frameworks */,
 			);
@@ -94,6 +97,7 @@
 		895635241ACB2FB100CA60E9 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = SOURCE_ROOT; };
 		895635271ACB34CE00CA60E9 /* Bulb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bulb.swift; sourceTree = "<group>"; };
 		8956352B1ACB391900CA60E9 /* BulbSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulbSpec.swift; sourceTree = "<group>"; };
+		895635B81ACC8A8800CA60E9 /* MockHTTP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MockHTTP.framework; path = Carthage/Build/iOS/MockHTTP.framework; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				895635B91ACC8A8800CA60E9 /* MockHTTP.framework in Frameworks */,
 				8956350C1ACA60E100CA60E9 /* Quick.framework in Frameworks */,
 				8956350B1ACA60E100CA60E9 /* Nimble.framework in Frameworks */,
 			);
@@ -168,6 +173,7 @@
 				8956351F1ACA6FCA00CA60E9 /* SpecApplicationModule.swift */,
 				895635101ACA627A00CA60E9 /* AppDelegateSpec.swift */,
 				8956352D1ACB391D00CA60E9 /* Services */,
+				895635B81ACC8A8800CA60E9 /* MockHTTP.framework */,
 				895635091ACA60E100CA60E9 /* Nimble.framework */,
 				8956350A1ACA60E100CA60E9 /* Quick.framework */,
 				895634F61ACA5DA300CA60E9 /* Supporting Files */,

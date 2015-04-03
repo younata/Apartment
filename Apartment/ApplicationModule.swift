@@ -23,11 +23,11 @@ class ApplicationModule {
         }
 
         let manager = Alamofire.Manager(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-        // manager.session.configuration.HTTPAdditionalHeaders = ["Authorization": "Token token=\"\(authorizationToken)\""]
         injector.bind(kNetworkManager, to: manager)
 
-        let lightsservice = LightsService(backendURL: injector.create(kBackendService) as! String, manager: manager)
-
-        injector.bind(kLightsService, to: lightsservice)
+        injector.bind(kLightsService) {
+            let manager = injector.create(kNetworkManager) as! Alamofire.Manager
+            return LightsService(backendURL: injector.create(kBackendService) as! String, manager: manager)
+        }
     }
 }

@@ -13,19 +13,12 @@ class BulbSpec: QuickSpec {
                 let subject = Bulb(json: obj)
                 expect(subject).toNot(beNil())
 
+                let expected = Bulb(id: 3, name: "Hue Lamp 2", on: false, brightness: 194, hue: 15051,
+                                    saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: "ct",
+                                    effect: "none", reachable: true, alert: "none")
+
                 if let sub = subject {
-                    expect(sub.id).to(equal(3))
-                    expect(sub.name).to(equal("Hue Lamp 2"))
-                    expect(sub.on).to(beFalsy())
-                    expect(sub.brightness).to(equal(194))
-                    expect(sub.hue).to(equal(15051))
-                    expect(sub.saturation).to(equal(137))
-                    expect(sub.colorTemperature).to(equal(359))
-                    expect(sub.transitionTime).to(equal(10))
-                    expect(sub.colorMode).to(equal("ct"))
-                    expect(sub.effect).to(equal("none"))
-                    expect(sub.reachable).to(beTruthy())
-                    expect(sub.alert).to(equal("none"))
+                    expect(sub).to(equal(expected))
                 }
             }
         }

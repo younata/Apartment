@@ -17,11 +17,27 @@ class LightsService {
     }
 
     func allBulbs(completionHandler: ([Bulb]?, NSError?) -> (Void)) {
-        Alamofire.request(.GET, self.backendURL + "api/v1/bulbs", parameters: nil, encoding: .JSON).response {(_, _, result, error) in
+        self.manager.request(.GET, self.backendURL + "api/v1/bulbs", parameters: nil, encoding: .JSON).responseJSON {(_, _, result, error) in
             if (error != nil) {
                 completionHandler(nil, error)
-            } else {
-//                completionHandler(result, nil)
+            } else if let result: AnyObject = result {
+                if let res = result as? [String: AnyObject],
+                    let bulb = Bulb(json: res) {
+                        completionHandler([bulb], nil)
+                } else if let res = result as? [[String: AnyObject]] {
+                    let bulbs = res.reduce([Bulb]()) {(bulbs, json) in
+                        if let bulb = Bulb(json: json) {
+                            return bulbs + [bulb]
+                        } else {
+                            return bulbs
+                        }
+                    }
+                    completionHandler(bulbs, nil)
+                } else {
+                    println("\(result)")
+                    let error = NSError(domain: "Apartment", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unable to convert \(result) to array of Bulb objects"])
+                    completionHandler(nil, error)
+                }
             }
         }
     }

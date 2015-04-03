@@ -23,22 +23,50 @@
 "alert":"none"}]
 */
 
-struct Bulb {
-    var id: Int
-    var name: String
-    var on: Bool
+class Bulb : Equatable, Printable {
+    let id: Int
+    let name: String
+    let on: Bool
 
-    var brightness: Int
-    var hue: Int
-    var saturation: Int
-    var colorTemperature: Int
-    var transitionTime: Int?
+    let brightness: Int
+    let hue: Int
+    let saturation: Int
+    let colorTemperature: Int
+    let transitionTime: Int?
 
-    var colorMode: String
-    var effect: String
+    let colorMode: String
+    let effect: String
 
-    var reachable: Bool
-    var alert: String
+    let reachable: Bool
+    let alert: String
+
+    var description: String {
+        let a = "id: \(id), name: \(name), on: \(on), brightness: \(brightness), hue: \(hue), saturation: \(saturation), "
+        let b = "ct: \(colorTemperature), transitionTime: \(transitionTime), colorMode: \(colorMode), effect: \(effect), "
+        let c = "reachable: \(reachable), alert: \(alert)"
+
+        return a + b + c
+    }
+
+    init(id: Int, name: String, on: Bool, brightness: Int, hue: Int,
+         saturation: Int, colorTemperature: Int, transitionTime: Int?,
+         colorMode: String, effect: String, reachable: Bool, alert: String) {
+            self.id = id
+            self.name = name
+            self.on = on
+
+            self.brightness = brightness
+            self.hue = hue
+            self.saturation = saturation
+            self.colorTemperature = colorTemperature
+            self.transitionTime = transitionTime
+
+            self.colorMode = colorMode
+            self.effect = effect
+
+            self.reachable = reachable
+            self.alert = alert
+    }
 
     init?(json: [String: AnyObject]) {
         transitionTime = json["transitiontime"] as? Int
@@ -65,7 +93,24 @@ struct Bulb {
             self.reachable = reachable
             self.alert = alert
         } else {
+            self.id = -1
+            self.name = ""
+            self.on = false
+            self.brightness = -1
+            self.hue = -1
+            self.saturation = -1
+            self.colorTemperature = -1
+            self.colorMode = ""
+            self.effect = ""
+            self.reachable = false
+            self.alert = ""
             return nil
         }
     }
+}
+
+func == (a: Bulb, b: Bulb) -> Bool {
+    return a.id == b.id && a.name == b.name && a.on == b.on && a.brightness == b.brightness && a.hue == b.hue &&
+           a.saturation == b.saturation && a.colorTemperature == b.colorTemperature && a.colorMode == b.colorMode &&
+           a.transitionTime == b.transitionTime && a.effect == b.effect && a.reachable == b.reachable && a.alert == b.alert
 }

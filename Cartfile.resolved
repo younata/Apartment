@@ -1,4 +1,4 @@
-github "kylef/Mockingjay" "0.1.0"
+github "younata/MockHTTP" "v0.1.0"
 github "smileyborg/PureLayout" "v2.0.5"
 github "younata/Ra" "bf597beefb661061db4930e16ccbcd0422b28f3c"
 github "alamofire/alamofire" "2ff5749ffc0425f05a1411b5b6fd2c25241b5b14"
