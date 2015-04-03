@@ -11,10 +11,9 @@ import Ra
 import Alamofire
 
 let kBackendService = "kBackendService"
-
 let kLightsService = "kLightsService"
-
 let kNetworkManager = "kNetworkManager"
+let kAuthenticationToken = "kAuthenticationToken"
 
 class ApplicationModule {
     func configureInjector(injector: Ra.Injector) {
@@ -22,8 +21,16 @@ class ApplicationModule {
             NSUserDefaults.standardUserDefaults().stringForKey(kBackendService) ?? "http://localhost:3000/"
         }
 
-        let manager = Alamofire.Manager(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-        injector.bind(kNetworkManager, to: manager)
+        injector.bind(NSURLSessionConfiguration.self) {
+            let conf = NSURLSessionConfiguration.defaultSessionConfiguration()
+            let token = injector.create(kAuthenticationToken) as? String ?? "HelloWorld"
+            conf.HTTPAdditionalHeaders = ["Authentication": "Token token=\(token)"]
+            return conf
+        }
+
+        injector.bind(kNetworkManager) {
+            Alamofire.Manager(configuration: injector.create(NSURLSessionConfiguration.self) as? NSURLSessionConfiguration)
+        }
 
         injector.bind(kLightsService) {
             let manager = injector.create(kNetworkManager) as! Alamofire.Manager
