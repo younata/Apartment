@@ -16,6 +16,8 @@ class SpecApplicationModule : ApplicationModule {
 
         let configuration = injector.create(NSURLSessionConfiguration.self) as! NSURLSessionConfiguration
         MockHTTP.startMocking(configuration)
+        injector.bind(NSURLSessionConfiguration.self, to: configuration)
+
         let defaultResponse = MockHTTP.URLResponse(statusCode: 404, headers: [:], body: nil, error: nil)
         injector.bind(kNetworkManager, to: Alamofire.Manager(configuration: configuration))
     }
