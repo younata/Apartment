@@ -44,6 +44,9 @@
 		8956362D1AD0B5D000CA60E9 /* UIColor+Apartment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8956362B1AD0B5D000CA60E9 /* UIColor+Apartment.swift */; };
 		8956362F1AD0C3CC00CA60E9 /* LightsCardSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8956362E1AD0C3CC00CA60E9 /* LightsCardSpec.swift */; };
 		895636311AD0CD4700CA60E9 /* FakeLightsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636301AD0CD4700CA60E9 /* FakeLightsService.swift */; };
+		895636331AD0FB8A00CA60E9 /* BulbViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636321AD0FB8A00CA60E9 /* BulbViewController.swift */; };
+		895636341AD0FB8A00CA60E9 /* BulbViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636321AD0FB8A00CA60E9 /* BulbViewController.swift */; };
+		895636381AD0FBB500CA60E9 /* BulbViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636371AD0FBB500CA60E9 /* BulbViewControllerSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +117,8 @@
 		8956362B1AD0B5D000CA60E9 /* UIColor+Apartment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Apartment.swift"; sourceTree = "<group>"; };
 		8956362E1AD0C3CC00CA60E9 /* LightsCardSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightsCardSpec.swift; sourceTree = "<group>"; };
 		895636301AD0CD4700CA60E9 /* FakeLightsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeLightsService.swift; sourceTree = "<group>"; };
+		895636321AD0FB8A00CA60E9 /* BulbViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulbViewController.swift; sourceTree = "<group>"; };
+		895636371AD0FBB500CA60E9 /* BulbViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulbViewControllerSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,8 +218,8 @@
 		8956351B1ACA6ED500CA60E9 /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				895636181ACFA4F600CA60E9 /* HomeViewController.swift */,
-				895636281AD0ADDB00CA60E9 /* LightsCard.swift */,
+				895636351AD0FB8F00CA60E9 /* Home Screen */,
+				895636321AD0FB8A00CA60E9 /* BulbViewController.swift */,
 			);
 			name = Features;
 			sourceTree = "<group>";
@@ -256,10 +261,28 @@
 		895636171ACFA03600CA60E9 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				895636361AD0FBA300CA60E9 /* Home Screen */,
+				895636371AD0FBB500CA60E9 /* BulbViewControllerSpec.swift */,
+			);
+			name = Features;
+			sourceTree = "<group>";
+		};
+		895636351AD0FB8F00CA60E9 /* Home Screen */ = {
+			isa = PBXGroup;
+			children = (
+				895636181ACFA4F600CA60E9 /* HomeViewController.swift */,
+				895636281AD0ADDB00CA60E9 /* LightsCard.swift */,
+			);
+			name = "Home Screen";
+			sourceTree = "<group>";
+		};
+		895636361AD0FBA300CA60E9 /* Home Screen */ = {
+			isa = PBXGroup;
+			children = (
 				895636151ACFA02E00CA60E9 /* HomeViewControllerSpec.swift */,
 				8956362E1AD0C3CC00CA60E9 /* LightsCardSpec.swift */,
 			);
-			name = Features;
+			name = "Home Screen";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -370,6 +393,7 @@
 				895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */,
 				895635151ACA664100CA60E9 /* LightsService.swift in Sources */,
 				8956362C1AD0B5D000CA60E9 /* UIColor+Apartment.swift in Sources */,
+				895636331AD0FB8A00CA60E9 /* BulbViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,7 +405,9 @@
 				895635201ACA6FCA00CA60E9 /* SpecApplicationModule.swift in Sources */,
 				8956362D1AD0B5D000CA60E9 /* UIColor+Apartment.swift in Sources */,
 				8956352C1ACB391900CA60E9 /* BulbSpec.swift in Sources */,
+				895636341AD0FB8A00CA60E9 /* BulbViewController.swift in Sources */,
 				8956362A1AD0ADDB00CA60E9 /* LightsCard.swift in Sources */,
+				895636381AD0FBB500CA60E9 /* BulbViewControllerSpec.swift in Sources */,
 				895635291ACB34CE00CA60E9 /* Bulb.swift in Sources */,
 				895636161ACFA02E00CA60E9 /* HomeViewControllerSpec.swift in Sources */,
 				8956361A1ACFA4F600CA60E9 /* HomeViewController.swift in Sources */,

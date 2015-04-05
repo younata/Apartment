@@ -10,6 +10,14 @@ import UIKit
 import Ra
 import Cartography
 
+let bulb1 = Bulb(id: 3, name: "Hue Lamp 2", on: false, brightness: 194, hue: 15051,
+    saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .colorTemperature,
+    effect: .none, reachable: true, alert: "none")
+
+let bulb2 = Bulb(id: 2, name: "Hue Lamp 1", on: false, brightness: 194, hue: 15051,
+    saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .hue,
+    effect: .none, reachable: true, alert: "none")
+
 class HomeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     var bulbs : [Bulb] = []
@@ -30,7 +38,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.blackColor()
+        view.backgroundColor = UIColor.lightGrayColor()
 
         view.addSubview(collectionView)
         layout(collectionView) {view in
@@ -38,7 +46,11 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         }
 
         getLights()
-        collectionView.reloadData()
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBarHidden = true
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

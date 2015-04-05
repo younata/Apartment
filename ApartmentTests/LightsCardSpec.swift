@@ -10,12 +10,12 @@ class LightsCardSpec: QuickSpec {
         beforeEach {
             subject = LightsCard()
             let bulb1 = Bulb(id: 3, name: "Hue Lamp 2", on: false, brightness: 194, hue: 15051,
-                saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: "ct",
-                effect: "none", reachable: true, alert: "none")
+                saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .colorTemperature,
+                effect: .none, reachable: true, alert: "none")
 
             let bulb2 = Bulb(id: 2, name: "Hue Lamp 1", on: false, brightness: 194, hue: 15051,
-                saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: "hs",
-                effect: "none", reachable: true, alert: "none")
+                saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .hue,
+                effect: .none, reachable: true, alert: "none")
             let bulbs = [bulb1, bulb2]
             subject.configure(bulbs)
         }

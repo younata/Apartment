@@ -36,21 +36,32 @@ class Bulb : Equatable, Printable {
     let colorTemperature: Int
     let transitionTime: Int?
 
-    let colorMode: String
-    let effect: String
+    enum ColorMode : String {
+        case colorTemperature = "ct"
+        case hue = "hs"
+        case xy = "xy"
+    }
+
+    enum Effect : String {
+        case none = "none"
+        case colorloop = "colorloop"
+    }
+
+    let colorMode: ColorMode
+    let effect: Effect
 
     let reachable: Bool
     let alert: String
 
     var color : UIColor {
-        if colorMode == "ct" {
+        if colorMode == .colorTemperature {
             return UIColor(mired: CGFloat(colorTemperature))
-        } else if colorMode == "hs" {
+        } else if colorMode == .hue {
             let saturation = CGFloat(self.saturation) / 254.0
             let hue = CGFloat(self.hue) / 65535.0
             let brightness = CGFloat(self.brightness) / 254.0
             return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1.0)
-        } else if colorMode == "xy" {
+        } else if colorMode == .xy {
             // not supported yet.
         }
         return UIColor.whiteColor()
@@ -58,15 +69,32 @@ class Bulb : Equatable, Printable {
 
     var description: String {
         let a = "id: \(id), name: \(name), on: \(on), brightness: \(brightness), hue: \(hue), saturation: \(saturation), "
-        let b = "ct: \(colorTemperature), transitionTime: \(transitionTime), colorMode: \(colorMode), effect: \(effect), "
+        let b = "ct: \(colorTemperature), transitionTime: \(transitionTime), colorMode: \(colorMode.rawValue), effect: \(effect.rawValue), "
         let c = "reachable: \(reachable), alert: \(alert)"
 
         return a + b + c
     }
 
+    var json: [String: AnyObject] {
+        var ret : [String: AnyObject] = [:]
+        ret["id"] = id
+        ret["name"] = name
+        ret["on"] = on
+        ret["bri"] = brightness
+        ret["hue"] = hue
+        ret["sat"] = saturation
+        ret["ct"] = colorTemperature
+        ret["colormode"] = colorMode.rawValue
+        ret["effect"] = effect.rawValue
+        ret["reachable"] = reachable
+        ret["alert"] = alert
+
+        return ret
+    }
+
     init(id: Int, name: String, on: Bool, brightness: Int, hue: Int,
          saturation: Int, colorTemperature: Int, transitionTime: Int?,
-         colorMode: String, effect: String, reachable: Bool, alert: String) {
+         colorMode: ColorMode, effect: Effect, reachable: Bool, alert: String) {
             self.id = id
             self.name = name
             self.on = on
@@ -93,8 +121,10 @@ class Bulb : Equatable, Printable {
            let hue = json["hue"] as? Int,
            let saturation = json["sat"] as? Int,
            let colorTemperature = json["ct"] as? Int,
-           let colorMode = json["colormode"] as? String,
-           let effect = json["effect"] as? String,
+           let colorModeString = json["colormode"] as? String,
+           let colorMode = ColorMode(rawValue: colorModeString),
+           let effectString = json["effect"] as? String,
+           let effect = Effect(rawValue: effectString),
            let reachable = json["reachable"] as? Bool,
            let alert = json["alert"] as? String {
             self.id = id
@@ -116,8 +146,8 @@ class Bulb : Equatable, Printable {
             self.hue = -1
             self.saturation = -1
             self.colorTemperature = -1
-            self.colorMode = ""
-            self.effect = ""
+            self.colorMode = .hue
+            self.effect = .none
             self.reachable = false
             self.alert = ""
             return nil

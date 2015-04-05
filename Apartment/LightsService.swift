@@ -60,4 +60,8 @@ class LightsService {
             }
         }
     }
+
+    func update(bulb: Bulb, completionHandler: (Bulb?, NSError?) -> (Void)) {
+        
+    }
 }

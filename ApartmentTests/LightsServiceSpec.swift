@@ -8,17 +8,19 @@ class LightsServiceSpec: QuickSpec {
     override func spec() {
         var subject : LightsService! = nil
         var injector : Ra.Injector! = nil
+        var appModule : SpecApplicationModule! = nil
 
         beforeEach {
             injector = Ra.Injector()
 
-            SpecApplicationModule().configureInjector(injector)
+            appModule = SpecApplicationModule()
+            appModule.configureInjector(injector)
 
             subject = injector.create(kLightsService) as! LightsService
         }
 
         afterEach {
-            MockHTTP.stopMocking(injector.create(NSURLSessionConfiguration.self) as? NSURLSessionConfiguration)
+            appModule.afterTests()
         }
 
         describe("headers") {
@@ -42,12 +44,13 @@ class LightsServiceSpec: QuickSpec {
                 let bulb = Bulb(json: dictionary)!
 
                 bulbsArray = [bulb, bulb]
-
-                let urlResponse = MockHTTP.URLResponse(json: [dictionary, dictionary], statusCode: 200, headers: [:])
-
-                MockHTTP.registerResponse(urlResponse, forURL: NSURL(string: "http://localhost:3000/api/v1/bulbs")!)
             }
+
             it("return all the bulbs") {
+                let dictionary = NSJSONSerialization.JSONObjectWithData(NSString(string: singleBulbString).dataUsingEncoding(NSUTF8StringEncoding)!, options: .allZeros, error: nil) as! [String: AnyObject]
+                let urlResponse = MockHTTP.URLResponse(json: [dictionary, dictionary], statusCode: 200, headers: [:])
+                MockHTTP.registerResponse(urlResponse, forURL: NSURL(string: "http://localhost:3000/api/v1/bulbs")!)
+
                 let expectation = self.expectationWithDescription("bulbs")
                 subject.allBulbs {(result, error) in
                     expectation.fulfill()
@@ -158,6 +161,43 @@ class LightsServiceSpec: QuickSpec {
                     self.waitForExpectationsWithTimeout(1) {(error) in
                         expect(error).to(beNil())
                     }
+                }
+            }
+        }
+
+        fdescribe("Updating a single bulb") {
+            var bulb: Bulb! = nil
+            beforeEach {
+                bulb = Bulb(id: 3, name: "Hue Lamp 2", on: false, brightness: 194, hue: 15051,
+                            saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .colorTemperature,
+                            effect: .none, reachable: true, alert: "none")
+            }
+
+            it("updates the bulb and returns a new (updated) bulb") {
+                let updatedBulb = Bulb(id: 3, name: "Hue Lamp 2", on: true, brightness: 194, hue: 15051,
+                    saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .colorTemperature,
+                    effect: .none, reachable: true, alert: "none")
+                let urlResponse = MockHTTP.URLResponse(json: updatedBulb.json, statusCode: 200, headers: [:])
+
+                MockHTTP.registerResponse(urlResponse) {request in
+                    if !(request.URLString == "http://localhost:3000/api/v1/bulb/3" && request.HTTPMethod == "PUT") {
+                        return false
+                    }
+                    if let HTTPBody = request.HTTPBody,
+                       let body = NSString(data: HTTPBody, encoding: NSUTF8StringEncoding) {
+                        return String(body) == "on=true&colorMode=hs"
+                    }
+                    return false
+                }
+
+                let expectation = self.expectationWithDescription("bulbs")
+                subject.update(bulb) {bulb, error in
+                    expectation.fulfill()
+                    expect(error).to(beNil())
+                    expect(bulb).to(equal(updatedBulb))
+                }
+                self.waitForExpectationsWithTimeout(1) {error in
+                    expect(error).to(beNil())
                 }
             }
         }

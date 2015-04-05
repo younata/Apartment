@@ -11,14 +11,19 @@ import MockHTTP
 import Alamofire
 
 class SpecApplicationModule : ApplicationModule {
+    private var configuration : NSURLSessionConfiguration! = nil
     override func configureInjector(injector: Ra.Injector) {
         super.configureInjector(injector)
 
-        let configuration = injector.create(NSURLSessionConfiguration.self) as! NSURLSessionConfiguration
+        configuration = injector.create(NSURLSessionConfiguration.self) as! NSURLSessionConfiguration
         MockHTTP.startMocking(configuration)
-        injector.bind(NSURLSessionConfiguration.self, to: configuration)
+        injector.bind(NSURLSessionConfiguration.self, to: self.configuration)
 
         let defaultResponse = MockHTTP.URLResponse(statusCode: 404, headers: [:], body: nil, error: nil)
-        injector.bind(kNetworkManager, to: Alamofire.Manager(configuration: configuration))
+        injector.bind(kNetworkManager, to: Alamofire.Manager(configuration: self.configuration))
+    }
+
+    func afterTests() {
+        MockHTTP.stopMocking(configuration)
     }
 }

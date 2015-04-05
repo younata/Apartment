@@ -9,19 +9,37 @@ class HomeViewControllerSpec: QuickSpec {
         var subject: HomeViewController! = nil
         var injector: Ra.Injector! = nil
         var lightsService: FakeLightsService! = nil
+        var navigationController: UINavigationController! = nil
+        var appModule: SpecApplicationModule! = nil
 
         beforeEach {
             injector = Ra.Injector()
-            SpecApplicationModule().configureInjector(injector)
+            appModule = SpecApplicationModule()
+            appModule.configureInjector(injector)
             let manager = injector.create(kNetworkManager) as! Alamofire.Manager
             lightsService = FakeLightsService(backendURL: injector.create(kBackendService) as! String, manager: manager)
             injector.bind(kLightsService, to: lightsService)
             subject = injector.create(HomeViewController.self) as! HomeViewController
+            navigationController = UINavigationController(rootViewController: subject)
+        }
+
+        afterEach {
+            appModule.afterTests()
         }
 
         describe("on view load") {
             beforeEach {
                 expect(subject.view).toNot(beNil())
+            }
+
+            describe("on view will appear") {
+                beforeEach {
+                    subject.viewWillAppear(false)
+                }
+
+                it("should hide the navigation bar") {
+                    expect(subject.navigationController?.navigationBarHidden).to(beTruthy())
+                }
             }
 
             describe("collectionView") {
@@ -45,7 +63,6 @@ class HomeViewControllerSpec: QuickSpec {
             }
 
             describe("Getting all bulbs") {
-
                 it("should ask for all bulbs") {
                     expect(lightsService.didReceiveAllBulbs).to(beTruthy())
                 }

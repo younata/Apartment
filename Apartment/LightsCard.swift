@@ -26,7 +26,7 @@ class LightsCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSour
 
         headerView.addSubview(headerLabel)
         layout(headerLabel) {view in
-            view.edges == inset(view.superview!.edges, 4, 8, 4, 8);
+            view.edges == inset(view.superview!.edges, 4, 16, 4, 16);
         }
 
         tv.tableHeaderView = headerView
@@ -61,7 +61,9 @@ class LightsCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSour
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! MKTableViewCell
         let bulb = bulbs[indexPath.row]
+        cell.selectionStyle = .None
         cell.textLabel?.text = bulb.name
+        cell.textLabel?.backgroundColor = UIColor.clearColor()
         cell.contentView.backgroundColor = bulb.color
         cell.rippleLayerColor = bulb.color.darkerColor()
         return cell

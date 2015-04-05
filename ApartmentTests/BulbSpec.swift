@@ -3,6 +3,7 @@ import Nimble
 
 class BulbSpec: QuickSpec {
     override func spec() {
+
         it("Initing from json") {
             let jsonString = "{\"id\":3,\"changes\":{},\"name\":\"Hue Lamp 2\",\"on\":false,\"bri\":194,\"hue\":15051,\"sat\":137,\"xy\":[0.4,0.4],\"ct\":359,\"transitiontime\":10,\"colormode\":\"ct\",\"effect\":\"none\",\"reachable\":true,\"alert\":\"none\"}"
 
@@ -14,8 +15,8 @@ class BulbSpec: QuickSpec {
                 expect(subject).toNot(beNil())
 
                 let expected = Bulb(id: 3, name: "Hue Lamp 2", on: false, brightness: 194, hue: 15051,
-                                    saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: "ct",
-                                    effect: "none", reachable: true, alert: "none")
+                                    saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .colorTemperature,
+                                    effect: .none, reachable: true, alert: "none")
 
                 if let sub = subject {
                     expect(sub).to(equal(expected))
