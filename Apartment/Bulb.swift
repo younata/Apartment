@@ -23,6 +23,8 @@
 "alert":"none"}]
 */
 
+import UIKit
+
 class Bulb : Equatable, Printable {
     let id: Int
     let name: String
@@ -39,6 +41,20 @@ class Bulb : Equatable, Printable {
 
     let reachable: Bool
     let alert: String
+
+    var color : UIColor {
+        if colorMode == "ct" {
+            return UIColor(mired: CGFloat(colorTemperature))
+        } else if colorMode == "hs" {
+            let saturation = CGFloat(self.saturation) / 254.0
+            let hue = CGFloat(self.hue) / 65535.0
+            let brightness = CGFloat(self.brightness) / 254.0
+            return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1.0)
+        } else if colorMode == "xy" {
+            // not supported yet.
+        }
+        return UIColor.whiteColor()
+    }
 
     var description: String {
         let a = "id: \(id), name: \(name), on: \(on), brightness: \(brightness), hue: \(hue), saturation: \(saturation), "

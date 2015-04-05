@@ -27,7 +27,7 @@ class AppDelegateSpec: QuickSpec {
                     if let nc = window.rootViewController as? UINavigationController {
                         expect(nc.viewControllers.first).toNot(beNil())
                         if let vc = nc.viewControllers.first as? UIViewController {
-                            expect(vc).to(beAnInstanceOf(ViewController.self))
+                            expect(vc).to(beAnInstanceOf(HomeViewController.self))
                         }
                     }
                 }

@@ -8,18 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895634E21ACA5DA200CA60E9 /* AppDelegate.swift */; };
-		895634E51ACA5DA300CA60E9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895634E41ACA5DA300CA60E9 /* ViewController.swift */; };
 		895634EA1ACA5DA300CA60E9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895634E91ACA5DA300CA60E9 /* Images.xcassets */; };
 		895634ED1ACA5DA300CA60E9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 895634EB1ACA5DA300CA60E9 /* LaunchScreen.xib */; };
-		895635051ACA60BF00CA60E9 /* PureLayout_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895635031ACA60BF00CA60E9 /* PureLayout_iOS.framework */; };
-		895635081ACA60D500CA60E9 /* PureLayout_iOS.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 895635031ACA60BF00CA60E9 /* PureLayout_iOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8956350B1ACA60E100CA60E9 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895635091ACA60E100CA60E9 /* Nimble.framework */; };
 		8956350C1ACA60E100CA60E9 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8956350A1ACA60E100CA60E9 /* Quick.framework */; };
 		8956350E1ACA60F900CA60E9 /* Nimble.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 895635091ACA60E100CA60E9 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8956350F1ACA60F900CA60E9 /* Quick.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8956350A1ACA60E100CA60E9 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		895635111ACA627A00CA60E9 /* AppDelegateSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895635101ACA627A00CA60E9 /* AppDelegateSpec.swift */; };
 		895635121ACA628900CA60E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895634E21ACA5DA200CA60E9 /* AppDelegate.swift */; };
-		895635131ACA628C00CA60E9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895634E41ACA5DA300CA60E9 /* ViewController.swift */; };
 		895635151ACA664100CA60E9 /* LightsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895635141ACA664100CA60E9 /* LightsService.swift */; };
 		895635161ACA664100CA60E9 /* LightsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895635141ACA664100CA60E9 /* LightsService.swift */; };
 		895635191ACA6EBA00CA60E9 /* Ra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; };
@@ -35,6 +31,18 @@
 		8956352C1ACB391900CA60E9 /* BulbSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8956352B1ACB391900CA60E9 /* BulbSpec.swift */; };
 		895635B91ACC8A8800CA60E9 /* MockHTTP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895635B81ACC8A8800CA60E9 /* MockHTTP.framework */; };
 		895635BA1ACC8A9700CA60E9 /* MockHTTP.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 895635B81ACC8A8800CA60E9 /* MockHTTP.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		895636161ACFA02E00CA60E9 /* HomeViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636151ACFA02E00CA60E9 /* HomeViewControllerSpec.swift */; };
+		895636191ACFA4F600CA60E9 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636181ACFA4F600CA60E9 /* HomeViewController.swift */; };
+		8956361A1ACFA4F600CA60E9 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636181ACFA4F600CA60E9 /* HomeViewController.swift */; };
+		8956361F1ACFB1B500CA60E9 /* MaterialKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8956361E1ACFB1B500CA60E9 /* MaterialKit.framework */; };
+		895636201ACFB1CB00CA60E9 /* MaterialKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8956361E1ACFB1B500CA60E9 /* MaterialKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		895636261ACFBB7600CA60E9 /* Cartography.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895636251ACFBB7600CA60E9 /* Cartography.framework */; };
+		895636271ACFBB7E00CA60E9 /* Cartography.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 895636251ACFBB7600CA60E9 /* Cartography.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		895636291AD0ADDB00CA60E9 /* LightsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636281AD0ADDB00CA60E9 /* LightsCard.swift */; };
+		8956362A1AD0ADDB00CA60E9 /* LightsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636281AD0ADDB00CA60E9 /* LightsCard.swift */; };
+		8956362C1AD0B5D000CA60E9 /* UIColor+Apartment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8956362B1AD0B5D000CA60E9 /* UIColor+Apartment.swift */; };
+		8956362D1AD0B5D000CA60E9 /* UIColor+Apartment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8956362B1AD0B5D000CA60E9 /* UIColor+Apartment.swift */; };
+		8956362F1AD0C3CC00CA60E9 /* LightsCardSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8956362E1AD0C3CC00CA60E9 /* LightsCardSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,9 +62,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				895636271ACFBB7E00CA60E9 /* Cartography.framework in Copy Frameworks */,
+				895636201ACFB1CB00CA60E9 /* MaterialKit.framework in Copy Frameworks */,
 				895635261ACB2FB700CA60E9 /* Alamofire.framework in Copy Frameworks */,
 				8956351A1ACA6EC800CA60E9 /* Ra.framework in Copy Frameworks */,
-				895635081ACA60D500CA60E9 /* PureLayout_iOS.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -80,12 +89,10 @@
 		895634DD1ACA5DA200CA60E9 /* Apartment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Apartment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		895634E11ACA5DA200CA60E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		895634E21ACA5DA200CA60E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		895634E41ACA5DA300CA60E9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		895634E91ACA5DA300CA60E9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		895634EC1ACA5DA300CA60E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		895634F21ACA5DA300CA60E9 /* ApartmentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ApartmentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		895634F71ACA5DA300CA60E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		895635031ACA60BF00CA60E9 /* PureLayout_iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PureLayout_iOS.framework; path = Carthage/Build/iOS/PureLayout_iOS.framework; sourceTree = SOURCE_ROOT; };
 		895635091ACA60E100CA60E9 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = SOURCE_ROOT; };
 		8956350A1ACA60E100CA60E9 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = SOURCE_ROOT; };
 		895635101ACA627A00CA60E9 /* AppDelegateSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegateSpec.swift; sourceTree = "<group>"; };
@@ -98,6 +105,13 @@
 		895635271ACB34CE00CA60E9 /* Bulb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bulb.swift; sourceTree = "<group>"; };
 		8956352B1ACB391900CA60E9 /* BulbSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulbSpec.swift; sourceTree = "<group>"; };
 		895635B81ACC8A8800CA60E9 /* MockHTTP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MockHTTP.framework; path = Carthage/Build/iOS/MockHTTP.framework; sourceTree = SOURCE_ROOT; };
+		895636151ACFA02E00CA60E9 /* HomeViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerSpec.swift; sourceTree = "<group>"; };
+		895636181ACFA4F600CA60E9 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		8956361E1ACFB1B500CA60E9 /* MaterialKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MaterialKit.framework; path = Carthage/Build/iOS/MaterialKit.framework; sourceTree = SOURCE_ROOT; };
+		895636251ACFBB7600CA60E9 /* Cartography.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cartography.framework; path = Carthage/Build/iOS/Cartography.framework; sourceTree = SOURCE_ROOT; };
+		895636281AD0ADDB00CA60E9 /* LightsCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightsCard.swift; sourceTree = "<group>"; };
+		8956362B1AD0B5D000CA60E9 /* UIColor+Apartment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Apartment.swift"; sourceTree = "<group>"; };
+		8956362E1AD0C3CC00CA60E9 /* LightsCardSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightsCardSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,7 +119,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				895635051ACA60BF00CA60E9 /* PureLayout_iOS.framework in Frameworks */,
+				8956361F1ACFB1B500CA60E9 /* MaterialKit.framework in Frameworks */,
+				895636261ACFBB7600CA60E9 /* Cartography.framework in Frameworks */,
 				895635251ACB2FB100CA60E9 /* Alamofire.framework in Frameworks */,
 				895635191ACA6EBA00CA60E9 /* Ra.framework in Frameworks */,
 			);
@@ -147,11 +162,13 @@
 			children = (
 				895634E21ACA5DA200CA60E9 /* AppDelegate.swift */,
 				8956351C1ACA6EE800CA60E9 /* ApplicationModule.swift */,
+				8956362B1AD0B5D000CA60E9 /* UIColor+Apartment.swift */,
 				8956351B1ACA6ED500CA60E9 /* Features */,
 				895635211ACA700300CA60E9 /* Services */,
 				895634E91ACA5DA300CA60E9 /* Images.xcassets */,
 				895634EB1ACA5DA300CA60E9 /* LaunchScreen.xib */,
-				895635031ACA60BF00CA60E9 /* PureLayout_iOS.framework */,
+				895636251ACFBB7600CA60E9 /* Cartography.framework */,
+				8956361E1ACFB1B500CA60E9 /* MaterialKit.framework */,
 				895635181ACA6EBA00CA60E9 /* Ra.framework */,
 				895635241ACB2FB100CA60E9 /* Alamofire.framework */,
 				895634E01ACA5DA200CA60E9 /* Supporting Files */,
@@ -172,6 +189,7 @@
 			children = (
 				8956351F1ACA6FCA00CA60E9 /* SpecApplicationModule.swift */,
 				895635101ACA627A00CA60E9 /* AppDelegateSpec.swift */,
+				895636171ACFA03600CA60E9 /* Features */,
 				8956352D1ACB391D00CA60E9 /* Services */,
 				895635B81ACC8A8800CA60E9 /* MockHTTP.framework */,
 				895635091ACA60E100CA60E9 /* Nimble.framework */,
@@ -192,7 +210,8 @@
 		8956351B1ACA6ED500CA60E9 /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				895634E41ACA5DA300CA60E9 /* ViewController.swift */,
+				895636181ACFA4F600CA60E9 /* HomeViewController.swift */,
+				895636281AD0ADDB00CA60E9 /* LightsCard.swift */,
 			);
 			name = Features;
 			sourceTree = "<group>";
@@ -229,6 +248,15 @@
 				8956352B1ACB391900CA60E9 /* BulbSpec.swift */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		895636171ACFA03600CA60E9 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				895636151ACFA02E00CA60E9 /* HomeViewControllerSpec.swift */,
+				8956362E1AD0C3CC00CA60E9 /* LightsCardSpec.swift */,
+			);
+			name = Features;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -332,11 +360,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				895636191ACFA4F600CA60E9 /* HomeViewController.swift in Sources */,
 				895635281ACB34CE00CA60E9 /* Bulb.swift in Sources */,
+				895636291AD0ADDB00CA60E9 /* LightsCard.swift in Sources */,
 				8956351D1ACA6EE800CA60E9 /* ApplicationModule.swift in Sources */,
-				895634E51ACA5DA300CA60E9 /* ViewController.swift in Sources */,
 				895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */,
 				895635151ACA664100CA60E9 /* LightsService.swift in Sources */,
+				8956362C1AD0B5D000CA60E9 /* UIColor+Apartment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,13 +376,17 @@
 			files = (
 				8956351E1ACA6EE800CA60E9 /* ApplicationModule.swift in Sources */,
 				895635201ACA6FCA00CA60E9 /* SpecApplicationModule.swift in Sources */,
+				8956362D1AD0B5D000CA60E9 /* UIColor+Apartment.swift in Sources */,
 				8956352C1ACB391900CA60E9 /* BulbSpec.swift in Sources */,
+				8956362A1AD0ADDB00CA60E9 /* LightsCard.swift in Sources */,
 				895635291ACB34CE00CA60E9 /* Bulb.swift in Sources */,
-				895635131ACA628C00CA60E9 /* ViewController.swift in Sources */,
+				895636161ACFA02E00CA60E9 /* HomeViewControllerSpec.swift in Sources */,
+				8956361A1ACFA4F600CA60E9 /* HomeViewController.swift in Sources */,
 				895635121ACA628900CA60E9 /* AppDelegate.swift in Sources */,
 				895635161ACA664100CA60E9 /* LightsService.swift in Sources */,
 				895635231ACA701700CA60E9 /* LightsServiceSpec.swift in Sources */,
 				895635111ACA627A00CA60E9 /* AppDelegateSpec.swift in Sources */,
+				8956362F1AD0C3CC00CA60E9 /* LightsCardSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,6 +499,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -472,6 +507,8 @@
 				INFOPLIST_FILE = Apartment/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -479,6 +516,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -486,6 +524,7 @@
 				INFOPLIST_FILE = Apartment/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;
 		};

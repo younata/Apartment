@@ -1,3 +1,4 @@
 github "alamofire/alamofire" "xcode-6.3"
-github "smileyborg/PureLayout"
+github "robb/Cartography" "xcode6-3"
 github "younata/Ra" "swift_1.2"
+github "younata/MaterialKit" "e5cf27"
