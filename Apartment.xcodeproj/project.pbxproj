@@ -43,6 +43,7 @@
 		8956362C1AD0B5D000CA60E9 /* UIColor+Apartment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8956362B1AD0B5D000CA60E9 /* UIColor+Apartment.swift */; };
 		8956362D1AD0B5D000CA60E9 /* UIColor+Apartment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8956362B1AD0B5D000CA60E9 /* UIColor+Apartment.swift */; };
 		8956362F1AD0C3CC00CA60E9 /* LightsCardSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8956362E1AD0C3CC00CA60E9 /* LightsCardSpec.swift */; };
+		895636311AD0CD4700CA60E9 /* FakeLightsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636301AD0CD4700CA60E9 /* FakeLightsService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +113,7 @@
 		895636281AD0ADDB00CA60E9 /* LightsCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightsCard.swift; sourceTree = "<group>"; };
 		8956362B1AD0B5D000CA60E9 /* UIColor+Apartment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Apartment.swift"; sourceTree = "<group>"; };
 		8956362E1AD0C3CC00CA60E9 /* LightsCardSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightsCardSpec.swift; sourceTree = "<group>"; };
+		895636301AD0CD4700CA60E9 /* FakeLightsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeLightsService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +191,7 @@
 			children = (
 				8956351F1ACA6FCA00CA60E9 /* SpecApplicationModule.swift */,
 				895635101ACA627A00CA60E9 /* AppDelegateSpec.swift */,
+				895636301AD0CD4700CA60E9 /* FakeLightsService.swift */,
 				895636171ACFA03600CA60E9 /* Features */,
 				8956352D1ACB391D00CA60E9 /* Services */,
 				895635B81ACC8A8800CA60E9 /* MockHTTP.framework */,
@@ -385,6 +388,7 @@
 				895635121ACA628900CA60E9 /* AppDelegate.swift in Sources */,
 				895635161ACA664100CA60E9 /* LightsService.swift in Sources */,
 				895635231ACA701700CA60E9 /* LightsServiceSpec.swift in Sources */,
+				895636311AD0CD4700CA60E9 /* FakeLightsService.swift in Sources */,
 				895635111ACA627A00CA60E9 /* AppDelegateSpec.swift in Sources */,
 				8956362F1AD0C3CC00CA60E9 /* LightsCardSpec.swift in Sources */,
 			);

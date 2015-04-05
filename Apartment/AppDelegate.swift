@@ -7,18 +7,24 @@
 //
 
 import UIKit
+import Ra
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    lazy var anInjector: Ra.Injector = {
+        let injector = Ra.Injector()
+        ApplicationModule().configureInjector(injector)
+        return injector
+    }()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window?.makeKeyAndVisible()
 
-        let navController = UINavigationController(rootViewController: HomeViewController())
+        let homeViewController = anInjector.create(HomeViewController.self) as! HomeViewController
+        let navController = UINavigationController(rootViewController: homeViewController)
         self.window?.rootViewController = navController
 
         return true

@@ -18,6 +18,18 @@ class LightsCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSour
         tv.delegate = self
         tv.dataSource = self
         tv.registerClass(MKTableViewCell.self, forCellReuseIdentifier: "cell")
+        tv.scrollEnabled = false
+
+        let headerView = UIView(frame: CGRectMake(0, 0, 100, 40))
+        let headerLabel = MKLabel()
+        headerLabel.text = "Lights"
+
+        headerView.addSubview(headerLabel)
+        layout(headerLabel) {view in
+            view.edges == inset(view.superview!.edges, 4, 8, 4, 8);
+        }
+
+        tv.tableHeaderView = headerView
 
         tv.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.contentView.addSubview(tv)
@@ -35,22 +47,15 @@ class LightsCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSour
 
         self.contentView.layer.cornerRadius = 5
         self.contentView.backgroundColor = UIColor.whiteColor()
+        self.backgroundColor = UIColor.clearColor()
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return bulbs.count
     }
 
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Lights"
-    }
-
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 100
-    }
-
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 100
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 44
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

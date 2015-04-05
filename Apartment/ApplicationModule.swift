@@ -9,6 +9,7 @@
 import Foundation
 import Ra
 import Alamofire
+import UIKit
 
 let kBackendService = "kBackendService"
 let kLightsService = "kLightsService"
@@ -35,6 +36,10 @@ class ApplicationModule {
         injector.bind(kLightsService) {
             let manager = injector.create(kNetworkManager) as! Alamofire.Manager
             return LightsService(backendURL: injector.create(kBackendService) as! String, manager: manager)
+        }
+
+        injector.bind(UICollectionView.self) {
+            return UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
         }
     }
 }

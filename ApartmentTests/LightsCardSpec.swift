@@ -20,7 +20,7 @@ class LightsCardSpec: QuickSpec {
             subject.configure(bulbs)
         }
 
-        fdescribe("tableView") {
+        describe("tableView") {
             it("have a cell for each bulb it's configured with") {
                 expect(subject.tableView.numberOfRowsInSection(0)).to(equal(2))
             }
