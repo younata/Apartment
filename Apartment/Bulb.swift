@@ -88,6 +88,9 @@ class Bulb : Equatable, Printable {
         ret["effect"] = effect.rawValue
         ret["reachable"] = reachable
         ret["alert"] = alert
+        if transitionTime != nil {
+            ret["transitiontime"] = transitionTime
+        }
 
         return ret
     }

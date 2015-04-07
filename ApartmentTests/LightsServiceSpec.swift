@@ -165,7 +165,7 @@ class LightsServiceSpec: QuickSpec {
             }
         }
 
-        fdescribe("Updating a single bulb") {
+        describe("Updating a single bulb") {
             var bulb: Bulb! = nil
             beforeEach {
                 bulb = Bulb(id: 3, name: "Hue Lamp 2", on: false, brightness: 194, hue: 15051,
@@ -175,23 +175,24 @@ class LightsServiceSpec: QuickSpec {
 
             it("updates the bulb and returns a new (updated) bulb") {
                 let updatedBulb = Bulb(id: 3, name: "Hue Lamp 2", on: true, brightness: 194, hue: 15051,
-                    saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .colorTemperature,
+                    saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .hue,
                     effect: .none, reachable: true, alert: "none")
                 let urlResponse = MockHTTP.URLResponse(json: updatedBulb.json, statusCode: 200, headers: [:])
 
                 MockHTTP.registerResponse(urlResponse) {request in
-                    if !(request.URLString == "http://localhost:3000/api/v1/bulb/3" && request.HTTPMethod == "PUT") {
+                    if !(request.URLString.hasPrefix("http://localhost:3000/api/v1/bulb/3") && request.HTTPMethod == "PUT") {
                         return false
                     }
-                    if let HTTPBody = request.HTTPBody,
-                       let body = NSString(data: HTTPBody, encoding: NSUTF8StringEncoding) {
-                        return String(body) == "on=true&colorMode=hs"
+                    if let query = request.URL?.query {
+                        println("\(query)")
+                        return query == "colorMode=hs&on=1"
                     }
                     return false
                 }
 
                 let expectation = self.expectationWithDescription("bulbs")
-                subject.update(bulb) {bulb, error in
+                let attributes : [String: AnyObject] = ["on": true, "colorMode": Bulb.ColorMode.hue.rawValue]
+                subject.update(bulb, attributes: attributes) {bulb, error in
                     expectation.fulfill()
                     expect(error).to(beNil())
                     expect(bulb).to(equal(updatedBulb))

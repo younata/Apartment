@@ -61,7 +61,31 @@ class LightsService {
         }
     }
 
-    func update(bulb: Bulb, completionHandler: (Bulb?, NSError?) -> (Void)) {
-        
+    func update(bulb: Bulb, attributes: [String: AnyObject], completionHandler: (Bulb?, NSError?) -> (Void)) {
+        let id = bulb.id
+
+        func generateQuery(parameters: [String: AnyObject]) -> String {
+            var components: [(String, String)] = []
+            for key in sorted(Array(parameters.keys), <) {
+                let value : AnyObject = parameters[key]!
+                components += [key: "\(value.description)"]
+            }
+
+            return join("&", components.map{"\($0)=\($1)"} as [String])
+        }
+
+        let query = "?" + generateQuery(attributes)
+
+        self.manager.request(.PUT, self.backendURL + "api/v1/bulb/\(id)" + query).responseJSON {(_, _, result, error) in
+            if error != nil {
+//                completionHandler(nil, error)
+            } else if let result = result as? [String: AnyObject],
+                      let bulb = Bulb(json: result) {
+                completionHandler(bulb, error)
+            } else {
+                let error = NSError(domain: "Apartment", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unable to convert \(result) to Bulb object"])
+                completionHandler(nil, error)
+            }
+        }
     }
 }
