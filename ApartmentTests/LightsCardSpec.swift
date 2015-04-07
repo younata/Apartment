@@ -3,9 +3,17 @@ import Nimble
 import MaterialKit
 import UIKit
 
+class FakeLightsCardDelegate : LightsCardCallback {
+    var tappedBulb : Bulb? = nil
+    func didTapBulb(bulb: Bulb) {
+        tappedBulb = bulb
+    }
+}
+
 class LightsCardSpec: QuickSpec {
     override func spec() {
         var subject: LightsCard! = nil
+        var delegate : FakeLightsCardDelegate! = nil
 
         beforeEach {
             subject = LightsCard()
@@ -17,7 +25,8 @@ class LightsCardSpec: QuickSpec {
                 saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .hue,
                 effect: .none, reachable: true, alert: "none")
             let bulbs = [bulb1, bulb2]
-            subject.configure(bulbs, delegate: nil)
+            delegate = FakeLightsCardDelegate()
+            subject.configure(bulbs, delegate: delegate)
         }
 
         describe("tableView") {
@@ -61,6 +70,16 @@ class LightsCardSpec: QuickSpec {
                         let bri = CGFloat(194.0 / 254.0)
                         let color = UIColor(hue: hue, saturation: sat, brightness: bri, alpha: 1.0).darkerColor()
                         expect(cell2.rippleLayerColor).to(equal(color))
+                    }
+                }
+
+                describe("Tapping on a cell") {
+                    beforeEach {
+                        subject.tableView(subject.tableView, didSelectRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
+                    }
+
+                    it("should notify the delegate") {
+                        expect(delegate.tappedBulb).to(equal(bulb1))
                     }
                 }
             }
