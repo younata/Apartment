@@ -201,6 +201,28 @@ class LightsServiceSpec: QuickSpec {
                     expect(error).to(beNil())
                 }
             }
+
+            context("on failure") {
+                it("notifies the user of the error") {
+                    let error = NSError(domain: "LightsServiceSpec", code: 3, userInfo: nil)
+                    let errorResponse = MockHTTP.URLResponse(error: error, statusCode: 404, headers: [:])
+
+                    MockHTTP.registerResponse(errorResponse) {request in
+                        return true
+                    }
+
+                    let expectation = self.expectationWithDescription("bulbs")
+                    subject.update(bulb, attributes: ["on": true, "colorMode": "hs"]) {result, err in
+                        expectation.fulfill()
+                        expect(result).to(beNil())
+                        expect(err).to(equal(error))
+                    }
+
+                    self.waitForExpectationsWithTimeout(1) {(error) in
+                        expect(error).to(beNil())
+                    }
+                }
+            }
         }
     }
 }

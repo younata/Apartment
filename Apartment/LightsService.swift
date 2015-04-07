@@ -78,7 +78,7 @@ class LightsService {
 
         self.manager.request(.PUT, self.backendURL + "api/v1/bulb/\(id)" + query).responseJSON {(_, _, result, error) in
             if error != nil {
-//                completionHandler(nil, error)
+                completionHandler(nil, error)
             } else if let result = result as? [String: AnyObject],
                       let bulb = Bulb(json: result) {
                 completionHandler(bulb, error)
