@@ -18,7 +18,7 @@ let bulb2 = Bulb(id: 2, name: "Hue Lamp 1", on: false, brightness: 194, hue: 150
     saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .hue,
     effect: .none, reachable: true, alert: "none")
 
-class HomeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class HomeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, LightsCardCallback {
 
     var bulbs : [Bulb] = []
 
@@ -63,8 +63,17 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("lights", forIndexPath: indexPath) as! LightsCard
-        cell.configure(bulbs)
+        cell.configure(bulbs, delegate: self)
         return cell
+    }
+
+    // MARK: - LightsCardDelegate
+
+    func didTapBulb(bulb: Bulb) {
+        if let bulbController = self.injector?.create(BulbViewController.self) as? BulbViewController {
+            bulbController.configure(bulb)
+            self.navigationController?.pushViewController(bulbController, animated: true)
+        }
     }
 
     private func getLights() {

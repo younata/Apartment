@@ -49,15 +49,32 @@ class HomeViewControllerSpec: QuickSpec {
 
                 describe("the first cell") {
                     var cell : LightsCard! = nil
+                    let bulb = Bulb(id: 3, name: "Hue Lamp 2", on: false, brightness: 194, hue: 15051,
+                            saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .colorTemperature,
+                                effect: .none, reachable: true, alert: "none")
                     var bulbs : [Bulb] = []
                     beforeEach {
-                        bulbs = []
-                        subject.bulbs = []
+                        bulbs = [bulb]
+                        subject.bulbs = [bulb]
                         cell = subject.collectionView(subject.collectionView, cellForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0)) as! LightsCard
                     }
 
                     it("should be passed the bulbs") {
                         expect(cell.bulbs).to(equal(bulbs))
+                        expect(cell.delegate).toNot(beNil())
+                    }
+
+                    describe("LightsCardDelegate -didTapBulb:") {
+                        beforeEach {
+                            subject.didTapBulb(bulb)
+                        }
+
+                        it("should navigate to a bulb editor for that bulb") {
+                            expect(subject.navigationController?.visibleViewController).toEventually(beAnInstanceOf(BulbViewController.self))
+                            if let bulbEditor = navigationController.topViewController as? BulbViewController {
+                                expect(bulbEditor.bulb).to(equal(bulb))
+                            }
+                        }
                     }
                 }
             }
@@ -68,7 +85,9 @@ class HomeViewControllerSpec: QuickSpec {
                 }
 
                 describe("on all bulbs return") {
-                    var bulbs : [Bulb] = []
+                    var bulbs : [Bulb] = [Bulb(id: 3, name: "Hue Lamp 2", on: false, brightness: 194, hue: 15051,
+                        saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .colorTemperature,
+                        effect: .none, reachable: true, alert: "none")]
                     beforeEach {
 
                         lightsService.allBulbsHandler(bulbs, nil)

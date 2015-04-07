@@ -10,6 +10,10 @@ import UIKit
 import MaterialKit
 import Cartography
 
+protocol LightsCardCallback {
+    func didTapBulb(bulb: Bulb);
+}
+
 class LightsCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSource {
     var bulbs : [Bulb] = []
 
@@ -40,8 +44,11 @@ class LightsCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSour
         return tv
     }()
 
-    func configure(bulbs: [Bulb]) {
+    var delegate : LightsCardCallback? = nil
+
+    func configure(bulbs: [Bulb], delegate: LightsCardCallback?) {
         self.bulbs = bulbs
+        self.delegate = delegate
 
         self.tableView.reloadData()
 
@@ -67,5 +74,9 @@ class LightsCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSour
         cell.contentView.backgroundColor = bulb.color
         cell.rippleLayerColor = bulb.color.darkerColor()
         return cell
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        delegate?.didTapBulb(bulbs[indexPath.row])
     }
 }

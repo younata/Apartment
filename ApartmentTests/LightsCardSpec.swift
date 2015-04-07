@@ -17,7 +17,7 @@ class LightsCardSpec: QuickSpec {
                 saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .hue,
                 effect: .none, reachable: true, alert: "none")
             let bulbs = [bulb1, bulb2]
-            subject.configure(bulbs)
+            subject.configure(bulbs, delegate: nil)
         }
 
         describe("tableView") {
