@@ -26,7 +26,7 @@ class LightsCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSour
 
         let headerView = UIView(frame: CGRectMake(0, 0, 100, 40))
         let headerLabel = MKLabel()
-        headerLabel.text = "Lights"
+        headerLabel.text = NSLocalizedString("Lights", comment: "")
 
         headerView.addSubview(headerLabel)
         layout(headerLabel) {view in

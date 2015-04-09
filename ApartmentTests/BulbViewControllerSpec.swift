@@ -1,5 +1,6 @@
 import Quick
 import Nimble
+import UIKit
 import Ra
 
 class BulbViewControllerSpec: QuickSpec {
@@ -9,6 +10,7 @@ class BulbViewControllerSpec: QuickSpec {
         let bulb = Bulb(id: 3, name: "Hue Lamp 2", on: false, brightness: 194, hue: 15051,
             saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .colorTemperature,
             effect: .none, reachable: true, alert: "none")
+        var navigationController: UINavigationController! = nil
 
         beforeEach {
             injector = Ra.Injector()
@@ -16,6 +18,9 @@ class BulbViewControllerSpec: QuickSpec {
 
             subject = injector.create(BulbViewController.self) as! BulbViewController
             subject.configure(bulb)
+
+            navigationController = UINavigationController(rootViewController: subject)
+            navigationController.navigationBarHidden = true
         }
 
         describe("on view did load") {
@@ -23,8 +28,21 @@ class BulbViewControllerSpec: QuickSpec {
                 expect(subject.view).toNot(beNil())
             }
 
-            it("should do the thing") {
-                expect(true).to(beTruthy())
+            it("set the title's name to be the bulb's name") {
+                expect(subject.titleField.text).to(equal("Hue Lamp 2"))
+            }
+
+            it("should display the bulb's current color as a point on a grid") {
+
+            }
+
+            describe("on viewWillAppear:") {
+                beforeEach {
+                    subject.viewWillAppear(false)
+                }
+                it("should unhide the navbar") {
+                    expect(subject.navigationController?.navigationBarHidden).to(beFalsy())
+                }
             }
         }
     }

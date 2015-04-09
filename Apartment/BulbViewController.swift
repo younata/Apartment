@@ -8,6 +8,7 @@
 
 import UIKit
 import Cartography
+import MaterialKit
 
 class BulbViewController: UIViewController {
 
@@ -16,6 +17,9 @@ class BulbViewController: UIViewController {
     }()
 
     var bulb: Bulb! = nil
+
+    let titleField = MKTextField()
+
 
     func configure(bulb: Bulb) {
         self.bulb = bulb
@@ -29,11 +33,32 @@ class BulbViewController: UIViewController {
 
         view.addSubview(containerView)
 
+        edgesForExtendedLayout = .None
+
         layout(containerView) {view in
-            view.edges == inset(view.superview!.edges, 20, 20, 20, 20)
+            view.leading == view.superview!.leading + 20
+            view.top == view.superview!.top + 20
+            view.trailing == view.superview!.trailing - 20
+            view.height == 200
         }
         containerView.layer.cornerRadius = 5
 
+        titleField.text = bulb.name
+        titleField.floatingPlaceholderEnabled = true
+        titleField.backgroundLayerColor = UIColor.clearColor()
+        titleField.placeholder = NSLocalizedString("Name", comment: "")
+        containerView.addSubview(titleField)
 
+        layout(titleField) {view in
+            view.leading == view.superview!.leading + 20
+            view.trailing == view.superview!.trailing - 20
+            view.top == view.superview!.top + 20
+        }
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        self.navigationController?.navigationBarHidden = false
     }
 }
