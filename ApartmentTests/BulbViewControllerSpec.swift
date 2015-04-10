@@ -23,7 +23,7 @@ class BulbViewControllerSpec: QuickSpec {
             navigationController.navigationBarHidden = true
         }
 
-        describe("on view did load") {
+        describe("on viewDidLoad") {
             beforeEach {
                 expect(subject.view).toNot(beNil())
             }

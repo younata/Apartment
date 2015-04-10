@@ -47,6 +47,8 @@
 		895636331AD0FB8A00CA60E9 /* BulbViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636321AD0FB8A00CA60E9 /* BulbViewController.swift */; };
 		895636341AD0FB8A00CA60E9 /* BulbViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636321AD0FB8A00CA60E9 /* BulbViewController.swift */; };
 		895636381AD0FBB500CA60E9 /* BulbViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636371AD0FBB500CA60E9 /* BulbViewControllerSpec.swift */; };
+		89E0087F1AD7902E001A54D5 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E0087E1AD7902E001A54D5 /* ColorPicker.swift */; };
+		89E008801AD7902E001A54D5 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E0087E1AD7902E001A54D5 /* ColorPicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +121,7 @@
 		895636301AD0CD4700CA60E9 /* FakeLightsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeLightsService.swift; sourceTree = "<group>"; };
 		895636321AD0FB8A00CA60E9 /* BulbViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulbViewController.swift; sourceTree = "<group>"; };
 		895636371AD0FBB500CA60E9 /* BulbViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulbViewControllerSpec.swift; sourceTree = "<group>"; };
+		89E0087E1AD7902E001A54D5 /* ColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +173,7 @@
 				895634E21ACA5DA200CA60E9 /* AppDelegate.swift */,
 				8956351C1ACA6EE800CA60E9 /* ApplicationModule.swift */,
 				8956362B1AD0B5D000CA60E9 /* UIColor+Apartment.swift */,
+				89E0087E1AD7902E001A54D5 /* ColorPicker.swift */,
 				8956351B1ACA6ED500CA60E9 /* Features */,
 				895635211ACA700300CA60E9 /* Services */,
 				895634E91ACA5DA300CA60E9 /* Images.xcassets */,
@@ -391,6 +395,7 @@
 				895636291AD0ADDB00CA60E9 /* LightsCard.swift in Sources */,
 				8956351D1ACA6EE800CA60E9 /* ApplicationModule.swift in Sources */,
 				895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */,
+				89E0087F1AD7902E001A54D5 /* ColorPicker.swift in Sources */,
 				895635151ACA664100CA60E9 /* LightsService.swift in Sources */,
 				8956362C1AD0B5D000CA60E9 /* UIColor+Apartment.swift in Sources */,
 				895636331AD0FB8A00CA60E9 /* BulbViewController.swift in Sources */,
@@ -414,6 +419,7 @@
 				895635121ACA628900CA60E9 /* AppDelegate.swift in Sources */,
 				895635161ACA664100CA60E9 /* LightsService.swift in Sources */,
 				895635231ACA701700CA60E9 /* LightsServiceSpec.swift in Sources */,
+				89E008801AD7902E001A54D5 /* ColorPicker.swift in Sources */,
 				895636311AD0CD4700CA60E9 /* FakeLightsService.swift in Sources */,
 				895635111ACA627A00CA60E9 /* AppDelegateSpec.swift in Sources */,
 				8956362F1AD0C3CC00CA60E9 /* LightsCardSpec.swift in Sources */,
@@ -616,6 +622,7 @@
 				895634FE1ACA5DA300CA60E9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		895634FF1ACA5DA300CA60E9 /* Build configuration list for PBXNativeTarget "ApartmentTests" */ = {
 			isa = XCConfigurationList;
@@ -624,6 +631,7 @@
 				895635011ACA5DA300CA60E9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
