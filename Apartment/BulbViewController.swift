@@ -58,6 +58,8 @@ class BulbViewController: UIViewController {
         }
 
         view.addSubview(colorPicker)
+        colorPicker.hue = CGFloat(bulb.hue) / 65535.0
+        colorPicker.saturation = CGFloat(bulb.saturation) / 254.0
 
         layout(titleField, colorPicker) {tf, cp in
             cp.top == tf.bottom + 8

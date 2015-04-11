@@ -33,7 +33,13 @@ class BulbViewControllerSpec: QuickSpec {
             }
 
             it("should display the bulb's current color as a point on a grid") {
+                let hue : CGFloat = 15051.0 / 65535.0
+                let saturation : CGFloat = 137.0 / 254.0
 
+                let width = subject.colorPicker.bounds.width
+                let height = subject.colorPicker.bounds.height
+                let point = CGPointMake(hue * width, saturation * height)
+                expect(subject.colorPicker.selectedPoint).to(equal(point))
             }
 
             describe("on viewWillAppear:") {

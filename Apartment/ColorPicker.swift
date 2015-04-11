@@ -22,16 +22,25 @@ class ColorPicker: UIControl {
         }
     }
 
-    var selectedPoint : CGPoint = CGPointZero
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        // install a gesture recognizer.
+    override var bounds : CGRect {
+        didSet {
+            selectedPoint.x = hue * bounds.width
+            selectedPoint.y = saturation * bounds.height
+        }
     }
 
-    required init(coder aDecoder: NSCoder) {
-        fatalError("not supported")
+    private(set) var selectedPoint : CGPoint = CGPointZero
+
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        setColorFromTouchSet(touches)
+    }
+
+    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+        setColorFromTouchSet(touches)
+    }
+
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+        setColorFromTouchSet(touches)
     }
 
     override func drawRect(rect: CGRect) {
@@ -58,5 +67,27 @@ class ColorPicker: UIControl {
 
         let verticalGradient = CGGradientCreateWithColors(CGColorSpaceCreateDeviceRGB(), [top, bottom] as CFArrayRef, [0.0, 1.0])
         CGContextDrawLinearGradient(ctx, verticalGradient, CGPointMake(0, 0), CGPointMake(0, rect.height), .allZeros)
+
+        let largeRadius : CGFloat = 5.0
+        let largeRect = CGRectMake(selectedPoint.x - largeRadius / 2.0, selectedPoint.y - largeRadius / 2.0, largeRadius, largeRadius)
+        CGContextSetFillColorWithColor(ctx, UIColor.whiteColor().CGColor)
+        CGContextStrokeEllipseInRect(ctx, largeRect)
+
+        let smallRadius : CGFloat = 1.0
+        let smallRect = CGRectMake(selectedPoint.x - smallRadius / 2.0, selectedPoint.y - smallRadius / 2.0, smallRadius, smallRadius)
+
+        CGContextSetStrokeColorWithColor(ctx, UIColor.blackColor().CGColor);
+        CGContextStrokeEllipseInRect(ctx, smallRect)
+    }
+
+    private func setColorFromTouchSet(touches: Set<NSObject>) {
+        if let touch = touches.first as? UITouch {
+            let point = touch.locationInView(self)
+            hue = point.x / bounds.width
+            saturation = point.y / bounds.height
+
+            sendActionsForControlEvents(.ValueChanged)
+            setNeedsDisplay()
+        }
     }
 }
