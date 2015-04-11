@@ -173,9 +173,9 @@
 				895634E21ACA5DA200CA60E9 /* AppDelegate.swift */,
 				8956351C1ACA6EE800CA60E9 /* ApplicationModule.swift */,
 				8956362B1AD0B5D000CA60E9 /* UIColor+Apartment.swift */,
-				89E0087E1AD7902E001A54D5 /* ColorPicker.swift */,
 				8956351B1ACA6ED500CA60E9 /* Features */,
 				895635211ACA700300CA60E9 /* Services */,
+				89E008811AD8E4BC001A54D5 /* Views */,
 				895634E91ACA5DA300CA60E9 /* Images.xcassets */,
 				895634EB1ACA5DA300CA60E9 /* LaunchScreen.xib */,
 				895636251ACFBB7600CA60E9 /* Cartography.framework */,
@@ -287,6 +287,14 @@
 				8956362E1AD0C3CC00CA60E9 /* LightsCardSpec.swift */,
 			);
 			name = "Home Screen";
+			sourceTree = "<group>";
+		};
+		89E008811AD8E4BC001A54D5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				89E0087E1AD7902E001A54D5 /* ColorPicker.swift */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

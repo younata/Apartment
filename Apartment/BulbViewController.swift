@@ -20,6 +20,8 @@ class BulbViewController: UIViewController {
 
     let titleField = MKTextField()
 
+    let colorPicker = ColorPicker()
+
 
     func configure(bulb: Bulb) {
         self.bulb = bulb
@@ -53,6 +55,15 @@ class BulbViewController: UIViewController {
             view.leading == view.superview!.leading + 20
             view.trailing == view.superview!.trailing - 20
             view.top == view.superview!.top + 20
+        }
+
+        view.addSubview(colorPicker)
+
+        layout(titleField, colorPicker) {tf, cp in
+            cp.top == tf.bottom + 8
+            cp.leading == tf.leading
+            cp.trailing == tf.trailing
+            cp.height == 100
         }
     }
 
