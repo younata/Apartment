@@ -40,6 +40,20 @@ class ColorPickerSpec: QuickSpec {
                 subject.addTarget(touchResponder, action: "willRespond", forControlEvents: .ValueChanged)
             }
 
+            describe("outside the bounds") {
+                beforeEach {
+                    let touch = FakeTouch()
+
+                    touch.location = CGPointMake(-20, 130)
+
+                    subject.touchesBegan(Set([touch]), withEvent: UIEvent())
+                }
+
+                it("should clamp to bounds") {
+                    expect(subject.selectedPoint).to(equal(CGPointMake(0, 100)))
+                }
+            }
+
             describe("Initial touches") {
                 beforeEach {
                     let touch = FakeTouch()

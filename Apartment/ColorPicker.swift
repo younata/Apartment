@@ -82,7 +82,8 @@ class ColorPicker: UIControl {
 
     private func setColorFromTouchSet(touches: Set<NSObject>) {
         if let touch = touches.first as? UITouch {
-            let point = touch.locationInView(self)
+            let p = touch.locationInView(self)
+            let point = CGPointMake(min(max(p.x, 0), bounds.width), min(max(p.y, 0), bounds.height))
             hue = point.x / bounds.width
             saturation = point.y / bounds.height
 
