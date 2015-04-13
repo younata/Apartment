@@ -23,7 +23,7 @@ class LightsCardSpec: QuickSpec {
 
             let bulb2 = Bulb(id: 2, name: "Hue Lamp 1", on: false, brightness: 194, hue: 15051,
                 saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .hue,
-                effect: .none, reachable: true, alert: "none")
+                effect: .none, reachable: false, alert: "none")
             let bulbs = [bulb1, bulb2]
             delegate = FakeLightsCardDelegate()
             subject.configure(bulbs, delegate: delegate)

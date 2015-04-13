@@ -51,6 +51,9 @@
 		89E008801AD7902E001A54D5 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E0087E1AD7902E001A54D5 /* ColorPicker.swift */; };
 		89E008831AD975A3001A54D5 /* ColorPickerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E008821AD975A3001A54D5 /* ColorPickerSpec.swift */; };
 		89E008861AD977EC001A54D5 /* FakeTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E008851AD977EC001A54D5 /* FakeTouch.swift */; };
+		89E008881ADB8094001A54D5 /* LightsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E008871ADB8094001A54D5 /* LightsTableViewCell.swift */; };
+		89E008891ADB8094001A54D5 /* LightsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E008871ADB8094001A54D5 /* LightsTableViewCell.swift */; };
+		89E0088B1ADB832F001A54D5 /* LightsTableViewCellSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E0088A1ADB832F001A54D5 /* LightsTableViewCellSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,6 +129,8 @@
 		89E0087E1AD7902E001A54D5 /* ColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
 		89E008821AD975A3001A54D5 /* ColorPickerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickerSpec.swift; sourceTree = "<group>"; };
 		89E008851AD977EC001A54D5 /* FakeTouch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTouch.swift; sourceTree = "<group>"; };
+		89E008871ADB8094001A54D5 /* LightsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightsTableViewCell.swift; sourceTree = "<group>"; };
+		89E0088A1ADB832F001A54D5 /* LightsTableViewCellSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightsTableViewCellSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -282,6 +287,7 @@
 			children = (
 				895636181ACFA4F600CA60E9 /* HomeViewController.swift */,
 				895636281AD0ADDB00CA60E9 /* LightsCard.swift */,
+				89E008871ADB8094001A54D5 /* LightsTableViewCell.swift */,
 			);
 			name = "Home Screen";
 			sourceTree = "<group>";
@@ -291,6 +297,7 @@
 			children = (
 				895636151ACFA02E00CA60E9 /* HomeViewControllerSpec.swift */,
 				8956362E1AD0C3CC00CA60E9 /* LightsCardSpec.swift */,
+				89E0088A1ADB832F001A54D5 /* LightsTableViewCellSpec.swift */,
 			);
 			name = "Home Screen";
 			sourceTree = "<group>";
@@ -412,6 +419,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89E008881ADB8094001A54D5 /* LightsTableViewCell.swift in Sources */,
 				895636191ACFA4F600CA60E9 /* HomeViewController.swift in Sources */,
 				895635281ACB34CE00CA60E9 /* Bulb.swift in Sources */,
 				895636291AD0ADDB00CA60E9 /* LightsCard.swift in Sources */,
@@ -438,6 +446,8 @@
 				8956362A1AD0ADDB00CA60E9 /* LightsCard.swift in Sources */,
 				895636381AD0FBB500CA60E9 /* BulbViewControllerSpec.swift in Sources */,
 				895635291ACB34CE00CA60E9 /* Bulb.swift in Sources */,
+				89E0088B1ADB832F001A54D5 /* LightsTableViewCellSpec.swift in Sources */,
+				89E008891ADB8094001A54D5 /* LightsTableViewCell.swift in Sources */,
 				895636161ACFA02E00CA60E9 /* HomeViewControllerSpec.swift in Sources */,
 				8956361A1ACFA4F600CA60E9 /* HomeViewController.swift in Sources */,
 				895635121ACA628900CA60E9 /* AppDelegate.swift in Sources */,

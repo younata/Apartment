@@ -26,4 +26,9 @@ class FakeLightsService : LightsService {
     override func bulb(name: String, completionHandler: (Bulb?, NSError?) -> (Void)) {
         bulbsNameHandler[name] = completionHandler
     }
+
+    var bulbsUpdateHandler : [Int: ([String: AnyObject], (Bulb?, NSError?) -> (Void))] = [:]
+    override func update(bulb: Bulb, attributes: [String : AnyObject], completionHandler: (Bulb?, NSError?) -> (Void)) {
+        bulbsUpdateHandler[bulb.id] = (attributes, completionHandler)
+    }
 }

@@ -22,7 +22,6 @@ class BulbViewController: UIViewController {
 
     let colorPicker = ColorPicker()
 
-
     func configure(bulb: Bulb) {
         self.bulb = bulb
     }
