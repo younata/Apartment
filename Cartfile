@@ -1,4 +1,4 @@
-github "alamofire/alamofire" "xcode-6.3"
-github "robb/Cartography" "xcode6-3"
-github "younata/Ra" "swift_1.2"
+github "alamofire/alamofire"
+github "robb/Cartography"
+github "younata/Ra"
 github "younata/MaterialKit" "e5cf27"
