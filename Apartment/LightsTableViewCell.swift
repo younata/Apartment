@@ -15,7 +15,11 @@ class LightsTableViewCell: MKTableViewCell {
     var bulb : Bulb? = nil {
         didSet {
             if let bulb = bulb {
-
+                nameLabel.text = bulb.name
+                contentView.backgroundColor = bulb.color
+                rippleLayerColor = bulb.color.darkerColor()
+                brightnessSlider.enabled = bulb.reachable
+                brightnessSlider.value = !bulb.on ? 0 : Float(bulb.brightness) / 254.0
             } else {
 
             }
@@ -27,6 +31,25 @@ class LightsTableViewCell: MKTableViewCell {
     let nameLabel = UILabel()
     let brightnessSlider = UISlider()
 
+    func didChangeBrightness() {
+        if let lightsService = lightsService,
+           let bulb = bulb {
+            var attributes: [String: AnyObject] = [:]
+            if abs(brightnessSlider.value) < 1e-6 {
+                attributes["on"] = false
+            } else {
+                attributes["bri"] = Int(round(brightnessSlider.value * 254))
+                if !bulb.on {
+                    attributes["on"] = true
+                }
+            }
+
+            lightsService.update(bulb, attributes: attributes) {bulb, error in
+                self.bulb = bulb
+            }
+        }
+    }
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -34,6 +57,8 @@ class LightsTableViewCell: MKTableViewCell {
 
         contentView.addSubview(nameLabel)
         contentView.addSubview(brightnessSlider)
+
+        brightnessSlider.addTarget(self, action: "didChangeBrightness", forControlEvents: .ValueChanged)
 
         layout(nameLabel, brightnessSlider) {nl, bs in
             nl.leading == nl.superview!.leading + 8

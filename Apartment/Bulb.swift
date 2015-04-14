@@ -59,8 +59,7 @@ class Bulb : Equatable, Printable {
         } else if colorMode == .hue {
             let saturation = CGFloat(self.saturation) / 254.0
             let hue = CGFloat(self.hue) / 65535.0
-            let brightness = CGFloat(self.brightness) / 254.0
-            return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1.0)
+            return UIColor(hue: hue, saturation: saturation, brightness: 1.0, alpha: 1.0)
         } else if colorMode == .xy {
             // not supported yet.
         }
