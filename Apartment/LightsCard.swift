@@ -21,7 +21,7 @@ class LightsCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSour
         let tv = UITableView(frame: self.contentView.bounds, style: .Grouped)
         tv.delegate = self
         tv.dataSource = self
-        tv.registerClass(MKTableViewCell.self, forCellReuseIdentifier: "cell")
+        tv.registerClass(LightsTableViewCell.self, forCellReuseIdentifier: "cell")
         tv.scrollEnabled = false
 
         let headerView = UIView(frame: CGRectMake(0, 0, 100, 40))
@@ -66,17 +66,15 @@ class LightsCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSour
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! MKTableViewCell
-        let bulb = bulbs[indexPath.row]
-        cell.selectionStyle = .None
-        cell.textLabel?.text = bulb.name
-        cell.textLabel?.backgroundColor = UIColor.clearColor()
-        cell.contentView.backgroundColor = bulb.color
-        cell.rippleLayerColor = bulb.color.darkerColor()
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! LightsTableViewCell
+        cell.bulb = bulbs[indexPath.row]
         return cell
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        delegate?.didTapBulb(bulbs[indexPath.row])
+        let bulb = bulbs[indexPath.row]
+        if bulb.reachable {
+            delegate?.didTapBulb(bulb)
+        }
     }
 }

@@ -67,8 +67,7 @@ class LightsTableViewCell: MKTableViewCell {
             nl.trailing == bs.leading + 8
 
             bs.trailing == bs.superview!.trailing - 8
-            bs.top == bs.superview!.top + 4
-            bs.bottom == bs.superview!.top + 4
+            bs.centerY == bs.superview!.centerY
             bs.width == bs.superview!.width / 2
         }
     }
