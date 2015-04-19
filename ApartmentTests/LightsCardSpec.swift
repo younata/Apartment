@@ -8,6 +8,11 @@ class FakeLightsCardDelegate : LightsCardCallback {
     func didTapBulb(bulb: Bulb) {
         tappedBulb = bulb
     }
+
+    var tappedSettings = false
+    func didTapSettings() {
+        tappedSettings = true
+    }
 }
 
 class LightsCardSpec: QuickSpec {
@@ -62,7 +67,7 @@ class LightsCardSpec: QuickSpec {
             }
 
             describe("footer") {
-                var footer: UIView! = nil
+                var footer: UIView? = nil
 
                 beforeEach {
                     footer = subject.tableView.tableFooterView
@@ -70,6 +75,20 @@ class LightsCardSpec: QuickSpec {
 
                 it("should be an MKButton") {
                     expect(footer).to(beAnInstanceOf(MKButton.self))
+                }
+
+                it("with title 'Settings'") {
+                    if let footer = footer as? MKButton {
+                        expect(footer.titleForState(.Normal)).to(equal("Settings"))
+                    }
+                }
+
+                it("when tapped it notifies the delegate") {
+                    if let footer = footer as? MKButton {
+                        footer.sendActionsForControlEvents(.TouchUpInside)
+
+                        expect(delegate.tappedSettings).to(beTruthy())
+                    }
                 }
             }
         }

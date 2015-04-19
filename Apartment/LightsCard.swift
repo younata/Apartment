@@ -11,7 +11,9 @@ import MaterialKit
 import Cartography
 
 protocol LightsCardCallback {
-    func didTapBulb(bulb: Bulb);
+    func didTapBulb(bulb: Bulb)
+
+    func didTapSettings()
 }
 
 class LightsCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSource {
@@ -35,6 +37,13 @@ class LightsCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSour
 
         tv.tableHeaderView = headerView
 
+        let footer = MKButton(frame: CGRectMake(0, 0, 100, 40))
+        footer.setTitle(NSLocalizedString("Settings", comment: ""), forState: .Normal)
+        footer.addTarget(self, action: "didTapSettings", forControlEvents: .TouchUpInside)
+        footer.rippleLayerColor = UIColor.whiteColor().darkerColor()
+        footer.backgroundColor = UIColor.whiteColor()
+        tv.tableFooterView = footer
+
         tv.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.contentView.addSubview(tv)
         layout(tv) {view in
@@ -55,6 +64,10 @@ class LightsCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSour
         self.contentView.layer.cornerRadius = 5
         self.contentView.backgroundColor = UIColor.whiteColor()
         self.backgroundColor = UIColor.clearColor()
+    }
+
+    func didTapSettings() {
+        self.delegate?.didTapSettings()
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -53,6 +53,8 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         navigationController?.navigationBarHidden = true
     }
 
+    // MARK: - CollectionViewDelegate and DataSource
+
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
     }
@@ -75,6 +77,12 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             self.navigationController?.pushViewController(bulbController, animated: true)
         }
     }
+
+    func didTapSettings() {
+
+    }
+
+    // MARK: Private
 
     private func getLights() {
         if let lightsService = self.injector?.create(kLightsService) as? LightsService {
