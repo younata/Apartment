@@ -60,6 +60,18 @@ class LightsCardSpec: QuickSpec {
                     }
                 }
             }
+
+            describe("footer") {
+                var footer: UIView! = nil
+
+                beforeEach {
+                    footer = subject.tableView.tableFooterView
+                }
+
+                it("should be an MKButton") {
+                    expect(footer).to(beAnInstanceOf(MKButton.self))
+                }
+            }
         }
     }
 }

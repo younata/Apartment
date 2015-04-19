@@ -100,7 +100,7 @@ class LightsTableViewCellSpec: QuickSpec {
             }
         }
 
-        fdescribe("Changing the brightness slider") {
+        describe("Changing the brightness slider") {
             var service : FakeLightsService! = nil
 
             beforeEach {
