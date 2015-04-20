@@ -60,7 +60,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(view.bounds.size.width - 20, 40.0 + (44.0 * CGFloat(bulbs.count)))
+        return CGSizeMake(view.bounds.size.width - 20, 80.0 + (44.0 * CGFloat(bulbs.count)))
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

@@ -25,16 +25,10 @@ class LightsTableViewCellSpec: QuickSpec {
                     expect(subject.nameLabel.text).to(equal("Hue Lamp 1"))
                 }
 
-                it("should set the background color") {
+                it("should set the brightness track color") {
                     let color = UIColor(hue: 15051.0 / 65535.0, saturation: 137.0 / 254.0, brightness: 1.0, alpha: 1.0)
-                    expect(subject.contentView.backgroundColor).to(equal(color))
+                    expect(subject.brightnessSlider.minimumTrackTintColor).to(equal(color))
                 }
-
-                it("should set the rippleLayerColor") {
-                    let color = UIColor(hue: 15051.0 / 65535.0, saturation: 137.0 / 254.0, brightness: 1.0, alpha: 1.0).darkerColor()
-                    expect(subject.rippleLayerColor).to(equal(color))
-                }
-
                 it("should enable the brightnessSlider and set it correctly") {
                     expect(subject.brightnessSlider.enabled).to(beTruthy())
                     expect(subject.brightnessSlider.value).to(equal(194.0 / 254.0))
@@ -54,14 +48,9 @@ class LightsTableViewCellSpec: QuickSpec {
                     expect(subject.nameLabel.text).to(equal("Hue Lamp 1"))
                 }
 
-                it("should set the background color") {
+                it("should set the brightness track color") {
                     let color = UIColor(hue: 15051.0 / 65535.0, saturation: 137.0 / 254.0, brightness: 1.0, alpha: 1.0)
-                    expect(subject.contentView.backgroundColor).to(equal(color))
-                }
-
-                it("should set the rippleLayerColor") {
-                    let color = UIColor(hue: 15051.0 / 65535.0, saturation: 137.0 / 254.0, brightness: 1.0, alpha: 1.0).darkerColor()
-                    expect(subject.rippleLayerColor).to(equal(color))
+                    expect(subject.brightnessSlider.minimumTrackTintColor).to(equal(color))
                 }
 
                 it("should enable the brightnessSlider and set it to zero") {
@@ -83,14 +72,9 @@ class LightsTableViewCellSpec: QuickSpec {
                     expect(subject.nameLabel.text).to(equal("Hue Lamp 1"))
                 }
 
-                it("should set the background color") {
+                it("should set the brightness track color") {
                     let color = UIColor(hue: 15051.0 / 65535.0, saturation: 137.0 / 254.0, brightness: 1.0, alpha: 1.0)
-                    expect(subject.contentView.backgroundColor).to(equal(color))
-                }
-
-                it("should set the rippleLayerColor") {
-                    let color = UIColor(hue: 15051.0 / 65535.0, saturation: 137.0 / 254.0, brightness: 1.0, alpha: 1.0).darkerColor()
-                    expect(subject.rippleLayerColor).to(equal(color))
+                    expect(subject.brightnessSlider.minimumTrackTintColor).to(equal(color))
                 }
 
                 it("should disable the brightness slider") {

@@ -70,7 +70,7 @@ class LightsCardSpec: QuickSpec {
                 var footer: UIView? = nil
 
                 beforeEach {
-                    footer = subject.tableView.tableFooterView
+                    footer = subject.tableView(subject.tableView, viewForFooterInSection: 0)?.subviews.first as? UIView
                 }
 
                 it("should be an MKButton") {

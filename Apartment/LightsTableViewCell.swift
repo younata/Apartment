@@ -16,8 +16,7 @@ class LightsTableViewCell: MKTableViewCell {
         didSet {
             if let bulb = bulb {
                 nameLabel.text = bulb.name
-                contentView.backgroundColor = bulb.color
-                rippleLayerColor = bulb.color.darkerColor()
+                brightnessSlider.minimumTrackTintColor = bulb.color
                 brightnessSlider.enabled = bulb.reachable
                 brightnessSlider.value = !bulb.on ? 0 : Float(bulb.brightness) / 254.0
             } else {
@@ -57,6 +56,8 @@ class LightsTableViewCell: MKTableViewCell {
 
         contentView.addSubview(nameLabel)
         contentView.addSubview(brightnessSlider)
+
+        rippleLayerColor = UIColor.whiteColor().darkerColor()
 
         brightnessSlider.addTarget(self, action: "didChangeBrightness", forControlEvents: .ValueChanged)
 

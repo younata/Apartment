@@ -37,13 +37,6 @@ class LightsCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSour
 
         tv.tableHeaderView = headerView
 
-        let footer = MKButton(frame: CGRectMake(0, 0, 100, 40))
-        footer.setTitle(NSLocalizedString("Settings", comment: ""), forState: .Normal)
-        footer.addTarget(self, action: "didTapSettings", forControlEvents: .TouchUpInside)
-        footer.rippleLayerColor = UIColor.whiteColor().darkerColor()
-        footer.backgroundColor = UIColor.whiteColor()
-        tv.tableFooterView = footer
-
         tv.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.contentView.addSubview(tv)
         layout(tv) {view in
@@ -82,6 +75,26 @@ class LightsCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSour
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! LightsTableViewCell
         cell.bulb = bulbs[indexPath.row]
         return cell
+    }
+
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 40
+    }
+
+    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let settingsButton = MKButton()
+        settingsButton.setTitle(NSLocalizedString("Settings", comment: ""), forState: .Normal)
+        settingsButton.addTarget(self, action: "didTapSettings", forControlEvents: .TouchUpInside)
+        settingsButton.rippleLayerColor = UIColor.whiteColor().darkerColor()
+        settingsButton.backgroundColor = UIColor.whiteColor()
+        settingsButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
+
+        let footerView = UIView(frame: CGRectMake(0, 0, 100, 40))
+        footerView.addSubview(settingsButton)
+        layout(settingsButton) {view in
+            view.edges == view.superview!.edges
+        }
+        return footerView
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
