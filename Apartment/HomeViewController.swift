@@ -79,7 +79,9 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
 
     func didTapSettings() {
-
+        if let bulbSettingsController = self.injector?.create(BulbSettingsViewController.self) as? BulbSettingsViewController {
+            self.navigationController?.pushViewController(bulbSettingsController, animated: true)
+        }
     }
 
     // MARK: Private

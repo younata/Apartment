@@ -54,7 +54,9 @@ class LightsCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSour
 
         self.tableView.reloadData()
 
-        self.contentView.layer.cornerRadius = 5
+        self.layer.cornerRadius = 5
+        self.layer.masksToBounds = true
+
         self.contentView.backgroundColor = UIColor.whiteColor()
         self.backgroundColor = UIColor.clearColor()
     }

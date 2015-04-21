@@ -47,6 +47,12 @@
 		895636331AD0FB8A00CA60E9 /* BulbViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636321AD0FB8A00CA60E9 /* BulbViewController.swift */; };
 		895636341AD0FB8A00CA60E9 /* BulbViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636321AD0FB8A00CA60E9 /* BulbViewController.swift */; };
 		895636381AD0FBB500CA60E9 /* BulbViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636371AD0FBB500CA60E9 /* BulbViewControllerSpec.swift */; };
+		89B51B411AE5F1B9001729BB /* BulbSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B51B401AE5F1B9001729BB /* BulbSettingsViewController.swift */; };
+		89B51B421AE5F1B9001729BB /* BulbSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B51B401AE5F1B9001729BB /* BulbSettingsViewController.swift */; };
+		89B51B441AE5F29A001729BB /* BulbSettingsViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B51B431AE5F29A001729BB /* BulbSettingsViewControllerSpec.swift */; };
+		89B51B461AE5F974001729BB /* ListCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B51B451AE5F974001729BB /* ListCard.swift */; };
+		89B51B471AE5F974001729BB /* ListCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B51B451AE5F974001729BB /* ListCard.swift */; };
+		89B51B491AE6034F001729BB /* ListCardSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B51B481AE6034F001729BB /* ListCardSpec.swift */; };
 		89E0087F1AD7902E001A54D5 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E0087E1AD7902E001A54D5 /* ColorPicker.swift */; };
 		89E008801AD7902E001A54D5 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E0087E1AD7902E001A54D5 /* ColorPicker.swift */; };
 		89E008831AD975A3001A54D5 /* ColorPickerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E008821AD975A3001A54D5 /* ColorPickerSpec.swift */; };
@@ -126,6 +132,10 @@
 		895636301AD0CD4700CA60E9 /* FakeLightsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeLightsService.swift; sourceTree = "<group>"; };
 		895636321AD0FB8A00CA60E9 /* BulbViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulbViewController.swift; sourceTree = "<group>"; };
 		895636371AD0FBB500CA60E9 /* BulbViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulbViewControllerSpec.swift; sourceTree = "<group>"; };
+		89B51B401AE5F1B9001729BB /* BulbSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulbSettingsViewController.swift; sourceTree = "<group>"; };
+		89B51B431AE5F29A001729BB /* BulbSettingsViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulbSettingsViewControllerSpec.swift; sourceTree = "<group>"; };
+		89B51B451AE5F974001729BB /* ListCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCard.swift; sourceTree = "<group>"; };
+		89B51B481AE6034F001729BB /* ListCardSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCardSpec.swift; sourceTree = "<group>"; };
 		89E0087E1AD7902E001A54D5 /* ColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
 		89E008821AD975A3001A54D5 /* ColorPickerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickerSpec.swift; sourceTree = "<group>"; };
 		89E008851AD977EC001A54D5 /* FakeTouch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTouch.swift; sourceTree = "<group>"; };
@@ -235,6 +245,7 @@
 			children = (
 				895636351AD0FB8F00CA60E9 /* Home Screen */,
 				895636321AD0FB8A00CA60E9 /* BulbViewController.swift */,
+				89B51B401AE5F1B9001729BB /* BulbSettingsViewController.swift */,
 			);
 			name = Features;
 			sourceTree = "<group>";
@@ -278,6 +289,7 @@
 			children = (
 				895636361AD0FBA300CA60E9 /* Home Screen */,
 				895636371AD0FBB500CA60E9 /* BulbViewControllerSpec.swift */,
+				89B51B431AE5F29A001729BB /* BulbSettingsViewControllerSpec.swift */,
 			);
 			name = Features;
 			sourceTree = "<group>";
@@ -306,6 +318,7 @@
 			isa = PBXGroup;
 			children = (
 				89E0087E1AD7902E001A54D5 /* ColorPicker.swift */,
+				89B51B451AE5F974001729BB /* ListCard.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -314,6 +327,7 @@
 			isa = PBXGroup;
 			children = (
 				89E008821AD975A3001A54D5 /* ColorPickerSpec.swift */,
+				89B51B481AE6034F001729BB /* ListCardSpec.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -420,6 +434,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				89E008881ADB8094001A54D5 /* LightsTableViewCell.swift in Sources */,
+				89B51B411AE5F1B9001729BB /* BulbSettingsViewController.swift in Sources */,
 				895636191ACFA4F600CA60E9 /* HomeViewController.swift in Sources */,
 				895635281ACB34CE00CA60E9 /* Bulb.swift in Sources */,
 				895636291AD0ADDB00CA60E9 /* LightsCard.swift in Sources */,
@@ -429,6 +444,7 @@
 				895635151ACA664100CA60E9 /* LightsService.swift in Sources */,
 				8956362C1AD0B5D000CA60E9 /* UIColor+Apartment.swift in Sources */,
 				895636331AD0FB8A00CA60E9 /* BulbViewController.swift in Sources */,
+				89B51B461AE5F974001729BB /* ListCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,11 +459,14 @@
 				8956352C1ACB391900CA60E9 /* BulbSpec.swift in Sources */,
 				89E008831AD975A3001A54D5 /* ColorPickerSpec.swift in Sources */,
 				895636341AD0FB8A00CA60E9 /* BulbViewController.swift in Sources */,
+				89B51B441AE5F29A001729BB /* BulbSettingsViewControllerSpec.swift in Sources */,
 				8956362A1AD0ADDB00CA60E9 /* LightsCard.swift in Sources */,
 				895636381AD0FBB500CA60E9 /* BulbViewControllerSpec.swift in Sources */,
 				895635291ACB34CE00CA60E9 /* Bulb.swift in Sources */,
 				89E0088B1ADB832F001A54D5 /* LightsTableViewCellSpec.swift in Sources */,
 				89E008891ADB8094001A54D5 /* LightsTableViewCell.swift in Sources */,
+				89B51B421AE5F1B9001729BB /* BulbSettingsViewController.swift in Sources */,
+				89B51B491AE6034F001729BB /* ListCardSpec.swift in Sources */,
 				895636161ACFA02E00CA60E9 /* HomeViewControllerSpec.swift in Sources */,
 				8956361A1ACFA4F600CA60E9 /* HomeViewController.swift in Sources */,
 				895635121ACA628900CA60E9 /* AppDelegate.swift in Sources */,
@@ -457,6 +476,7 @@
 				895636311AD0CD4700CA60E9 /* FakeLightsService.swift in Sources */,
 				895635111ACA627A00CA60E9 /* AppDelegateSpec.swift in Sources */,
 				8956362F1AD0C3CC00CA60E9 /* LightsCardSpec.swift in Sources */,
+				89B51B471AE5F974001729BB /* ListCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

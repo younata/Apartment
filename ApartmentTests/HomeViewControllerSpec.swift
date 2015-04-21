@@ -47,7 +47,7 @@ class HomeViewControllerSpec: QuickSpec {
                     expect(subject.collectionView.numberOfItemsInSection(0)).to(equal(1))
                 }
 
-                describe("the first cell") {
+                describe("the cell") {
                     var cell : LightsCard! = nil
                     let bulb = Bulb(id: 3, name: "Hue Lamp 2", on: false, brightness: 194, hue: 15051,
                             saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .colorTemperature,
@@ -64,15 +64,27 @@ class HomeViewControllerSpec: QuickSpec {
                         expect(cell.delegate).toNot(beNil())
                     }
 
-                    describe("LightsCardDelegate -didTapBulb:") {
-                        beforeEach {
-                            subject.didTapBulb(bulb)
+                    describe("LightsCardDelegate") {
+                        describe("-didTapBulb:") {
+                            beforeEach {
+                                subject.didTapBulb(bulb)
+                            }
+
+                            it("should navigate to a bulb editor for that bulb") {
+                                expect(subject.navigationController?.visibleViewController).toEventually(beAnInstanceOf(BulbViewController.self))
+                                if let bulbEditor = navigationController.topViewController as? BulbViewController {
+                                    expect(bulbEditor.bulb).to(equal(bulb))
+                                }
+                            }
                         }
 
-                        it("should navigate to a bulb editor for that bulb") {
-                            expect(subject.navigationController?.visibleViewController).toEventually(beAnInstanceOf(BulbViewController.self))
-                            if let bulbEditor = navigationController.topViewController as? BulbViewController {
-                                expect(bulbEditor.bulb).to(equal(bulb))
+                        describe("-didTapSettings") {
+                            beforeEach {
+                                subject.didTapSettings()
+                            }
+
+                            it("should navigate to a BulbSettingsViewController") {
+                                expect(subject.navigationController?.visibleViewController).toEventually(beAnInstanceOf(BulbSettingsViewController.self))
                             }
                         }
                     }
@@ -110,9 +122,8 @@ class HomeViewControllerSpec: QuickSpec {
                     }
 
                     it("show an error") {
-                        let alert = subject.presentedViewController as? UIAlertController
-                        expect(alert).toNot(beNil())
-                        if let alert = alert {
+                        expect(subject.presentedViewController).toEventually(beAnInstanceOf(UIAlertController.self))
+                        if let alert = subject.presentedViewController as? UIAlertController {
                             expect(alert.title).to(equal("Error getting lights"))
                             expect(alert.message).to(equal(errorString))
                             expect(alert.actions.count).to(equal(1))
