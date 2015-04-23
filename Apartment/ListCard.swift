@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Cartography
 
 protocol ListCardDelegate {
     func numberOfCells() -> Int
@@ -26,6 +27,13 @@ class ListCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSource
         tv.delegate = self
         tv.dataSource = self
         tv.scrollEnabled = false
+        tv.setTranslatesAutoresizingMaskIntoConstraints(false)
+
+        self.contentView.addSubview(tv)
+
+        layout(tv) {view in
+            view.edges == view.superview!.edges
+        }
 
         return tv
     }()
@@ -36,6 +44,8 @@ class ListCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSource
         self.delegate = delegate
 
         self.tableView.reloadData()
+
+        self.backgroundColor = UIColor.whiteColor()
 
         self.layer.cornerRadius = 5
         self.layer.masksToBounds = true

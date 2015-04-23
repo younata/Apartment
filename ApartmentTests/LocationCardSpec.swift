@@ -40,12 +40,12 @@ class LocationCardSpec: QuickSpec {
         }
 
         describe("the first cell") {
-            var cell: MKTableViewCell! = nil
+            var cell: UITableViewCell! = nil
             beforeEach {
-                cell = subject.cellAtIndex(0) as? MKTableViewCell
+                cell = subject.cellAtIndex(0) as? UITableViewCell
             }
 
-            it("should be a MKTableViewCell") {
+            it("should be a UITableViewCell") {
                 expect(cell).toNot(beNil())
             }
 
@@ -55,12 +55,12 @@ class LocationCardSpec: QuickSpec {
         }
 
         describe("the second cell") {
-            var cell: MKTableViewCell! = nil
+            var cell: UITableViewCell! = nil
             beforeEach {
-                cell = subject.cellAtIndex(1) as? MKTableViewCell
+                cell = subject.cellAtIndex(1) as? UITableViewCell
             }
 
-            it("should be a MKTableViewCell") {
+            it("should be a UITableViewCell") {
                 expect(cell).toNot(beNil())
             }
 

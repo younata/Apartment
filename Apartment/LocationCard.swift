@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MaterialKit
 
 class LocationCard: ListCardDelegate {
 
@@ -15,7 +14,7 @@ class LocationCard: ListCardDelegate {
 
     private var tableView : UITableView? = nil
     func configure(tableView: UITableView) {
-        tableView.registerClass(MKTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.tableView = tableView
     }
 
@@ -35,7 +34,7 @@ class LocationCard: ListCardDelegate {
     }
 
     func cellAtIndex(index: Int) -> UITableViewCell {
-        let cell = tableView?.dequeueReusableCellWithIdentifier("cell", forIndexPath: NSIndexPath(forRow: index, inSection: 0)) as? MKTableViewCell ?? MKTableViewCell()
+        let cell = tableView?.dequeueReusableCellWithIdentifier("cell", forIndexPath: NSIndexPath(forRow: index, inSection: 0)) as? UITableViewCell ?? UITableViewCell()
         let text : String
         switch index {
         case 0:
@@ -46,6 +45,7 @@ class LocationCard: ListCardDelegate {
             text = ""
         }
         cell.textLabel?.text = text
+        cell.selectionStyle = .None
         return cell
     }
 

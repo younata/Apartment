@@ -17,16 +17,29 @@ class BulbSettingsViewController: UIViewController, UICollectionViewDataSource, 
         cv.dataSource = self
         cv.delegate = self
         cv.backgroundColor = UIColor.clearColor()
+        cv.registerClass(ListCard.self, forCellWithReuseIdentifier: "cell")
         if let layout = cv.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.sectionInset = UIEdgeInsetsMake(10, 0, 10, 0)
         }
         return cv
     }()
 
+    let locationCard = LocationCard()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "Bulb Settings"
+
+        self.view.addSubview(collectionView)
+
+        layout(collectionView) {view in
+            view.edges == view.superview!.edges
+        }
+
+        locationCard.onTapCell = {idx in
+            self.collectionView.performBatchUpdates(nil, completion: nil)
+        }
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -40,11 +53,21 @@ class BulbSettingsViewController: UIViewController, UICollectionViewDataSource, 
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(view.bounds.size.width - 20, 80.0 + (44.0 * 3))
+        let height : CGFloat
+        if indexPath.item == 0 {
+            height = locationCard.cardHeight()
+        } else {
+            height = 0
+        }
+        return CGSizeMake(view.bounds.size.width - 20, height)
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("lights", forIndexPath: indexPath) as! LightsCard
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! ListCard
+        if (indexPath.item == 0) {
+            cell.configure(locationCard)
+            locationCard.configure(cell.tableView)
+        }
         return cell
     }
 }
