@@ -42,7 +42,7 @@ class LocationCardSpec: QuickSpec {
         describe("the first cell") {
             var cell: UITableViewCell! = nil
             beforeEach {
-                cell = subject.cellAtIndex(0) as? UITableViewCell
+                cell = subject.cellAtIndex(0)
             }
 
             it("should be a UITableViewCell") {
@@ -57,7 +57,7 @@ class LocationCardSpec: QuickSpec {
         describe("the second cell") {
             var cell: UITableViewCell! = nil
             beforeEach {
-                cell = subject.cellAtIndex(1) as? UITableViewCell
+                cell = subject.cellAtIndex(1)
             }
 
             it("should be a UITableViewCell") {

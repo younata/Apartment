@@ -16,15 +16,15 @@ protocol LightsCardCallback {
     func didTapSettings()
 }
 
-class LightsCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSource {
+class LightsCard : ListCardDelegate {
     var bulbs : [Bulb] = []
-
-    lazy var tableView : UITableView = {
-        let tv = UITableView(frame: self.contentView.bounds, style: .Grouped)
-        tv.delegate = self
-        tv.dataSource = self
-        tv.registerClass(LightsTableViewCell.self, forCellReuseIdentifier: "cell")
-        tv.scrollEnabled = false
+    var delegate : LightsCardCallback? = nil
+    private var tableView : UITableView? = nil
+    func configure(tableView: UITableView, bulbs: [Bulb], delegate: LightsCardCallback) {
+        self.bulbs = bulbs
+        self.delegate = delegate
+        tableView.registerClass(LightsTableViewCell.self, forCellReuseIdentifier: "cell")
+        self.tableView = tableView
 
         let headerView = UIView(frame: CGRectMake(0, 0, 100, 40))
         let headerLabel = MKLabel()
@@ -35,55 +35,39 @@ class LightsCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSour
             view.edges == inset(view.superview!.edges, 4, 16, 4, 16);
         }
 
-        tv.tableHeaderView = headerView
-
-        tv.setTranslatesAutoresizingMaskIntoConstraints(false)
-        self.contentView.addSubview(tv)
-        layout(tv) {view in
-            view.edges == view.superview!.edges
-        }
-
-        return tv
-    }()
-
-    var delegate : LightsCardCallback? = nil
-
-    func configure(bulbs: [Bulb], delegate: LightsCardCallback?) {
-        self.bulbs = bulbs
-        self.delegate = delegate
-
-        self.tableView.reloadData()
-
-        self.layer.cornerRadius = 5
-        self.layer.masksToBounds = true
-
-        self.contentView.backgroundColor = UIColor.whiteColor()
-        self.backgroundColor = UIColor.clearColor()
+        tableView.tableHeaderView = headerView
     }
 
-    func didTapSettings() {
-        self.delegate?.didTapSettings()
-    }
-
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func numberOfCells() -> Int {
         return bulbs.count
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func cardHeight() -> CGFloat {
+        return 44 * CGFloat(bulbs.count)
+    }
+
+    func heightForCell(index: Int) -> CGFloat {
         return 44
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! LightsTableViewCell
-        cell.bulb = bulbs[indexPath.row]
+    func cellAtIndex(index: Int) -> UITableViewCell {
+        let cell = tableView?.dequeueReusableCellWithIdentifier("cell", forIndexPath: NSIndexPath(forRow: index, inSection: 0)) as? LightsTableViewCell ?? LightsTableViewCell()
+        cell.bulb = bulbs[index]
         return cell
     }
 
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func didTapCell(index: Int) {
+        let bulb = bulbs[index]
+        if bulb.reachable {
+            delegate?.didTapBulb(bulb)
+        }
+    }
+
+    func heightForFooter() -> CGFloat {
         return 40
     }
 
-    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func footerView() -> UIView {
         let settingsButton = MKButton()
         settingsButton.setTitle(NSLocalizedString("Settings", comment: ""), forState: .Normal)
         settingsButton.addTarget(self, action: "didTapSettings", forControlEvents: .TouchUpInside)
@@ -99,10 +83,7 @@ class LightsCard: UICollectionViewCell, UITableViewDelegate, UITableViewDataSour
         return footerView
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let bulb = bulbs[indexPath.row]
-        if bulb.reachable {
-            delegate?.didTapBulb(bulb)
-        }
+    func didTapSettings() {
+        delegate?.didTapSettings()
     }
 }

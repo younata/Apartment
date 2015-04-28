@@ -32,34 +32,34 @@ class LightsCardSpec: QuickSpec {
             subject = LightsCard()
 
             delegate = FakeLightsCardDelegate()
-            subject.configure([bulb1, bulb2], delegate: delegate)
+            subject.configure(UITableView(), bulbs: [bulb1, bulb2], delegate: delegate)
         }
 
         describe("tableView") {
             it("have a cell for each bulb it's configured with") {
-                expect(subject.tableView.numberOfRowsInSection(0)).to(equal(2))
+                expect(subject.numberOfCells()).to(equal(2))
             }
 
             describe("cells") {
                 it("should be LightsTableViewCells") {
-                    let cell1 = subject.tableView(subject.tableView, cellForRowAtIndexPath:NSIndexPath(forRow: 0, inSection: 0))
+                    let cell1 = subject.cellAtIndex(0)
                     expect(cell1).to(beAnInstanceOf(LightsTableViewCell.self))
 
-                    let cell2 = subject.tableView(subject.tableView, cellForRowAtIndexPath:NSIndexPath(forRow: 1, inSection: 0))
+                    let cell2 = subject.cellAtIndex(1)
                     expect(cell2).to(beAnInstanceOf(LightsTableViewCell.self))
                 }
 
                 describe("Tapping on a cell") {
                     context("that is reachable") {
                         it("should notify the delegate") {
-                            subject.tableView(subject.tableView, didSelectRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
+                            subject.didTapCell(0)
                             expect(delegate.tappedBulb).to(equal(bulb1))
                         }
                     }
 
                     context("that isn't reachable") {
                         it("shouldn't notify the delegate") {
-                            subject.tableView(subject.tableView, didSelectRowAtIndexPath: NSIndexPath(forRow: 1, inSection: 0))
+                            subject.didTapCell(1)
                             expect(delegate.tappedBulb).to(beNil())
                         }
                     }
@@ -70,7 +70,7 @@ class LightsCardSpec: QuickSpec {
                 var footer: UIView? = nil
 
                 beforeEach {
-                    footer = subject.tableView(subject.tableView, viewForFooterInSection: 0)?.subviews.first as? UIView
+                    footer = subject.footerView().subviews.first as? UIView
                 }
 
                 it("should be an MKButton") {

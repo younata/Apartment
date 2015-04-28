@@ -43,8 +43,14 @@ class BulbSettingsViewControllerSpec: QuickSpec {
                 }
 
                 describe("the cell") {
+                    var cell : ListCard? = nil
                     beforeEach {
-                        let cell = subject.collectionView(subject.collectionView, cellForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
+                        cell = subject.collectionView(subject.collectionView, cellForItemAtIndexPath: NSIndexPath(forRow: 0, inSection: 0)) as? ListCard
+                        expect(cell).toNot(beNil())
+                    }
+
+                    it("should have a LocationCard delegate") {
+                        expect(cell?.delegate as? LocationCard).toNot(beNil())
                     }
                 }
             }

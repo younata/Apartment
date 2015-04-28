@@ -49,6 +49,10 @@ class LightsTableViewCell: MKTableViewCell {
         }
     }
 
+    convenience init() {
+        self.init(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
+    }
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 

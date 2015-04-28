@@ -25,7 +25,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     lazy var collectionView : UICollectionView = {
         let cv = self.injector!.create(UICollectionView.self) as! UICollectionView
         cv.setTranslatesAutoresizingMaskIntoConstraints(false)
-        cv.registerClass(LightsCard.self, forCellWithReuseIdentifier: "lights")
+        cv.registerClass(ListCard.self, forCellWithReuseIdentifier: "cell")
         cv.dataSource = self
         cv.delegate = self
         cv.backgroundColor = UIColor.clearColor()
@@ -34,6 +34,8 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         }
         return cv
     }()
+
+    lazy var lightsCard : LightsCard = LightsCard()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,8 +66,11 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("lights", forIndexPath: indexPath) as! LightsCard
-        cell.configure(bulbs, delegate: self)
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! ListCard
+        if indexPath.item == 0 {
+            cell.configure(lightsCard)
+            lightsCard.configure(cell.tableView, bulbs: bulbs, delegate: self)
+        }
         return cell
     }
 
