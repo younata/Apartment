@@ -1,32 +1,24 @@
-//
-//  BulbViewController.swift
-//  Apartment
-//
-//  Created by Rachel Brindle on 4/4/15.
-//  Copyright (c) 2015 Rachel Brindle. All rights reserved.
-//
-
 import UIKit
-import Cartography
-import MaterialKit
+import PureLayout_iOS
+import ApartKit
 
-class BulbViewController: UIViewController {
+public class BulbViewController: UIViewController {
 
-    lazy var lightsService : LightsService = {
-        return self.injector!.create(kLightsService) as! LightsService
+    lazy var lightsService : LightsService? = {
+        return self.injector?.create(kLightsService) as? LightsService
     }()
 
     var bulb: Bulb! = nil
 
-    let titleField = MKTextField()
+    public let titleField = UITextField()
 
-    let colorPicker = ColorPicker()
+    public let colorPicker = ColorPicker()
 
-    func configure(bulb: Bulb) {
+    public func configure(bulb: Bulb) {
         self.bulb = bulb
     }
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         let containerView = UIView()
@@ -36,39 +28,28 @@ class BulbViewController: UIViewController {
 
         edgesForExtendedLayout = .None
 
-        layout(containerView) {view in
-            view.leading == view.superview!.leading + 20
-            view.top == view.superview!.top + 20
-            view.trailing == view.superview!.trailing - 20
-            view.height == 200
-        }
+        containerView.autoPinEdgesToSuperviewEdgesWithInsets(UIEdgeInsetsMake(20, 20, 0, 20), excludingEdge: .Bottom)
+        containerView.autoSetDimension(.Height, toSize: 200)
         containerView.layer.cornerRadius = 5
 
         titleField.text = bulb.name
-        titleField.floatingPlaceholderEnabled = true
-        titleField.backgroundLayerColor = UIColor.clearColor()
+        titleField.backgroundColor = UIColor.clearColor()
         titleField.placeholder = NSLocalizedString("Name", comment: "")
         containerView.addSubview(titleField)
 
-        layout(titleField) {view in
-            view.leading == view.superview!.leading + 20
-            view.trailing == view.superview!.trailing - 20
-            view.top == view.superview!.top + 20
-        }
+        titleField.autoPinEdgesToSuperviewEdgesWithInsets(UIEdgeInsetsMake(20, 20, 0, 20), excludingEdge: .Bottom)
 
         view.addSubview(colorPicker)
         colorPicker.hue = CGFloat(bulb.hue) / 65535.0
         colorPicker.saturation = CGFloat(bulb.saturation) / 254.0
 
-        layout(titleField, colorPicker) {tf, cp in
-            cp.top == tf.bottom + 8
-            cp.leading == tf.leading
-            cp.trailing == tf.trailing
-            cp.height == 100
-        }
+        colorPicker.autoPinEdgeToSuperviewEdge(.Leading)
+        colorPicker.autoPinEdgeToSuperviewEdge(.Trailing)
+        colorPicker.autoSetDimension(.Height, toSize: 100)
+        colorPicker.autoPinEdge(.Top, toEdge: .Bottom, ofView: titleField, withOffset: 8)
     }
 
-    override func viewWillAppear(animated: Bool) {
+    public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
         self.navigationController?.navigationBarHidden = false

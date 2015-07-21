@@ -1,5 +1,6 @@
 import Quick
 import Nimble
+import ApartKit
 
 class BulbSpec: QuickSpec {
     override func spec() {
@@ -7,7 +8,12 @@ class BulbSpec: QuickSpec {
         it("Initing from json") {
             let jsonString = "{\"id\":3,\"changes\":{},\"name\":\"Hue Lamp 2\",\"on\":false,\"bri\":194,\"hue\":15051,\"sat\":137,\"xy\":[0.4,0.4],\"ct\":359,\"transitiontime\":10,\"colormode\":\"ct\",\"effect\":\"none\",\"reachable\":true,\"alert\":\"none\"}"
 
-            let dict: AnyObject? = NSJSONSerialization.JSONObjectWithData(NSString(string: jsonString).dataUsingEncoding(NSUTF8StringEncoding)!, options: .allZeros, error: nil)
+            let dict: AnyObject?
+            do {
+                dict = try NSJSONSerialization.JSONObjectWithData(NSString(string: jsonString).dataUsingEncoding(NSUTF8StringEncoding)!, options: [])
+            } catch _ {
+                dict = nil
+            }
             expect(dict).toNot(beNil())
 
             if let obj = dict as? [String: AnyObject] {

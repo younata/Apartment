@@ -1,23 +1,14 @@
-//
-//  ApplicationModule.swift
-//  Apartment
-//
-//  Created by Rachel Brindle on 3/30/15.
-//  Copyright (c) 2015 Rachel Brindle. All rights reserved.
-//
-
 import Foundation
 import Ra
-import Alamofire
 import UIKit
+import ApartKit
 
 let kBackendService = "kBackendService"
-let kLightsService = "kLightsService"
-let kNetworkManager = "kNetworkManager"
-let kAuthenticationToken = "kAuthenticationToken"
+public let kLightsService = "kLightsService"
+public let kAuthenticationToken = "kAuthenticationToken"
 
-class ApplicationModule {
-    func configureInjector(injector: Ra.Injector) {
+public class ApplicationModule {
+    public func configureInjector(injector: Ra.Injector) {
         injector.bind(kBackendService) {
             NSUserDefaults.standardUserDefaults().stringForKey(kBackendService) ?? "http://localhost:3000/"
         }
@@ -29,17 +20,14 @@ class ApplicationModule {
             return conf
         }
 
-        injector.bind(kNetworkManager) {
-            Alamofire.Manager(configuration: injector.create(NSURLSessionConfiguration.self) as? NSURLSessionConfiguration)
-        }
-
         injector.bind(kLightsService) {
-            let manager = injector.create(kNetworkManager) as! Alamofire.Manager
-            return LightsService(backendURL: injector.create(kBackendService) as! String, manager: manager)
+            return LightsService(backendURL: injector.create(kBackendService) as! String, urlSession: NSURLSession.sharedSession(), authenticationToken: "")
         }
 
         injector.bind(UICollectionView.self) {
             return UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
         }
     }
+
+    public init() {}
 }

@@ -1,6 +1,7 @@
 import Quick
 import Nimble
 import UIKit
+import Apartment
 
 class AppDelegateSpec: QuickSpec {
     override func spec() {
@@ -25,10 +26,7 @@ class AppDelegateSpec: QuickSpec {
                 if let window = subject!.window {
                     expect(window.rootViewController).to(beAnInstanceOf(UINavigationController.self))
                     if let nc = window.rootViewController as? UINavigationController {
-                        expect(nc.viewControllers.first).toNot(beNil())
-                        if let vc = nc.viewControllers.first as? UIViewController {
-                            expect(vc).to(beAnInstanceOf(HomeViewController.self))
-                        }
+                        expect(nc.viewControllers.first).to(beAnInstanceOf(HomeViewController.self))
                     }
                 }
             }

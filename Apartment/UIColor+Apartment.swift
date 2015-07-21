@@ -1,16 +1,8 @@
-//
-//  UIColor+Apartment.swift
-//  Apartment
-//
-//  Created by Rachel Brindle on 4/4/15.
-//  Copyright (c) 2015 Rachel Brindle. All rights reserved.
-//
-
 import UIKit
 
-extension UIColor {
+public extension UIColor {
     // http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/
-    convenience init(mired: CGFloat) {
+    public convenience init(mired: CGFloat) {
         var red : CGFloat = 1.0
         var green : CGFloat = 1.0
         var blue : CGFloat = 1.0
@@ -32,7 +24,7 @@ extension UIColor {
         self.init(red: red, green: green, blue: blue, alpha: 1.0)
     }
 
-    func darkerColor() -> UIColor {
+    public func darkerColor() -> UIColor {
         var hue : CGFloat = 1.0
         var sat : CGFloat = 1.0
         var brightness : CGFloat = 1.0

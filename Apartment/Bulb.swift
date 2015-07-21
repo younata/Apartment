@@ -1,11 +1,3 @@
-//
-//  Bulb.swift
-//  Apartment
-//
-//  Created by Rachel Brindle on 3/31/15.
-//  Copyright (c) 2015 Rachel Brindle. All rights reserved.
-//
-
 /*
 [{"id":3,
 "changes":{},
@@ -25,35 +17,35 @@
 
 import UIKit
 
-class Bulb : Equatable, Printable {
-    let id: Int
-    let name: String
-    let on: Bool
+public class Bulb : Equatable, CustomStringConvertible {
+    public let id: Int
+    public let name: String
+    public let on: Bool
 
-    let brightness: Int
-    let hue: Int
-    let saturation: Int
-    let colorTemperature: Int
-    let transitionTime: Int?
+    public let brightness: Int
+    public let hue: Int
+    public let saturation: Int
+    public let colorTemperature: Int
+    public let transitionTime: Int?
 
-    enum ColorMode : String {
+    public enum ColorMode : String {
         case colorTemperature = "ct"
         case hue = "hs"
         case xy = "xy"
     }
 
-    enum Effect : String {
+    public enum Effect : String {
         case none = "none"
         case colorloop = "colorloop"
     }
 
-    let colorMode: ColorMode
-    let effect: Effect
+    public let colorMode: ColorMode
+    public let effect: Effect
 
-    let reachable: Bool
-    let alert: String
+    public let reachable: Bool
+    public let alert: String
 
-    var color : UIColor {
+    public var color : UIColor {
         if colorMode == .colorTemperature {
             return UIColor(mired: CGFloat(colorTemperature))
         } else if colorMode == .hue {
@@ -66,7 +58,7 @@ class Bulb : Equatable, Printable {
         return UIColor.whiteColor()
     }
 
-    var description: String {
+    public var description: String {
         let a = "id: \(id), name: \(name), on: \(on), brightness: \(brightness), hue: \(hue), saturation: \(saturation), "
         let b = "ct: \(colorTemperature), transitionTime: \(transitionTime), colorMode: \(colorMode.rawValue), effect: \(effect.rawValue), "
         let c = "reachable: \(reachable), alert: \(alert)"
@@ -74,7 +66,7 @@ class Bulb : Equatable, Printable {
         return a + b + c
     }
 
-    var json: [String: AnyObject] {
+    public var json: [String: AnyObject] {
         var ret : [String: AnyObject] = [:]
         ret["id"] = id
         ret["name"] = name
@@ -94,7 +86,7 @@ class Bulb : Equatable, Printable {
         return ret
     }
 
-    init(id: Int, name: String, on: Bool, brightness: Int, hue: Int,
+    public init(id: Int, name: String, on: Bool, brightness: Int, hue: Int,
          saturation: Int, colorTemperature: Int, transitionTime: Int?,
          colorMode: ColorMode, effect: Effect, reachable: Bool, alert: String) {
             self.id = id
@@ -114,7 +106,7 @@ class Bulb : Equatable, Printable {
             self.alert = alert
     }
 
-    init?(json: [String: AnyObject]) {
+    public init?(json: [String: AnyObject]) {
         transitionTime = json["transitiontime"] as? Int
         if let id = json["id"] as? Int,
            let name = json["name"] as? String,
@@ -157,7 +149,7 @@ class Bulb : Equatable, Printable {
     }
 }
 
-func == (a: Bulb, b: Bulb) -> Bool {
+public func == (a: Bulb, b: Bulb) -> Bool {
     return a.id == b.id && a.name == b.name && a.on == b.on && a.brightness == b.brightness && a.hue == b.hue &&
            a.saturation == b.saturation && a.colorTemperature == b.colorTemperature && a.colorMode == b.colorMode &&
            a.transitionTime == b.transitionTime && a.effect == b.effect && a.reachable == b.reachable && a.alert == b.alert

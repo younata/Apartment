@@ -1,37 +1,45 @@
 import Quick
 import Nimble
-import Ra
-import MockHTTP
-import Alamofire
+@testable import ApartKit
 
 class LightsServiceSpec: QuickSpec {
     override func spec() {
-        var subject : LightsService! = nil
-        var injector : Ra.Injector! = nil
-        var appModule : SpecApplicationModule! = nil
+        var subject: LightsService! = nil
+        var urlSession: FakeURLSession! = nil
 
         beforeEach {
-            injector = Ra.Injector()
+            urlSession = FakeURLSession()
 
-            appModule = SpecApplicationModule()
-            appModule.configureInjector(injector)
-
-            subject = injector.create(kLightsService) as! LightsService
+            subject = LightsService(backendURL: "https://localhost.com/", urlSession: urlSession, authenticationToken: "HelloWorld")
         }
 
-        afterEach {
-            appModule.afterTests()
-        }
+        var receivedError: NSError? = nil
 
-        describe("headers") {
+        sharedExamples("a properly configured http request") {(sharedContext: SharedExampleContext) in
+            it("should makes a url request") {
+                expect(urlSession.lastURLRequest).toNot(beNil())
+                let urlString = sharedContext()["url"] as! String
+                let url = NSURL(string: urlString)
+                expect(urlSession.lastURLRequest?.URL).to(equal(url))
+                let expectedMethod = sharedContext()["method"] as? String ?? "GET"
+                expect(urlSession.lastURLRequest?.HTTPMethod).to(equal(expectedMethod))
+            }
+
             it("should have the authentication token correctly configured") {
-                expect(subject.manager.session.configuration.HTTPAdditionalHeaders).toNot(beNil())
-                if let headers = subject.manager.session.configuration.HTTPAdditionalHeaders {
-                    expect(headers["Authentication"] is String).to(beTruthy())
-                    if let authenticationHeader = headers["Authentication"] as? String {
-                        expect(authenticationHeader).to(equal("Token token=HelloWorld"))
-                    }
-                }
+                let headers = urlSession.lastURLRequest?.allHTTPHeaderFields
+                expect(headers?["Authentication"]).to(equal("Token token=HelloWorld"))
+            }
+
+            it("should notify the caller on network error") {
+                let error = NSError(domain: "", code: 0, userInfo: [:])
+                urlSession.lastCompletionHandler(nil, nil, error)
+                expect(receivedError).to(beIdenticalTo(error))
+            }
+
+            it("should notify the caller if the response code is not 200-level") {
+                let response = NSHTTPURLResponse(URL: NSURL(string: "http://google.com")!, statusCode: 400, HTTPVersion: "", headerFields: [:])
+                urlSession.lastCompletionHandler(nil, response, nil)
+                expect(receivedError).toNot(beNil())
             }
         }
 
@@ -39,189 +47,106 @@ class LightsServiceSpec: QuickSpec {
 
         describe("Getting all the bulbs") {
             var bulbsArray : [Bulb] = []
+            var receivedBulbs: [Bulb]? = nil
             beforeEach {
-                let dictionary = NSJSONSerialization.JSONObjectWithData(NSString(string: singleBulbString).dataUsingEncoding(NSUTF8StringEncoding)!, options: .allZeros, error: nil) as! [String: AnyObject]
-                let bulb = Bulb(json: dictionary)!
+                do {
+                    let dictionary = try NSJSONSerialization.JSONObjectWithData(NSString(string: singleBulbString).dataUsingEncoding(NSUTF8StringEncoding)!, options: []) as! [String: AnyObject]
+                    let bulb = Bulb(json: dictionary)!
 
-                bulbsArray = [bulb, bulb]
-            }
+                    bulbsArray = [bulb, bulb]
+                } catch {}
 
-            it("return all the bulbs") {
-                let dictionary = NSJSONSerialization.JSONObjectWithData(NSString(string: singleBulbString).dataUsingEncoding(NSUTF8StringEncoding)!, options: .allZeros, error: nil) as! [String: AnyObject]
-                let urlResponse = MockHTTP.URLResponse(json: [dictionary, dictionary], statusCode: 200, headers: [:])
-                MockHTTP.registerResponse(urlResponse, forURL: NSURL(string: "http://localhost:3000/api/v1/bulbs")!)
-
-                let expectation = self.expectationWithDescription("bulbs")
-                subject.allBulbs {(result, error) in
-                    expectation.fulfill()
-                    expect(error).to(beNil())
-                    expect(result).to(equal(bulbsArray))
-                }
-
-                self.waitForExpectationsWithTimeout(1) {(error) in
-                    expect(error).to(beNil())
+                subject.allBulbs {result, error in
+                    receivedBulbs = result
+                    receivedError = error
                 }
             }
 
-            it("should notify the user on error") {
-                let failed = NSError(domain: "LightsServiceSpec", code: 1, userInfo: nil)
-                let urlResponse = MockHTTP.URLResponse(error: failed, statusCode: 400, headers: [:])
+            itBehavesLike("a properly configured http request") { ["url": "https://localhost.com/api/v1/bulbs"] }
 
-                MockHTTP.registerResponse(urlResponse, forURL: NSURL(string: "http://localhost:3000/api/v1/bulbs")!)
+            it("return all the bulbs on success") {
+                let multiBulbData = try! NSJSONSerialization.dataWithJSONObject(bulbsArray.map({$0.json}), options: NSJSONWritingOptions(rawValue: 0))
+                urlSession.lastCompletionHandler(multiBulbData, nil, nil)
 
-                let expectation = self.expectationWithDescription("bulbs")
-                subject.allBulbs {(result, error) in
-                    expectation.fulfill()
-                    expect(error).to(equal(failed))
-                    expect(result).to(beNil())
-                }
-
-                self.waitForExpectationsWithTimeout(1) {(error) in
-                    expect(error).to(beNil())
-                }
+                expect(receivedBulbs).to(equal(bulbsArray))
+                expect(receivedError).to(beNil())
             }
         }
 
         describe("Getting a single bulb") {
             var bulb: Bulb! = nil
-            var foundResponse: MockHTTP.URLResponse! = nil
-            var errorResponse: MockHTTP.URLResponse! = nil
-            let error: NSError = NSError(domain: "LightsServiceSpec", code: 2, userInfo: nil)
+            var receivedBulb: Bulb? = nil
 
             beforeEach {
-                let dictionary = NSJSONSerialization.JSONObjectWithData(NSString(string: singleBulbString).dataUsingEncoding(NSUTF8StringEncoding)!, options: .allZeros, error: nil) as! [String: AnyObject]
+                let dictionary = try! NSJSONSerialization.JSONObjectWithData(NSString(string: singleBulbString).dataUsingEncoding(NSUTF8StringEncoding)!, options: []) as! [String: AnyObject]
                 bulb = Bulb(json: dictionary)!
-
-                foundResponse = MockHTTP.URLResponse(json: dictionary, statusCode: 200, headers: [:])
-                errorResponse = MockHTTP.URLResponse(error: error, statusCode: 404, headers: [:])
             }
 
             context("By id number") {
-                let url = NSURL(string: "http://localhost:3000/api/v1/bulb/3")!
-
-                it("should return the bulb") {
-                    MockHTTP.registerResponse(foundResponse, forURL: url)
-
-                    let expectation = self.expectationWithDescription("bulbs")
-                    subject.bulb(3) {(result, err) in
-                        expectation.fulfill()
-                        expect(err).to(beNil())
-                        expect(result).to(equal(bulb))
-                    }
-
-                    self.waitForExpectationsWithTimeout(1) {(error) in
-                        expect(error).to(beNil())
+                beforeEach {
+                    subject.bulb(3) {result, error in
+                        receivedError = error
+                        receivedBulb = result
                     }
                 }
 
-                it("should notify the user on error") {
-                    MockHTTP.registerResponse(errorResponse, forURL: url)
+                itBehavesLike("a properly configured http request") { ["url": "https://localhost.com/api/v1/bulb/3"] }
 
-                    let expectation = self.expectationWithDescription("bulbs")
-                    subject.bulb(3) {(result, err) in
-                        expectation.fulfill()
-                        expect(err).to(equal(error))
-                        expect(result).to(beNil())
-                    }
-
-                    self.waitForExpectationsWithTimeout(1) {(error) in
-                        expect(error).to(beNil())
-                    }
+                it("should return the bulb") {
+                    let data = (singleBulbString as NSString).dataUsingEncoding(NSUTF8StringEncoding)
+                    urlSession.lastCompletionHandler(data, nil, nil)
+                    
+                    expect(receivedBulb).to(equal(bulb))
+                    expect(receivedError).to(beNil())
                 }
             }
 
             context("By name") {
-                let url = NSURL(string: "http://localhost:3000/api/v1/bulb/Hue%20Lamp%202")!
-
-                it("should return the bulb") {
-                    MockHTTP.registerResponse(foundResponse, forURL: url)
-
-                    let expectation = self.expectationWithDescription("bulbs")
-                    subject.bulb("Hue Lamp 2") {(result, err) in
-                        expectation.fulfill()
-                        expect(err).to(beNil())
-                        expect(result).to(equal(bulb))
-                    }
-
-                    self.waitForExpectationsWithTimeout(1) {(error) in
-                        expect(error).to(beNil())
+                beforeEach {
+                    subject.bulb("Hue Lamp 2") {result, error in
+                        receivedError = error
+                        receivedBulb = result
                     }
                 }
 
-                it("should notify the user on error") {
-                    MockHTTP.registerResponse(errorResponse, forURL: url)
+                itBehavesLike("a properly configured http request") { ["url": "https://localhost.com/api/v1/bulb/Hue%20Lamp%202"] }
 
-                    let expectation = self.expectationWithDescription("bulbs")
-                    subject.bulb("Hue Lamp 2") {(result, err) in
-                        expectation.fulfill()
-                        expect(err).to(equal(error))
-                        expect(result).to(beNil())
-                    }
+                it("should return the bulb") {
+                    let data = (singleBulbString as NSString).dataUsingEncoding(NSUTF8StringEncoding)
+                    urlSession.lastCompletionHandler(data, nil, nil)
 
-                    self.waitForExpectationsWithTimeout(1) {(error) in
-                        expect(error).to(beNil())
-                    }
+                    expect(receivedBulb).to(equal(bulb))
+                    expect(receivedError).to(beNil())
                 }
             }
         }
 
         describe("Updating a single bulb") {
-            var bulb: Bulb! = nil
+            let bulb = Bulb(id: 3, name: "Hue Lamp 2", on: false, brightness: 194, hue: 15051,
+                saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .colorTemperature,
+                effect: .none, reachable: true, alert: "none")
+            let updatedBulb = Bulb(id: 3, name: "Hue Lamp 2", on: true, brightness: 194, hue: 15051,
+                saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .hue,
+                effect: .none, reachable: true, alert: "none")
+
+            var receivedBulb: Bulb? = nil
+
             beforeEach {
-                bulb = Bulb(id: 3, name: "Hue Lamp 2", on: false, brightness: 194, hue: 15051,
-                            saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .colorTemperature,
-                            effect: .none, reachable: true, alert: "none")
+                let attributes : [String: AnyObject] = ["on": true, "colorMode": Bulb.ColorMode.hue.rawValue]
+                subject.update(bulb, attributes: attributes) {result, error in
+                    receivedBulb = result
+                    receivedError = error
+                }
             }
+
+            itBehavesLike("a properly configured http request") { ["url": "https://localhost.com/api/v1/bulb/3?colorMode=hs&on=1", "method": "PUT"] }
 
             it("updates the bulb and returns a new (updated) bulb") {
-                let updatedBulb = Bulb(id: 3, name: "Hue Lamp 2", on: true, brightness: 194, hue: 15051,
-                    saturation: 137, colorTemperature: 359, transitionTime: 10, colorMode: .hue,
-                    effect: .none, reachable: true, alert: "none")
-                let urlResponse = MockHTTP.URLResponse(json: updatedBulb.json, statusCode: 200, headers: [:])
+                let json = try! NSJSONSerialization.dataWithJSONObject(updatedBulb.json, options: NSJSONWritingOptions(rawValue: 0))
+                urlSession.lastCompletionHandler(json, nil, nil)
 
-                MockHTTP.registerResponse(urlResponse) {request in
-                    if !(request.URLString.hasPrefix("http://localhost:3000/api/v1/bulb/3") && request.HTTPMethod == "PUT") {
-                        return false
-                    }
-                    if let query = request.URL?.query {
-                        println("\(query)")
-                        return query == "colorMode=hs&on=1"
-                    }
-                    return false
-                }
-
-                let expectation = self.expectationWithDescription("bulbs")
-                let attributes : [String: AnyObject] = ["on": true, "colorMode": Bulb.ColorMode.hue.rawValue]
-                subject.update(bulb, attributes: attributes) {bulb, error in
-                    expectation.fulfill()
-                    expect(error).to(beNil())
-                    expect(bulb).to(equal(updatedBulb))
-                }
-                self.waitForExpectationsWithTimeout(1) {error in
-                    expect(error).to(beNil())
-                }
-            }
-
-            context("on failure") {
-                it("notifies the user of the error") {
-                    let error = NSError(domain: "LightsServiceSpec", code: 3, userInfo: nil)
-                    let errorResponse = MockHTTP.URLResponse(error: error, statusCode: 404, headers: [:])
-
-                    MockHTTP.registerResponse(errorResponse) {request in
-                        return true
-                    }
-
-                    let expectation = self.expectationWithDescription("bulbs")
-                    subject.update(bulb, attributes: ["on": true, "colorMode": "hs"]) {result, err in
-                        expectation.fulfill()
-                        expect(result).to(beNil())
-                        expect(err).to(equal(error))
-                    }
-
-                    self.waitForExpectationsWithTimeout(1) {(error) in
-                        expect(error).to(beNil())
-                    }
-                }
+                expect(receivedBulb).to(equal(updatedBulb))
+                expect(receivedError).to(beNil())
             }
         }
     }

@@ -1,6 +1,7 @@
 import Quick
 import Nimble
 import UIKit
+import Apartment
 
 class TouchResponder: NSObject {
     var wasCalled = false

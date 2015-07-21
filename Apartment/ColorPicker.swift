@@ -1,49 +1,41 @@
-//
-//  ColorPicker.swift
-//  Apartment
-//
-//  Created by Rachel Brindle on 4/9/15.
-//  Copyright (c) 2015 Rachel Brindle. All rights reserved.
-//
-
 import UIKit
 
-class ColorPicker: UIControl {
+public class ColorPicker: UIControl {
 
-    var hue : CGFloat = 0.0 {
+    public var hue : CGFloat = 0.0 {
         didSet {
             selectedPoint.x = hue * bounds.width
         }
     }
 
-    var saturation : CGFloat = 0.0 {
+    public var saturation : CGFloat = 0.0 {
         didSet {
             selectedPoint.y = saturation * bounds.height
         }
     }
 
-    override var bounds : CGRect {
+    public override var bounds : CGRect {
         didSet {
             selectedPoint.x = hue * bounds.width
             selectedPoint.y = saturation * bounds.height
         }
     }
 
-    private(set) var selectedPoint : CGPoint = CGPointZero
+    public private(set) var selectedPoint : CGPoint = CGPointZero
 
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         setColorFromTouchSet(touches)
     }
 
-    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+    public override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         setColorFromTouchSet(touches)
     }
 
-    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+    public override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         setColorFromTouchSet(touches)
     }
 
-    override func drawRect(rect: CGRect) {
+    public override func drawRect(rect: CGRect) {
         super.drawRect(rect)
 
         let ctx = UIGraphicsGetCurrentContext()
@@ -60,13 +52,13 @@ class ColorPicker: UIControl {
 
         let gradient = CGGradientCreateWithColors(CGColorSpaceCreateDeviceRGB(), colors as CFArrayRef, locations)
 
-        CGContextDrawLinearGradient(ctx, gradient, CGPointMake(0, rect.height), CGPointMake(rect.width, rect.height), .allZeros)
+        CGContextDrawLinearGradient(ctx, gradient, CGPointMake(0, rect.height), CGPointMake(rect.width, rect.height), CGGradientDrawingOptions(rawValue: 0))
 
         let top = UIColor(white: 1.0, alpha: 1.0).CGColor
         let bottom = UIColor(white: 1.0, alpha: 0.0).CGColor
 
         let verticalGradient = CGGradientCreateWithColors(CGColorSpaceCreateDeviceRGB(), [top, bottom] as CFArrayRef, [0.0, 1.0])
-        CGContextDrawLinearGradient(ctx, verticalGradient, CGPointMake(0, 0), CGPointMake(0, rect.height), .allZeros)
+        CGContextDrawLinearGradient(ctx, verticalGradient, CGPointMake(0, 0), CGPointMake(0, rect.height), CGGradientDrawingOptions(rawValue: 0))
 
         let largeRadius : CGFloat = 5.0
         let largeRect = CGRectMake(selectedPoint.x - largeRadius / 2.0, selectedPoint.y - largeRadius / 2.0, largeRadius, largeRadius)
