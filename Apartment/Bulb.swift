@@ -1,21 +1,4 @@
-/*
-[{"id":3,
-"changes":{},
-"name":"Hue Lamp 2",
-"on":false,
-"bri":194,
-"hue":15051,
-"sat":137,
-"xy":[0.4,0.4],
-"ct":359,
-"transitiontime":null,
-"colormode":"ct",
-"effect":"none",
-"reachable":true,
-"alert":"none"}]
-*/
-
-import UIKit
+import Foundation
 
 public class Bulb : Equatable, CustomStringConvertible {
     public let id: Int

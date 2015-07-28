@@ -1,74 +1,54 @@
 import Foundation
 
-public class LightsService {
-    public var backendURL: String
-    public var authenticationToken: String
-    private let urlSession: NSURLSession
+public class LockService {
+    let backendURL: String
+    let urlSession: NSURLSession
+    let authenticationToken: String
+
     public init(backendURL: String, urlSession: NSURLSession, authenticationToken: String) {
         self.backendURL = backendURL
         self.urlSession = urlSession
         self.authenticationToken = authenticationToken
     }
-
-    public func allBulbs(completionHandler: ([Bulb]?, NSError?) -> (Void)) {
-        self.getRequest(self.backendURL + "api/v1/bulbs") {result, error in
+    
+    func allLocks(completionHandler: ([Lock]?, NSError?) -> (Void)) {
+        self.getRequest(self.backendURL + "api/v1/locks") {result, error in
             if let _ = error {
                 completionHandler(nil, error)
             } else if let res = result {
-                let bulbs = res.reduce([Bulb]()) {(bulbs, json) in
-                    if let bulb = Bulb(json: json) {
-                        return bulbs + [bulb]
-                    } else {
-                        return bulbs
-                    }
+                let locks = res.reduce([Lock]()) {(locks, json) in
+                    let lock = Lock(json: json)
+                    return locks + [lock]
                 }
-                completionHandler(bulbs, nil)
+                completionHandler(locks, nil)
             }
         }
     }
-
-    public func bulb(id: Int, completionHandler: (Bulb?, NSError?) -> (Void)) {
-        self.bulb("\(id)", completionHandler: completionHandler)
-    }
-
-    public func bulb(name: String, completionHandler: (Bulb?, NSError?) -> (Void)) {
-        if let id = name.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet()) {
-            self.getRequest(self.backendURL + "api/v1/bulbs/" + id) {result, error in
-                if error != nil {
-                    completionHandler(nil, error)
-                } else if let res = result?.first,
-                          let bulb = Bulb(json: res) {
-                    completionHandler(bulb, error)
-                } else {
-                    let error = NSError(domain: "Apartment", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unable to convert \(result) to Bulb object"])
-                    completionHandler(nil, error)
-                }
-            }
-        }
-    }
-
-    public func update(bulb: Bulb, attributes: [String: AnyObject], completionHandler: (Bulb?, NSError?) -> (Void)) {
-        let id = bulb.id
-
-        func generateQuery(parameters: [String: AnyObject]) -> String {
-            var components: [(String, String)] = []
-            for key in Array(parameters.keys).sort(<) {
-                let value : AnyObject = parameters[key]!
-                components += [key: "\(value.description)"]
-            }
-
-            return "&".join(components.map{"\($0)=\($1)"} as [String])
-        }
-
-        let query = "?" + generateQuery(attributes)
-
-        self.putRequest(self.backendURL + "api/v1/bulbs/\(id)" + query) {result, error in
+    
+    func lock(id: String, completionHandler: (Lock?, NSError?) -> (Void)) {
+        self.getRequest(self.backendURL + "api/v1/locks/" + id) {result, error in
             if error != nil {
                 completionHandler(nil, error)
-            } else if let res = result, let bulb = Bulb(json: res) {
-                completionHandler(bulb, error)
+            } else if let res = result?.first {
+                let lock = Lock(json: res)
+                completionHandler(lock, error)
             } else {
-                let error = NSError(domain: "Apartment", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unable to convert \(result) to Bulb object"])
+                let error = NSError(domain: "Apartment", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unable to convert \(result) to Lock object"])
+                completionHandler(nil, error)
+            }
+        }
+    }
+
+    func update_lock(lock: Lock, to_lock: Lock.LockStatus, completionHandler: (Lock?, NSError?) -> (Void)) {
+        let shouldLock = to_lock == Lock.LockStatus.Unlocked ? "false" : "true"
+        self.putRequest(self.backendURL + "api/v1/locks/" + lock.id + "?locked=\(shouldLock)") {result, error in
+            if error != nil {
+                completionHandler(nil, error)
+            } else if let res = result {
+                let lock = Lock(json: res)
+                completionHandler(lock, error)
+            } else {
+                let error = NSError(domain: "Apartment", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unable to convert \(result) to Lock object"])
                 completionHandler(nil, error)
             }
         }
@@ -100,7 +80,7 @@ public class LightsService {
                 } catch {}
             }
             callback(nil, NSError(domain: "com.rachelbrindle.apartment.error.generic", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unknown Error"]))
-        }.resume()
+            }.resume()
     }
 
     private func putRequest(url: String, callback: ([String: AnyObject]?, NSError?) -> (Void)) {
@@ -126,6 +106,6 @@ public class LightsService {
                 } catch {}
             }
             callback(nil, NSError(domain: "com.rachelbrindle.apartment.error.generic", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unknown Error"]))
-        }.resume()
+            }.resume()
     }
 }

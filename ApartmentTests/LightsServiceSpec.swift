@@ -15,8 +15,8 @@ class LightsServiceSpec: QuickSpec {
 
         var receivedError: NSError? = nil
 
-        sharedExamples("a properly configured http request") {(sharedContext: SharedExampleContext) in
-            it("should makes a url request") {
+        sharedExamples("a properly configured light request") {(sharedContext: SharedExampleContext) in
+            it("should make a url request") {
                 expect(urlSession.lastURLRequest).toNot(beNil())
                 let urlString = sharedContext()["url"] as! String
                 let url = NSURL(string: urlString)
@@ -46,7 +46,7 @@ class LightsServiceSpec: QuickSpec {
         let singleBulbString = "{\"id\":3,\"changes\":{},\"name\":\"Hue Lamp 2\",\"on\":false,\"bri\":194,\"hue\":15051,\"sat\":137,\"xy\":[0.4,0.4],\"ct\":359,\"transitiontime\":10,\"colormode\":\"ct\",\"effect\":\"none\",\"reachable\":true,\"alert\":\"none\"}"
 
         describe("Getting all the bulbs") {
-            var bulbsArray : [Bulb] = []
+            var bulbsArray: [Bulb] = []
             var receivedBulbs: [Bulb]? = nil
             beforeEach {
                 do {
@@ -62,7 +62,7 @@ class LightsServiceSpec: QuickSpec {
                 }
             }
 
-            itBehavesLike("a properly configured http request") { ["url": "https://localhost.com/api/v1/bulbs"] }
+            itBehavesLike("a properly configured light request") { ["url": "https://localhost.com/api/v1/bulbs"] }
 
             it("return all the bulbs on success") {
                 let multiBulbData = try! NSJSONSerialization.dataWithJSONObject(bulbsArray.map({$0.json}), options: NSJSONWritingOptions(rawValue: 0))
@@ -90,7 +90,7 @@ class LightsServiceSpec: QuickSpec {
                     }
                 }
 
-                itBehavesLike("a properly configured http request") { ["url": "https://localhost.com/api/v1/bulb/3"] }
+                itBehavesLike("a properly configured light request") { ["url": "https://localhost.com/api/v1/bulbs/3"] }
 
                 it("should return the bulb") {
                     let data = (singleBulbString as NSString).dataUsingEncoding(NSUTF8StringEncoding)
@@ -109,7 +109,7 @@ class LightsServiceSpec: QuickSpec {
                     }
                 }
 
-                itBehavesLike("a properly configured http request") { ["url": "https://localhost.com/api/v1/bulb/Hue%20Lamp%202"] }
+                itBehavesLike("a properly configured light request") { ["url": "https://localhost.com/api/v1/bulbs/Hue%20Lamp%202"] }
 
                 it("should return the bulb") {
                     let data = (singleBulbString as NSString).dataUsingEncoding(NSUTF8StringEncoding)
@@ -139,7 +139,7 @@ class LightsServiceSpec: QuickSpec {
                 }
             }
 
-            itBehavesLike("a properly configured http request") { ["url": "https://localhost.com/api/v1/bulb/3?colorMode=hs&on=1", "method": "PUT"] }
+            itBehavesLike("a properly configured light request") { ["url": "https://localhost.com/api/v1/bulbs/3?colorMode=hs&on=1", "method": "PUT"] }
 
             it("updates the bulb and returns a new (updated) bulb") {
                 let json = try! NSJSONSerialization.dataWithJSONObject(updatedBulb.json, options: NSJSONWritingOptions(rawValue: 0))
