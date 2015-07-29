@@ -1,9 +1,9 @@
 import Foundation
 
 public class LockService {
-    let backendURL: String
+    public internal(set) var backendURL: String
+    public internal(set) var authenticationToken: String
     let urlSession: NSURLSession
-    let authenticationToken: String
 
     public init(backendURL: String, urlSession: NSURLSession, authenticationToken: String) {
         self.backendURL = backendURL
@@ -11,7 +11,7 @@ public class LockService {
         self.authenticationToken = authenticationToken
     }
     
-    func allLocks(completionHandler: ([Lock]?, NSError?) -> (Void)) {
+    public func allLocks(completionHandler: ([Lock]?, NSError?) -> (Void)) {
         self.getRequest(self.backendURL + "api/v1/locks") {result, error in
             if let _ = error {
                 completionHandler(nil, error)
@@ -25,7 +25,7 @@ public class LockService {
         }
     }
     
-    func lock(id: String, completionHandler: (Lock?, NSError?) -> (Void)) {
+    public func lock(id: String, completionHandler: (Lock?, NSError?) -> (Void)) {
         self.getRequest(self.backendURL + "api/v1/locks/" + id) {result, error in
             if error != nil {
                 completionHandler(nil, error)
@@ -39,7 +39,7 @@ public class LockService {
         }
     }
 
-    func update_lock(lock: Lock, to_lock: Lock.LockStatus, completionHandler: (Lock?, NSError?) -> (Void)) {
+    public func update_lock(lock: Lock, to_lock: Lock.LockStatus, completionHandler: (Lock?, NSError?) -> (Void)) {
         let shouldLock = to_lock == Lock.LockStatus.Unlocked ? "false" : "true"
         self.putRequest(self.backendURL + "api/v1/locks/" + lock.id + "?locked=\(shouldLock)") {result, error in
             if error != nil {

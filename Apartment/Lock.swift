@@ -22,6 +22,11 @@ public class Lock: Equatable, CustomStringConvertible {
             self.locked = nil
         }
     }
+
+    public init(id: String, locked: LockStatus) {
+        self.id = id
+        self.locked = locked
+    }
 }
 
 public func == (a: Lock, b: Lock) -> Bool {

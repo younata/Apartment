@@ -2,6 +2,7 @@ import Foundation
 
 public protocol StatusSubscriber {
     func didUpdateBulbs(bulbs: [Bulb])
+    func didUpdateLocks(locks: [Lock])
 }
 
 public class StatusRepository {
@@ -9,17 +10,26 @@ public class StatusRepository {
         return LightsService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "")
     }()
 
-    var bulbs: [Bulb] = []
-    var lastRetreivedBulbs: NSDate? = nil
+    public internal(set) lazy var lockService: LockService = {
+        return LockService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "")
+    }()
+
+    public internal(set) var bulbs: [Bulb] = []
+    public internal(set) var lastRetreivedBulbs: NSDate? = nil
+
+    public internal(set) var locks: [Lock] = []
+    public internal(set) var lastRetreivedLocks: NSDate? = nil
 
     public var backendURL = "" {
         didSet {
             self.lightsService.backendURL = backendURL
+            self.lockService.backendURL = backendURL
         }
     }
     public var authenticationToken = "" {
         didSet {
             self.lightsService.authenticationToken = authenticationToken
+            self.lockService.authenticationToken = authenticationToken
         }
     }
 
@@ -28,6 +38,7 @@ public class StatusRepository {
     public func addSubscriber(subscriber: StatusSubscriber) {
         self.subscribers.append(subscriber)
         self.updateBulbs()
+        self.updateLocks()
     }
 
     private var updateBulbsRequested = false
@@ -48,6 +59,28 @@ public class StatusRepository {
                 self.lastRetreivedBulbs = NSDate()
             }
             updateBulbsRequested = true
+        }
+    }
+
+    private var updateLocksRequested = false
+    public func updateLocks() {
+        print("subscribers: \(self.subscribers)")
+        if (lastRetreivedLocks?.timeIntervalSinceNow > -300) {
+            for statusSubscriber in self.subscribers {
+                statusSubscriber.didUpdateLocks(self.locks)
+            }
+            return
+        }
+        if (!updateLocksRequested) {
+            lockService.allLocks {result, _ in
+                self.locks = result ?? []
+                for statusSubscriber in self.subscribers {
+                    statusSubscriber.didUpdateLocks(self.locks)
+                }
+                self.updateLocksRequested = false
+                self.lastRetreivedLocks = NSDate()
+            }
+            updateLocksRequested = true
         }
     }
 

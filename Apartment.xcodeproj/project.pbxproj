@@ -13,6 +13,8 @@
 		890377DC1B65F0DE002ABCC1 /* LockServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890377DB1B65F0DE002ABCC1 /* LockServiceSpec.swift */; };
 		890377DE1B65F146002ABCC1 /* LockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890377DD1B65F146002ABCC1 /* LockService.swift */; };
 		890377DF1B65F146002ABCC1 /* LockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890377DD1B65F146002ABCC1 /* LockService.swift */; };
+		890377E11B65FE2B002ABCC1 /* FakeLockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890377E01B65FE2B002ABCC1 /* FakeLockService.swift */; };
+		890377E21B65FE2B002ABCC1 /* FakeLockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890377E01B65FE2B002ABCC1 /* FakeLockService.swift */; };
 		895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895634E21ACA5DA200CA60E9 /* AppDelegate.swift */; };
 		895634EA1ACA5DA300CA60E9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895634E91ACA5DA300CA60E9 /* Images.xcassets */; };
 		895634ED1ACA5DA300CA60E9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 895634EB1ACA5DA300CA60E9 /* LaunchScreen.xib */; };
@@ -193,6 +195,7 @@
 		890377D91B65EF69002ABCC1 /* LockSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockSpec.swift; sourceTree = "<group>"; };
 		890377DB1B65F0DE002ABCC1 /* LockServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockServiceSpec.swift; sourceTree = "<group>"; };
 		890377DD1B65F146002ABCC1 /* LockService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockService.swift; sourceTree = "<group>"; };
+		890377E01B65FE2B002ABCC1 /* FakeLockService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeLockService.swift; sourceTree = "<group>"; };
 		895634DD1ACA5DA200CA60E9 /* Apartment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Apartment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		895634E11ACA5DA200CA60E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		895634E21ACA5DA200CA60E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -357,6 +360,7 @@
 				8956351F1ACA6FCA00CA60E9 /* SpecApplicationModule.swift */,
 				895635101ACA627A00CA60E9 /* AppDelegateSpec.swift */,
 				895636301AD0CD4700CA60E9 /* FakeLightsService.swift */,
+				890377E01B65FE2B002ABCC1 /* FakeLockService.swift */,
 				89E008851AD977EC001A54D5 /* FakeTouch.swift */,
 				895636171ACFA03600CA60E9 /* Features */,
 				89E008841AD975A6001A54D5 /* Views */,
@@ -799,6 +803,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				89E008861AD977EC001A54D5 /* FakeTouch.swift in Sources */,
+				890377E11B65FE2B002ABCC1 /* FakeLockService.swift in Sources */,
 				895635201ACA6FCA00CA60E9 /* SpecApplicationModule.swift in Sources */,
 				89E008831AD975A3001A54D5 /* ColorPickerSpec.swift in Sources */,
 				895636381AD0FBB500CA60E9 /* BulbViewControllerSpec.swift in Sources */,
@@ -826,6 +831,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				890377DC1B65F0DE002ABCC1 /* LockServiceSpec.swift in Sources */,
+				890377E21B65FE2B002ABCC1 /* FakeLockService.swift in Sources */,
 				89A5A1DB1B5E16D800FC3FE3 /* FakeURLSession.swift in Sources */,
 				89A5A22F1B5F332A00FC3FE3 /* FakeLightsService.swift in Sources */,
 				89A5A2311B5F404800FC3FE3 /* StatusRepositorySpec.swift in Sources */,

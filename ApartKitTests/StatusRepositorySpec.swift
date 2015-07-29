@@ -8,6 +8,11 @@ class FakeStatusSubscriber: StatusSubscriber {
         receivedBulbs = bulbs
     }
 
+    var receivedLocks: [Lock]? = nil
+    func didUpdateLocks(locks: [Lock]) {
+        receivedLocks = locks
+    }
+
     init() {}
 }
 
@@ -15,12 +20,15 @@ class StatusRepositorySpec: QuickSpec {
     override func spec() {
         var subject: StatusRepository! = nil
         var lightsService: FakeLightsService! = nil
+        var lockService: FakeLockService! = nil
         var statusSubscriber: FakeStatusSubscriber! = nil
 
         beforeEach {
             subject = StatusRepository()
             lightsService = FakeLightsService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "")
+            lockService = FakeLockService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "")
             subject.lightsService = lightsService
+            subject.lockService = lockService
             statusSubscriber = FakeStatusSubscriber()
         }
 
@@ -32,6 +40,10 @@ class StatusRepositorySpec: QuickSpec {
             it("should update the authentication token of the lights service") {
                 expect(lightsService.authenticationToken).to(equal("hello"))
             }
+
+            it("should update the authentication token of the lock service") {
+                expect(lockService.authenticationToken).to(equal("hello"))
+            }
         }
 
         describe("updating the backendURL") {
@@ -41,6 +53,10 @@ class StatusRepositorySpec: QuickSpec {
 
             it("should update the backend url of the lights service") {
                 expect(lightsService.backendURL).to(equal("hello"))
+            }
+
+            it("should update the backend url of the lock service") {
+                expect(lockService.backendURL).to(equal("hello"))
             }
         }
 
@@ -132,6 +148,89 @@ class StatusRepositorySpec: QuickSpec {
                 }
 
                 itBehavesLike("making a request for bulbs")
+            }
+        }
+
+        describe("locks") {
+            sharedExamples("making a request for locks") {(sharedContext: SharedExampleContext) in
+                it("should make a request to the locks service") {
+                    expect(lockService.didReceiveAllLocks).to(beTruthy())
+                }
+
+                context("making another request while the first one is in limbo") {
+                    beforeEach {
+                        lockService.didReceiveAllLocks = false
+                        subject.updateLocks()
+                    }
+
+                    it("should not make another request to the service") {
+                        expect(lockService.didReceiveAllLocks).to(beFalsy())
+                    }
+
+                    it("should inform subscribers when the first call resolves") {
+                        lockService.allLocksHandler([], nil)
+                        expect(statusSubscriber.receivedLocks).to(equal([]))
+                    }
+                }
+
+                context("when the service comes back with locks") {
+                    let expectedLocks = [Lock(id: "abc", locked: .Locked),
+                        Lock(id: "def", locked: .Unlocked)]
+                    beforeEach {
+                        lockService.allLocksHandler(expectedLocks, nil)
+                    }
+
+                    it("should inform any subscribers with the bulbs") {
+                        expect(statusSubscriber.receivedLocks).to(equal(expectedLocks))
+                    }
+
+                    describe("making another request") {
+                        beforeEach {
+                            statusSubscriber.receivedLocks = nil
+                            lockService.didReceiveAllLocks = false
+
+                            subject.updateLocks()
+                        }
+
+                        it("should not make another request") {
+                            expect(lockService.didReceiveAllLocks).to(beFalsy())
+                        }
+
+                        it("should inform any subscribers") {
+                            expect(statusSubscriber.receivedLocks).to(equal(expectedLocks))
+                        }
+                    }
+                }
+
+                context("when the service comes back with no locks") {
+                    beforeEach {
+                        lockService.allLocksHandler(nil, nil)
+                    }
+
+                    it("should call the completion handler with an empty array") {
+                        expect(statusSubscriber.receivedLocks).to(equal([]))
+                    }
+                }
+            }
+
+            context("adding a new subscriber when a request hasn't been made yet") {
+                beforeEach {
+                    subject.addSubscriber(statusSubscriber)
+                }
+
+                itBehavesLike("making a request for locks")
+            }
+
+            context("adding a new subscriber when a request was last made 5 minutes ago") {
+                let cachedLocks = [Lock(id: "abc", locked: .Locked),
+                    Lock(id: "def", locked: .Unlocked)]
+                beforeEach {
+                    subject.locks = cachedLocks
+                    subject.lastRetreivedLocks = NSDate(timeIntervalSinceNow: -301)
+                    subject.addSubscriber(statusSubscriber)
+                }
+
+                itBehavesLike("making a request for locks")
             }
         }
     }
