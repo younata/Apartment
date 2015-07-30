@@ -1,8 +1,8 @@
 import Foundation
 
 public class LockService {
-    public internal(set) var backendURL: String
-    public internal(set) var authenticationToken: String
+    public var backendURL: String
+    public var authenticationToken: String
     let urlSession: NSURLSession
 
     public init(backendURL: String, urlSession: NSURLSession, authenticationToken: String) {

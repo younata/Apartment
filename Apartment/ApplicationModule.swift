@@ -13,15 +13,24 @@ public class ApplicationModule {
             NSUserDefaults.standardUserDefaults().stringForKey(kBackendService) ?? "http://localhost:3000/"
         }
 
-        injector.bind(NSURLSessionConfiguration.self) {
-            let conf = NSURLSessionConfiguration.defaultSessionConfiguration()
-            let token = injector.create(kAuthenticationToken) as? String ?? "HelloWorld"
-            conf.HTTPAdditionalHeaders = ["Authentication": "Token token=\(token)"]
-            return conf
+        injector.bind(kAuthenticationToken) {
+            NSUserDefaults.standardUserDefaults().stringForKey(authenticationTokenUserDefault) ?? ""
         }
 
+        let lightsService = LightsService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "")
+
         injector.bind(kLightsService) {
-            return LightsService(backendURL: injector.create(kBackendService) as! String, urlSession: NSURLSession.sharedSession(), authenticationToken: "")
+            lightsService.backendURL = injector.create(kBackendService) as! String
+            lightsService.authenticationToken = injector.create(authenticationTokenUserDefault) as! String
+            return lightsService
+        }
+
+        let lockService = LockService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "")
+
+        injector.bind(kLockService) {
+            lockService.backendURL = injector.create(kBackendService) as! String
+            lockService.authenticationToken = injector.create(authenticationTokenUserDefault) as! String
+            return lockService
         }
 
         injector.bind(UICollectionView.self) {
