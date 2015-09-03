@@ -15,7 +15,9 @@ class FakeLockService: LockService {
     }
 
     var locksUpdateHandler: [String: (Lock?, NSError?) -> (Void)] = [:]
+    var locksUpdateStatus: [String: Lock.LockStatus] = [:]
     override func update_lock(lock: Lock, to_lock: Lock.LockStatus, completionHandler: (Lock?, NSError?) -> (Void)) {
         locksUpdateHandler[lock.id] = completionHandler
+        locksUpdateStatus[lock.id] = to_lock
     }
 }

@@ -15,6 +15,7 @@
 		890377DF1B65F146002ABCC1 /* LockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890377DD1B65F146002ABCC1 /* LockService.swift */; };
 		890377E11B65FE2B002ABCC1 /* FakeLockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890377E01B65FE2B002ABCC1 /* FakeLockService.swift */; };
 		890377E21B65FE2B002ABCC1 /* FakeLockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890377E01B65FE2B002ABCC1 /* FakeLockService.swift */; };
+		890377E71B687191002ABCC1 /* LockTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890377E61B687191002ABCC1 /* LockTableViewCell.swift */; };
 		895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895634E21ACA5DA200CA60E9 /* AppDelegate.swift */; };
 		895634EA1ACA5DA300CA60E9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895634E91ACA5DA300CA60E9 /* Images.xcassets */; };
 		895634ED1ACA5DA300CA60E9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 895634EB1ACA5DA300CA60E9 /* LaunchScreen.xib */; };
@@ -70,6 +71,7 @@
 		89E0087F1AD7902E001A54D5 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E0087E1AD7902E001A54D5 /* ColorPicker.swift */; };
 		89E008831AD975A3001A54D5 /* ColorPickerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E008821AD975A3001A54D5 /* ColorPickerSpec.swift */; };
 		89E008861AD977EC001A54D5 /* FakeTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E008851AD977EC001A54D5 /* FakeTouch.swift */; };
+		89E2A3331B68930E00A40D4E /* BulbTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E2A3321B68930E00A40D4E /* BulbTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -196,6 +198,7 @@
 		890377DB1B65F0DE002ABCC1 /* LockServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockServiceSpec.swift; sourceTree = "<group>"; };
 		890377DD1B65F146002ABCC1 /* LockService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockService.swift; sourceTree = "<group>"; };
 		890377E01B65FE2B002ABCC1 /* FakeLockService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeLockService.swift; sourceTree = "<group>"; };
+		890377E61B687191002ABCC1 /* LockTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockTableViewCell.swift; sourceTree = "<group>"; };
 		895634DD1ACA5DA200CA60E9 /* Apartment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Apartment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		895634E11ACA5DA200CA60E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		895634E21ACA5DA200CA60E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -245,6 +248,7 @@
 		89E0087E1AD7902E001A54D5 /* ColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
 		89E008821AD975A3001A54D5 /* ColorPickerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickerSpec.swift; sourceTree = "<group>"; };
 		89E008851AD977EC001A54D5 /* FakeTouch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTouch.swift; sourceTree = "<group>"; };
+		89E2A3321B68930E00A40D4E /* BulbTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulbTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -421,6 +425,8 @@
 			isa = PBXGroup;
 			children = (
 				895636181ACFA4F600CA60E9 /* HomeViewController.swift */,
+				890377E61B687191002ABCC1 /* LockTableViewCell.swift */,
+				89E2A3321B68930E00A40D4E /* BulbTableViewCell.swift */,
 			);
 			name = "Home Screen";
 			sourceTree = "<group>";
@@ -793,7 +799,9 @@
 				895636191ACFA4F600CA60E9 /* HomeViewController.swift in Sources */,
 				8956351D1ACA6EE800CA60E9 /* ApplicationModule.swift in Sources */,
 				895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */,
+				89E2A3331B68930E00A40D4E /* BulbTableViewCell.swift in Sources */,
 				89E0087F1AD7902E001A54D5 /* ColorPicker.swift in Sources */,
+				890377E71B687191002ABCC1 /* LockTableViewCell.swift in Sources */,
 				895636331AD0FB8A00CA60E9 /* BulbViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

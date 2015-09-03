@@ -20,8 +20,10 @@ class FakeLightsService: LightsService {
         bulbsNameHandler[name] = completionHandler
     }
 
-    var bulbsUpdateHandler: [Int: ([String: AnyObject], (Bulb?, NSError?) -> (Void))] = [:]
+    var bulbsUpdateHandler: [Int: (Bulb?, NSError?) -> (Void)] = [:]
+    var bulbsUpdateStatus: [Int: [String: AnyObject]] = [:]
     override func update(bulb: Bulb, attributes: [String : AnyObject], completionHandler: (Bulb?, NSError?) -> (Void)) {
-        bulbsUpdateHandler[bulb.id] = (attributes, completionHandler)
+        bulbsUpdateStatus[bulb.id] = attributes
+        bulbsUpdateHandler[bulb.id] = completionHandler
     }
 }

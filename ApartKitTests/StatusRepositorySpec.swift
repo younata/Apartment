@@ -174,8 +174,8 @@ class StatusRepositorySpec: QuickSpec {
                 }
 
                 context("when the service comes back with locks") {
-                    let expectedLocks = [Lock(id: "abc", locked: .Locked),
-                        Lock(id: "def", locked: .Unlocked)]
+                    let expectedLocks = [Lock(id: "abc", locked: .Locked, name: ""),
+                        Lock(id: "def", locked: .Unlocked, name: "")]
                     beforeEach {
                         lockService.allLocksHandler(expectedLocks, nil)
                     }
@@ -222,8 +222,8 @@ class StatusRepositorySpec: QuickSpec {
             }
 
             context("adding a new subscriber when a request was last made 5 minutes ago") {
-                let cachedLocks = [Lock(id: "abc", locked: .Locked),
-                    Lock(id: "def", locked: .Unlocked)]
+                let cachedLocks = [Lock(id: "abc", locked: .Locked, name: ""),
+                    Lock(id: "def", locked: .Unlocked, name: "")]
                 beforeEach {
                     subject.locks = cachedLocks
                     subject.lastRetreivedLocks = NSDate(timeIntervalSinceNow: -301)

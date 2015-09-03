@@ -8,6 +8,7 @@ public class Lock: Equatable, CustomStringConvertible {
 
     public let id: String
     public let locked: LockStatus?
+    public let name: String
 
     public var description: String {
         let lockStatus = locked == .Locked ? "Locked" : "Unlocked"
@@ -16,6 +17,7 @@ public class Lock: Equatable, CustomStringConvertible {
 
     public init(json: [String: AnyObject]) {
         self.id = json["uuid"] as? String ?? ""
+        self.name = ""
         if let locked = json["locked"] as? Bool {
             self.locked = locked ? LockStatus.Locked : LockStatus.Unlocked
         } else {
@@ -23,9 +25,10 @@ public class Lock: Equatable, CustomStringConvertible {
         }
     }
 
-    public init(id: String, locked: LockStatus) {
+    public init(id: String, locked: LockStatus, name: String) {
         self.id = id
         self.locked = locked
+        self.name = name
     }
 }
 
