@@ -3,9 +3,11 @@ import Ra
 import UIKit
 import ApartKit
 
-let kBackendService = "kBackendService"
+let kBackendService = "backendService"
 public let kLightsService = "kLightsService"
+public let kLockService = "kLockService"
 public let kAuthenticationToken = "kAuthenticationToken"
+let authenticationTokenUserDefault = "authenticationToken"
 
 public class ApplicationModule {
     public func configureInjector(injector: Ra.Injector) {
@@ -21,7 +23,7 @@ public class ApplicationModule {
 
         injector.bind(kLightsService) {
             lightsService.backendURL = injector.create(kBackendService) as! String
-            lightsService.authenticationToken = injector.create(authenticationTokenUserDefault) as! String
+            lightsService.authenticationToken = injector.create(kAuthenticationToken) as! String
             return lightsService
         }
 
@@ -29,7 +31,7 @@ public class ApplicationModule {
 
         injector.bind(kLockService) {
             lockService.backendURL = injector.create(kBackendService) as! String
-            lockService.authenticationToken = injector.create(authenticationTokenUserDefault) as! String
+            lockService.authenticationToken = injector.create(kAuthenticationToken) as! String
             return lockService
         }
 

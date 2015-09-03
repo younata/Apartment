@@ -15,9 +15,13 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window?.makeKeyAndVisible()
 
-        let homeViewController = anInjector.create(HomeViewController.self) as! HomeViewController
-        let navController = UINavigationController(rootViewController: homeViewController)
-        self.window?.rootViewController = navController
+        if NSClassFromString("XCTestCase") != nil && launchOptions?["test"] as? Bool != true {
+            self.window?.rootViewController = UIViewController()
+        } else {
+            let homeViewController = anInjector.create(HomeViewController.self) as! HomeViewController
+            let navController = UINavigationController(rootViewController: homeViewController)
+            self.window?.rootViewController = navController
+        }
 
         return true
     }

@@ -12,9 +12,12 @@ class AppDelegateSpec: QuickSpec {
         }
 
         describe("-application:didFinishLaunchingWithOptions:") {
-
             beforeEach {
-                subject.application(UIApplication.sharedApplication(), didFinishLaunchingWithOptions: nil)
+                subject.application(UIApplication.sharedApplication(), didFinishLaunchingWithOptions: ["test": true])
+            }
+
+            afterEach {
+                subject.window?.hidden = true
             }
 
             it("should create a window") {
