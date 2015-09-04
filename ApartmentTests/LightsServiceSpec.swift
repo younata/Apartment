@@ -6,11 +6,13 @@ class LightsServiceSpec: QuickSpec {
     override func spec() {
         var subject: LightsService! = nil
         var urlSession: FakeURLSession! = nil
+        var mainQueue: FakeOperationQueue! = nil
 
         beforeEach {
             urlSession = FakeURLSession()
+            mainQueue = FakeOperationQueue()
 
-            subject = LightsService(backendURL: "https://localhost.com/", urlSession: urlSession, authenticationToken: "HelloWorld")
+            subject = LightsService(backendURL: "https://localhost.com/", urlSession: urlSession, authenticationToken: "HelloWorld", mainQueue: mainQueue)
         }
 
         var receivedError: NSError? = nil
@@ -33,12 +35,14 @@ class LightsServiceSpec: QuickSpec {
             it("should notify the caller on network error") {
                 let error = NSError(domain: "", code: 0, userInfo: [:])
                 urlSession.lastCompletionHandler(nil, nil, error)
+                mainQueue.runNextOperation()
                 expect(receivedError).to(beIdenticalTo(error))
             }
 
             it("should notify the caller if the response code is not 200-level") {
                 let response = NSHTTPURLResponse(URL: NSURL(string: "http://google.com")!, statusCode: 400, HTTPVersion: "", headerFields: [:])
                 urlSession.lastCompletionHandler(nil, response, nil)
+                mainQueue.runNextOperation()
                 expect(receivedError).toNot(beNil())
             }
         }
@@ -67,6 +71,7 @@ class LightsServiceSpec: QuickSpec {
             it("return all the bulbs on success") {
                 let multiBulbData = try! NSJSONSerialization.dataWithJSONObject(bulbsArray.map({$0.json}), options: NSJSONWritingOptions(rawValue: 0))
                 urlSession.lastCompletionHandler(multiBulbData, nil, nil)
+                mainQueue.runNextOperation()
 
                 expect(receivedBulbs).to(equal(bulbsArray))
                 expect(receivedError).to(beNil())
@@ -95,7 +100,8 @@ class LightsServiceSpec: QuickSpec {
                 it("should return the bulb") {
                     let data = (singleBulbString as NSString).dataUsingEncoding(NSUTF8StringEncoding)
                     urlSession.lastCompletionHandler(data, nil, nil)
-                    
+                    mainQueue.runNextOperation()
+
                     expect(receivedBulb).to(equal(bulb))
                     expect(receivedError).to(beNil())
                 }
@@ -114,6 +120,7 @@ class LightsServiceSpec: QuickSpec {
                 it("should return the bulb") {
                     let data = (singleBulbString as NSString).dataUsingEncoding(NSUTF8StringEncoding)
                     urlSession.lastCompletionHandler(data, nil, nil)
+                    mainQueue.runNextOperation()
 
                     expect(receivedBulb).to(equal(bulb))
                     expect(receivedError).to(beNil())
@@ -144,6 +151,7 @@ class LightsServiceSpec: QuickSpec {
             it("updates the bulb and returns a new (updated) bulb") {
                 let json = try! NSJSONSerialization.dataWithJSONObject(updatedBulb.json, options: NSJSONWritingOptions(rawValue: 0))
                 urlSession.lastCompletionHandler(json, nil, nil)
+                mainQueue.runNextOperation()
 
                 expect(receivedBulb).to(equal(updatedBulb))
                 expect(receivedError).to(beNil())

@@ -1,4 +1,4 @@
-github "smileyborg/PureLayout" "v2.0.6"
-github "younata/Ra" "30388bb3ecf884882e1d3c3e2103c49560460f3c"
-github "quick/nimble" "a804949542eb2f299b823ffb36936aec54fe0db6"
-github "quick/quick" "e3c802be6c55710b39dba73caab9f234932c2ed7"
+github "smileyborg/PureLayout" "v3.0.0"
+github "younata/Ra" "bea715c1e26b3b4ce9b97079f52cbd78d01f8143"
+github "quick/nimble" "e84623d953d811f74a2afcda4fa0c8121e7dad7d"
+github "quick/quick" "b6e311acc3dc79835969defa52d865f1e9eb3515"

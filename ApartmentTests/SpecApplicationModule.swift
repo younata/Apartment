@@ -7,8 +7,7 @@ class SpecApplicationModule : ApplicationModule {
         super.configureInjector(injector)
 
         injector.bind(kLightsService) {
-            return FakeLightsService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "")
-//            return LightsService(backendURL: injector.create(kBackendService) as! String, urlSession: NSURLSession.sharedSession(), authenticationToken: "")
+            return FakeLightsService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "", mainQueue: NSOperationQueue.mainQueue())
         }
     }
 }

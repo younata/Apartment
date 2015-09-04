@@ -3,24 +3,30 @@ import Foundation
 public class LockService {
     public var backendURL: String
     public var authenticationToken: String
-    let urlSession: NSURLSession
+    private let urlSession: NSURLSession
+    private let mainQueue: NSOperationQueue
 
-    public init(backendURL: String, urlSession: NSURLSession, authenticationToken: String) {
+    public init(backendURL: String, urlSession: NSURLSession, authenticationToken: String, mainQueue: NSOperationQueue) {
         self.backendURL = backendURL
         self.urlSession = urlSession
         self.authenticationToken = authenticationToken
+        self.mainQueue = mainQueue
     }
     
     public func allLocks(completionHandler: ([Lock]?, NSError?) -> (Void)) {
         self.getRequest(self.backendURL + "api/v1/locks") {result, error in
             if let _ = error {
-                completionHandler(nil, error)
+                self.mainQueue.addOperationWithBlock {
+                    completionHandler(nil, error)
+                }
             } else if let res = result {
                 let locks = res.reduce([Lock]()) {(locks, json) in
                     let lock = Lock(json: json)
                     return locks + [lock]
                 }
-                completionHandler(locks, nil)
+                self.mainQueue.addOperationWithBlock {
+                    completionHandler(locks, nil)
+                }
             }
         }
     }
@@ -28,13 +34,19 @@ public class LockService {
     public func lock(id: String, completionHandler: (Lock?, NSError?) -> (Void)) {
         self.getRequest(self.backendURL + "api/v1/locks/" + id) {result, error in
             if error != nil {
-                completionHandler(nil, error)
+                self.mainQueue.addOperationWithBlock {
+                    completionHandler(nil, error)
+                }
             } else if let res = result?.first {
                 let lock = Lock(json: res)
-                completionHandler(lock, error)
+                self.mainQueue.addOperationWithBlock {
+                    completionHandler(lock, error)
+                }
             } else {
                 let error = NSError(domain: "Apartment", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unable to convert \(result) to Lock object"])
-                completionHandler(nil, error)
+                self.mainQueue.addOperationWithBlock {
+                    completionHandler(nil, error)
+                }
             }
         }
     }
@@ -43,13 +55,19 @@ public class LockService {
         let shouldLock = to_lock == Lock.LockStatus.Unlocked ? "false" : "true"
         self.putRequest(self.backendURL + "api/v1/locks/" + lock.id + "?locked=\(shouldLock)") {result, error in
             if error != nil {
-                completionHandler(nil, error)
+                self.mainQueue.addOperationWithBlock {
+                    completionHandler(nil, error)
+                }
             } else if let res = result {
                 let lock = Lock(json: res)
-                completionHandler(lock, error)
+                self.mainQueue.addOperationWithBlock {
+                    completionHandler(lock, error)
+                }
             } else {
                 let error = NSError(domain: "Apartment", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unable to convert \(result) to Lock object"])
-                completionHandler(nil, error)
+                self.mainQueue.addOperationWithBlock {
+                    completionHandler(nil, error)
+                }
             }
         }
     }

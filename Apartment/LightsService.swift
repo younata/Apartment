@@ -4,16 +4,20 @@ public class LightsService {
     public var backendURL: String
     public var authenticationToken: String
     private let urlSession: NSURLSession
-    public init(backendURL: String, urlSession: NSURLSession, authenticationToken: String) {
+    private let mainQueue: NSOperationQueue
+    public init(backendURL: String, urlSession: NSURLSession, authenticationToken: String, mainQueue: NSOperationQueue) {
         self.backendURL = backendURL
         self.urlSession = urlSession
         self.authenticationToken = authenticationToken
+        self.mainQueue = mainQueue
     }
 
     public func allBulbs(completionHandler: ([Bulb]?, NSError?) -> (Void)) {
         self.getRequest(self.backendURL + "api/v1/bulbs") {result, error in
             if let _ = error {
-                completionHandler(nil, error)
+                self.mainQueue.addOperationWithBlock {
+                    completionHandler(nil, error)
+                }
             } else if let res = result {
                 let bulbs = res.reduce([Bulb]()) {(bulbs, json) in
                     if let bulb = Bulb(json: json) {
@@ -22,7 +26,9 @@ public class LightsService {
                         return bulbs
                     }
                 }
-                completionHandler(bulbs, nil)
+                self.mainQueue.addOperationWithBlock {
+                    completionHandler(bulbs, nil)
+                }
             }
         }
     }
@@ -35,13 +41,19 @@ public class LightsService {
         if let id = name.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet()) {
             self.getRequest(self.backendURL + "api/v1/bulbs/" + id) {result, error in
                 if error != nil {
-                    completionHandler(nil, error)
+                    self.mainQueue.addOperationWithBlock {
+                        completionHandler(nil, error)
+                    }
                 } else if let res = result?.first,
                           let bulb = Bulb(json: res) {
-                    completionHandler(bulb, error)
+                            self.mainQueue.addOperationWithBlock {
+                                completionHandler(bulb, error)
+                            }
                 } else {
                     let error = NSError(domain: "Apartment", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unable to convert \(result) to Bulb object"])
-                    completionHandler(nil, error)
+                    self.mainQueue.addOperationWithBlock {
+                        completionHandler(nil, error)
+                    }
                 }
             }
         }
@@ -57,19 +69,25 @@ public class LightsService {
                 components += [key: "\(value.description)"]
             }
 
-            return "&".join(components.map{"\($0)=\($1)"} as [String])
+            return components.map({"\($0)=\($1)"}).joinWithSeparator("&")
         }
 
         let query = "?" + generateQuery(attributes)
 
         self.putRequest(self.backendURL + "api/v1/bulbs/\(id)" + query) {result, error in
             if error != nil {
-                completionHandler(nil, error)
+                self.mainQueue.addOperationWithBlock {
+                    completionHandler(nil, error)
+                }
             } else if let res = result, let bulb = Bulb(json: res) {
-                completionHandler(bulb, error)
+                self.mainQueue.addOperationWithBlock {
+                    completionHandler(bulb, error)
+                }
             } else {
                 let error = NSError(domain: "Apartment", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unable to convert \(result) to Bulb object"])
-                completionHandler(nil, error)
+                self.mainQueue.addOperationWithBlock {
+                    completionHandler(nil, error)
+                }
             }
         }
     }

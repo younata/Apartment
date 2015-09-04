@@ -6,11 +6,13 @@ class LockServiceSpec: QuickSpec {
     override func spec() {
         var subject: LockService! = nil
         var urlSession: FakeURLSession! = nil
+        var mainQueue: FakeOperationQueue! = nil
 
         beforeEach {
             urlSession = FakeURLSession()
+            mainQueue = FakeOperationQueue()
 
-            subject = LockService(backendURL: "https://localhost.com/", urlSession: urlSession, authenticationToken: "HelloWorld")
+            subject = LockService(backendURL: "https://localhost.com/", urlSession: urlSession, authenticationToken: "HelloWorld", mainQueue: mainQueue)
         }
 
         var receivedError: NSError? = nil
@@ -33,12 +35,16 @@ class LockServiceSpec: QuickSpec {
             it("should notify the caller on network error") {
                 let error = NSError(domain: "", code: 0, userInfo: [:])
                 urlSession.lastCompletionHandler(nil, nil, error)
+                mainQueue.runNextOperation()
+
                 expect(receivedError).to(beIdenticalTo(error))
             }
 
             it("should notify the caller if the response code is not 200-level") {
                 let response = NSHTTPURLResponse(URL: NSURL(string: "http://google.com")!, statusCode: 400, HTTPVersion: "", headerFields: [:])
                 urlSession.lastCompletionHandler(nil, response, nil)
+                mainQueue.runNextOperation()
+
                 expect(receivedError).toNot(beNil())
             }
         }
@@ -69,6 +75,7 @@ class LockServiceSpec: QuickSpec {
             it("returns all the locks on success") {
                 let data = NSString(string: "[{\"uuid\":\"1234567890abcdef\",\"locked\":true},{\"uuid\":\"1234567890abcdef\",\"locked\":true}]").dataUsingEncoding(NSUTF8StringEncoding)!
                 urlSession.lastCompletionHandler(data, nil, nil)
+                mainQueue.runNextOperation()
 
                 expect(receivedLocks).to(equal(locksArray))
                 expect(receivedError).to(beNil())
@@ -94,6 +101,7 @@ class LockServiceSpec: QuickSpec {
             it("should return the bulb") {
                 let data = NSString(string: singleLockString).dataUsingEncoding(NSUTF8StringEncoding)
                 urlSession.lastCompletionHandler(data, nil, nil)
+                mainQueue.runNextOperation()
 
                 expect(receivedLock).to(equal(lock))
                 expect(receivedError).to(beNil())
@@ -117,6 +125,7 @@ class LockServiceSpec: QuickSpec {
             it("updates the lock and returns a new (updated) lock") {
                 let json = NSString(string: "{\"uuid\":\"1234567890abcdef\",\"locked\":false}").dataUsingEncoding(NSUTF8StringEncoding)
                 urlSession.lastCompletionHandler(json, nil, nil)
+                mainQueue.runNextOperation()
 
                 let updatedLock = Lock(json: ["uuid": "1234567890abcdef", "locked": false])
 

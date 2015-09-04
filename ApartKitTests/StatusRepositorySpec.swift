@@ -22,11 +22,13 @@ class StatusRepositorySpec: QuickSpec {
         var lightsService: FakeLightsService! = nil
         var lockService: FakeLockService! = nil
         var statusSubscriber: FakeStatusSubscriber! = nil
+        var mainQueue: FakeOperationQueue! = nil
 
         beforeEach {
             subject = StatusRepository()
-            lightsService = FakeLightsService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "")
-            lockService = FakeLockService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "")
+            mainQueue = FakeOperationQueue()
+            lightsService = FakeLightsService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "", mainQueue: mainQueue)
+            lockService = FakeLockService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "", mainQueue: mainQueue)
             subject.lightsService = lightsService
             subject.lockService = lockService
             statusSubscriber = FakeStatusSubscriber()

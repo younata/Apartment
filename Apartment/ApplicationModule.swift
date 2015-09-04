@@ -19,7 +19,7 @@ public class ApplicationModule {
             NSUserDefaults.standardUserDefaults().stringForKey(authenticationTokenUserDefault) ?? ""
         }
 
-        let lightsService = LightsService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "")
+        let lightsService = LightsService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "", mainQueue: NSOperationQueue.mainQueue())
 
         injector.bind(kLightsService) {
             lightsService.backendURL = injector.create(kBackendService) as! String
@@ -27,7 +27,7 @@ public class ApplicationModule {
             return lightsService
         }
 
-        let lockService = LockService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "")
+        let lockService = LockService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "", mainQueue: NSOperationQueue.mainQueue())
 
         injector.bind(kLockService) {
             lockService.backendURL = injector.create(kBackendService) as! String

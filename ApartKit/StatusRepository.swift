@@ -7,11 +7,11 @@ public protocol StatusSubscriber {
 
 public class StatusRepository {
     public internal(set) lazy var lightsService: LightsService = {
-        return LightsService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "")
+        return LightsService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "", mainQueue: NSOperationQueue.mainQueue())
     }()
 
     public internal(set) lazy var lockService: LockService = {
-        return LockService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "")
+        return LockService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "", mainQueue: NSOperationQueue.mainQueue())
     }()
 
     public internal(set) var bulbs: [Bulb] = []
@@ -64,7 +64,6 @@ public class StatusRepository {
 
     private var updateLocksRequested = false
     public func updateLocks() {
-        print("subscribers: \(self.subscribers)")
         if (lastRetreivedLocks?.timeIntervalSinceNow > -300) {
             for statusSubscriber in self.subscribers {
                 statusSubscriber.didUpdateLocks(self.locks)

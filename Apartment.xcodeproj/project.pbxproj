@@ -16,6 +16,8 @@
 		890377E11B65FE2B002ABCC1 /* FakeLockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890377E01B65FE2B002ABCC1 /* FakeLockService.swift */; };
 		890377E21B65FE2B002ABCC1 /* FakeLockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890377E01B65FE2B002ABCC1 /* FakeLockService.swift */; };
 		890377E71B687191002ABCC1 /* LockTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890377E61B687191002ABCC1 /* LockTableViewCell.swift */; };
+		892151FC1B8E594600CBF7E4 /* UIKit+PivotalSpecHelperStubs-iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892151FB1B8E594600CBF7E4 /* UIKit+PivotalSpecHelperStubs-iOS.framework */; settings = {ASSET_TAGS = (); }; };
+		892151FE1B8E59EF00CBF7E4 /* FakeOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892151FD1B8E59EF00CBF7E4 /* FakeOperationQueue.swift */; settings = {ASSET_TAGS = (); }; };
 		895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895634E21ACA5DA200CA60E9 /* AppDelegate.swift */; };
 		895634EA1ACA5DA300CA60E9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895634E91ACA5DA300CA60E9 /* Images.xcassets */; };
 		895634ED1ACA5DA300CA60E9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 895634EB1ACA5DA300CA60E9 /* LaunchScreen.xib */; };
@@ -199,6 +201,8 @@
 		890377DD1B65F146002ABCC1 /* LockService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockService.swift; sourceTree = "<group>"; };
 		890377E01B65FE2B002ABCC1 /* FakeLockService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeLockService.swift; sourceTree = "<group>"; };
 		890377E61B687191002ABCC1 /* LockTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockTableViewCell.swift; sourceTree = "<group>"; };
+		892151FB1B8E594600CBF7E4 /* UIKit+PivotalSpecHelperStubs-iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "UIKit+PivotalSpecHelperStubs-iOS.framework"; path = "Vendor/UIKit+PivotalSpecHelperStubs-iOS.framework"; sourceTree = SOURCE_ROOT; };
+		892151FD1B8E59EF00CBF7E4 /* FakeOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeOperationQueue.swift; sourceTree = "<group>"; };
 		895634DD1ACA5DA200CA60E9 /* Apartment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Apartment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		895634E11ACA5DA200CA60E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		895634E21ACA5DA200CA60E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -266,6 +270,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				892151FC1B8E594600CBF7E4 /* UIKit+PivotalSpecHelperStubs-iOS.framework in Frameworks */,
 				8956350C1ACA60E100CA60E9 /* Quick.framework in Frameworks */,
 				8956350B1ACA60E100CA60E9 /* Nimble.framework in Frameworks */,
 			);
@@ -368,6 +373,7 @@
 				89E008851AD977EC001A54D5 /* FakeTouch.swift */,
 				895636171ACFA03600CA60E9 /* Features */,
 				89E008841AD975A6001A54D5 /* Views */,
+				892151FB1B8E594600CBF7E4 /* UIKit+PivotalSpecHelperStubs-iOS.framework */,
 				895635091ACA60E100CA60E9 /* Nimble.framework */,
 				8956350A1ACA60E100CA60E9 /* Quick.framework */,
 				895634F61ACA5DA300CA60E9 /* Supporting Files */,
@@ -470,6 +476,7 @@
 			isa = PBXGroup;
 			children = (
 				89A5A1DA1B5E16D800FC3FE3 /* FakeURLSession.swift */,
+				892151FD1B8E59EF00CBF7E4 /* FakeOperationQueue.swift */,
 			);
 			name = Mocks/Fakes;
 			sourceTree = "<group>";
@@ -842,6 +849,7 @@
 				890377E21B65FE2B002ABCC1 /* FakeLockService.swift in Sources */,
 				89A5A1DB1B5E16D800FC3FE3 /* FakeURLSession.swift in Sources */,
 				89A5A22F1B5F332A00FC3FE3 /* FakeLightsService.swift in Sources */,
+				892151FE1B8E59EF00CBF7E4 /* FakeOperationQueue.swift in Sources */,
 				89A5A2311B5F404800FC3FE3 /* StatusRepositorySpec.swift in Sources */,
 				890377DA1B65EF69002ABCC1 /* LockSpec.swift in Sources */,
 				89A5A1DD1B5E172B00FC3FE3 /* LightsServiceSpec.swift in Sources */,
@@ -1060,6 +1068,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Vendor",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1067,6 +1076,7 @@
 				);
 				INFOPLIST_FILE = ApartmentTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.rachelbrindle.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1083,9 +1093,11 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Vendor",
 				);
 				INFOPLIST_FILE = ApartmentTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.rachelbrindle.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Apartment.app/Apartment";

@@ -20,10 +20,10 @@ class HomeViewControllerSpec: QuickSpec {
             appModule = SpecApplicationModule()
             appModule.configureInjector(injector)
 
-            lightsService = FakeLightsService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "")
+            lightsService = FakeLightsService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "", mainQueue: NSOperationQueue.mainQueue())
             injector.bind(kLightsService, to: lightsService)
 
-            lockService = FakeLockService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "")
+            lockService = FakeLockService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "", mainQueue: NSOperationQueue.mainQueue())
             injector.bind(kLockService, to: lockService)
 
             subject = injector.create(HomeViewController.self) as! HomeViewController
