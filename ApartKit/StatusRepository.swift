@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol StatusSubscriber {
+public protocol StatusSubscriber: NSObjectProtocol {
     func didUpdateBulbs(bulbs: [Bulb])
     func didUpdateLocks(locks: [Lock])
 }
@@ -33,10 +33,10 @@ public class StatusRepository {
         }
     }
 
-    private var subscribers = Array<StatusSubscriber>()
+    private var subscribers = NSHashTable.weakObjectsHashTable()
 
     public func addSubscriber(subscriber: StatusSubscriber) {
-        self.subscribers.append(subscriber)
+        self.subscribers.addObject(subscriber)
         self.updateBulbs()
         self.updateLocks()
     }
@@ -44,16 +44,20 @@ public class StatusRepository {
     private var updateBulbsRequested = false
     public func updateBulbs() {
         if (lastRetreivedBulbs?.timeIntervalSinceNow > -300) {
-            for statusSubscriber in self.subscribers {
-                statusSubscriber.didUpdateBulbs(self.bulbs)
+            for object in self.subscribers.allObjects {
+                if let statusSubscriber = object as? StatusSubscriber {
+                    statusSubscriber.didUpdateBulbs(self.bulbs)
+                }
             }
             return
         }
         if (!updateBulbsRequested) {
             lightsService.allBulbs {result, _ in
                 self.bulbs = result ?? []
-                for statusSubscriber in self.subscribers {
-                    statusSubscriber.didUpdateBulbs(self.bulbs)
+                for object in self.subscribers.allObjects {
+                    if let statusSubscriber = object as? StatusSubscriber {
+                        statusSubscriber.didUpdateBulbs(self.bulbs)
+                    }
                 }
                 self.updateBulbsRequested = false
                 self.lastRetreivedBulbs = NSDate()
@@ -65,16 +69,20 @@ public class StatusRepository {
     private var updateLocksRequested = false
     public func updateLocks() {
         if (lastRetreivedLocks?.timeIntervalSinceNow > -300) {
-            for statusSubscriber in self.subscribers {
-                statusSubscriber.didUpdateLocks(self.locks)
+            for object in self.subscribers.allObjects {
+                if let statusSubscriber = object as? StatusSubscriber {
+                    statusSubscriber.didUpdateLocks(self.locks)
+                }
             }
             return
         }
         if (!updateLocksRequested) {
             lockService.allLocks {result, _ in
                 self.locks = result ?? []
-                for statusSubscriber in self.subscribers {
-                    statusSubscriber.didUpdateLocks(self.locks)
+                for object in self.subscribers.allObjects {
+                    if let statusSubscriber = object as? StatusSubscriber {
+                        statusSubscriber.didUpdateLocks(self.locks)
+                    }
                 }
                 self.updateLocksRequested = false
                 self.lastRetreivedLocks = NSDate()

@@ -25,6 +25,25 @@
                             </items>
                         </table>
                     </items>
+                    <menu key="menu" id="nY3-Ml-uOf">
+                        <items>
+                            <menuItem title="Turn lights off" icon="accept" id="bVo-P1-pxx">
+                                <connections>
+                                    <action selector="didTapTurnLightsOff" destination="AgC-eL-Hgc" id="ea5-Kc-hS0"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Turn lights on" icon="accept" id="zQ8-Rx-56s">
+                                <connections>
+                                    <action selector="didTapTurnLightsOn" destination="AgC-eL-Hgc" id="Ujo-jY-pEI"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Lock all locks" icon="accept" id="hLI-re-9xY">
+                                <connections>
+                                    <action selector="didTapLockAllLocks" destination="AgC-eL-Hgc" id="uDJ-cO-7vL"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
                     <connections>
                         <outlet property="table" destination="Qiu-Go-Xhf" id="7Eh-hy-QMS"/>
                     </connections>

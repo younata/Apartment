@@ -9,6 +9,8 @@ class InterfaceTableController: NSObject {
 class InterfaceController: WKInterfaceController {
     @IBOutlet var table: WKInterfaceTable!
 
+    lazy var statusRepository = (WKExtension.sharedExtension().delegate as? ExtensionDelegate)?.statusRepository
+
     private var locks = Array<Lock>()
     private var bulbs = Array<Bulb>()
 
@@ -16,6 +18,62 @@ class InterfaceController: WKInterfaceController {
         super.awakeWithContext(context)
 
         self.table.setRowTypes(["row"])
+
+        self.statusRepository?.addSubscriber(self)
+    }
+
+    @IBAction func didTapTurnLightsOff() {
+        let onBulbs = self.bulbs.filter { $0.on }
+
+        for bulb in onBulbs {
+            let bulbIdx = self.bulbs.indexOf(bulb)!
+            self.statusRepository?.lightsService.update(bulb, attributes: ["on": false]) {bulb, error in
+                if let _ = error {
+                    WKInterfaceDevice.currentDevice().playHaptic(.Failure)
+                } else {
+                    WKInterfaceDevice.currentDevice().playHaptic(.Success)
+                }
+                if let bulb = bulb {
+                    self.bulbs[bulbIdx] = bulb
+                }
+            }
+        }
+    }
+
+    @IBAction func didTapTurnLightsOn() {
+        let offBulbs = self.bulbs.filter { !$0.on }
+
+        for bulb in offBulbs {
+            let bulbIdx = self.bulbs.indexOf(bulb)!
+            self.statusRepository?.lightsService.update(bulb, attributes: ["on": true]) {bulb, error in
+                if let _ = error {
+                    WKInterfaceDevice.currentDevice().playHaptic(.Failure)
+                } else {
+                    WKInterfaceDevice.currentDevice().playHaptic(.Success)
+                }
+                if let bulb = bulb {
+                    self.bulbs[bulbIdx] = bulb
+                }
+            }
+        }
+    }
+
+    @IBAction func didTapLockAllLocks() {
+        let unlockedLocks = self.locks.filter { $0.locked != .Locked }
+
+        for lock in unlockedLocks {
+            let lockIdx = self.locks.indexOf(lock)!
+            self.statusRepository?.lockService.update_lock(lock, to_lock: .Locked) {lock, error in
+                if let _ = error {
+                    WKInterfaceDevice.currentDevice().playHaptic(.Failure)
+                } else {
+                    WKInterfaceDevice.currentDevice().playHaptic(.Success)
+                }
+                if let lock = lock {
+                    self.locks[lockIdx] = lock
+                }
+            }
+        }
     }
 
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
