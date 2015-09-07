@@ -9,8 +9,8 @@ internal protocol BulbTableViewCellDelegate {
 public class BulbTableViewCell: UITableViewCell {
     internal var bulb: Bulb! = nil {
         didSet {
-            self.bulbStatus.on = bulb.on
-            self.textLabel?.text = bulb.name
+            self.bulbStatus.on = self.bulb.on
+            self.textLabel?.text = self.bulb.name
         }
     }
 
@@ -18,7 +18,7 @@ public class BulbTableViewCell: UITableViewCell {
 
     internal var animating: Bool = false {
         didSet {
-            if animating {
+            if self.animating {
                 self.contentView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
             } else {
                 self.contentView.backgroundColor = UIColor.clearColor()
@@ -36,6 +36,6 @@ public class BulbTableViewCell: UITableViewCell {
     }()
 
     internal func didTapSwitch() {
-        self.delegate?.bulbCell(self, shouldTurnOn: !bulb.on, ofBulb: bulb)
+        self.delegate?.bulbCell(self, shouldTurnOn: !self.bulb.on, ofBulb: self.bulb)
     }
 }

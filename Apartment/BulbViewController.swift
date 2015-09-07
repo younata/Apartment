@@ -32,21 +32,21 @@ public class BulbViewController: UIViewController {
         containerView.autoSetDimension(.Height, toSize: 200)
         containerView.layer.cornerRadius = 5
 
-        titleField.text = bulb.name
-        titleField.backgroundColor = UIColor.clearColor()
-        titleField.placeholder = NSLocalizedString("Name", comment: "")
+        self.titleField.text = bulb.name
+        self.titleField.backgroundColor = UIColor.clearColor()
+        self.titleField.placeholder = NSLocalizedString("Name", comment: "")
         containerView.addSubview(titleField)
 
-        titleField.autoPinEdgesToSuperviewEdgesWithInsets(UIEdgeInsetsMake(20, 20, 0, 20), excludingEdge: .Bottom)
+        self.titleField.autoPinEdgesToSuperviewEdgesWithInsets(UIEdgeInsetsMake(20, 20, 0, 20), excludingEdge: .Bottom)
 
-        view.addSubview(colorPicker)
-        colorPicker.hue = CGFloat(bulb.hue) / 65535.0
-        colorPicker.saturation = CGFloat(bulb.saturation) / 254.0
+        view.addSubview(self.colorPicker)
+        self.colorPicker.hue = CGFloat(bulb.hue) / 65535.0
+        self.colorPicker.saturation = CGFloat(bulb.saturation) / 254.0
 
-        colorPicker.autoPinEdgeToSuperviewEdge(.Leading)
-        colorPicker.autoPinEdgeToSuperviewEdge(.Trailing)
-        colorPicker.autoSetDimension(.Height, toSize: 100)
-        colorPicker.autoPinEdge(.Top, toEdge: .Bottom, ofView: titleField, withOffset: 8)
+        self.colorPicker.autoPinEdgeToSuperviewEdge(.Leading)
+        self.colorPicker.autoPinEdgeToSuperviewEdge(.Trailing)
+        self.colorPicker.autoSetDimension(.Height, toSize: 100)
+        self.colorPicker.autoPinEdge(.Top, toEdge: .Bottom, ofView: titleField, withOffset: 8)
     }
 
     public override func viewWillAppear(animated: Bool) {

@@ -12,7 +12,7 @@
                     <items>
                         <table alignment="left" id="Qiu-Go-Xhf">
                             <items>
-                                <tableRow identifier="row" id="Ii7-us-NwS" customClass="InterfaceTableController" customModule="WatchApp_Extension">
+                                <tableRow identifier="bulb" id="Ii7-us-NwS" customClass="InterfaceTableController" customModule="WatchApp_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="vj8-lT-fqV">
                                         <items>
                                             <label alignment="center" verticalAlignment="center" text="Light" id="M0K-rD-4in"/>
@@ -20,6 +20,16 @@
                                     </group>
                                     <connections>
                                         <outlet property="label" destination="M0K-rD-4in" id="Csy-qu-g7D"/>
+                                    </connections>
+                                </tableRow>
+                                <tableRow identifier="lock" id="IsA-8B-AOD" customClass="InterfaceTableController" customModule="WatchApp_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="xwT-R5-jk0">
+                                        <items>
+                                            <label alignment="center" verticalAlignment="center" text="Lock" id="xJ0-50-T5Z"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="label" destination="xJ0-50-T5Z" id="jVL-eK-Den"/>
                                     </connections>
                                 </tableRow>
                             </items>

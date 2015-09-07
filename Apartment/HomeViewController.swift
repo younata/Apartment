@@ -58,8 +58,8 @@ public class HomeViewController: UIViewController {
         self.tableView.registerClass(LockTableViewCell.classForCoder(), forCellReuseIdentifier: lockSectionTitle)
         self.tableView.registerClass(BulbTableViewCell.classForCoder(), forCellReuseIdentifier: lightSectionTitle)
 
-        getLights()
-        getLocks()
+        self.getLights()
+        self.getLocks()
     }
 
     public override func viewWillAppear(animated: Bool) {

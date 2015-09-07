@@ -17,7 +17,8 @@ class InterfaceController: WKInterfaceController {
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
 
-        self.table.setRowTypes(["row"])
+        self.table.removeRowsAtIndexes(NSIndexSet(index: 0))
+        self.table.setRowTypes(["bulb", "lock"])
 
         self.statusRepository?.addSubscriber(self)
     }
@@ -89,7 +90,7 @@ class InterfaceController: WKInterfaceController {
 extension InterfaceController: StatusSubscriber {
     func didUpdateLocks(locks: [Lock]) {
         self.locks = locks
-        self.table.setNumberOfRows(locks.count, withRowType: "locks")
+        self.table.setNumberOfRows(locks.count, withRowType: "lock")
 
         for i in self.bulbs.count..<locks.count {
             let rowController = self.table.rowControllerAtIndex(i) as? InterfaceTableController
@@ -111,7 +112,7 @@ extension InterfaceController: StatusSubscriber {
 
     func didUpdateBulbs(bulbs: [Bulb]) {
         self.bulbs = bulbs
-        self.table.setNumberOfRows(bulbs.count, withRowType: "bulbs")
+        self.table.setNumberOfRows(bulbs.count, withRowType: "bulb")
 
         for i in 0..<bulbs.count {
             let rowController = self.table.rowControllerAtIndex(i) as? InterfaceTableController
@@ -119,7 +120,7 @@ extension InterfaceController: StatusSubscriber {
             let bulbOn: String = bulb.on ? "on" : "off"
 
             rowController?.label.setText("Light \(bulb.name): \(bulbOn)")
-
         }
+        self.didUpdateLocks(self.locks)
     }
 }

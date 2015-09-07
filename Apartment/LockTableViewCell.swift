@@ -9,8 +9,8 @@ internal protocol LockTableViewCellDelegate {
 public class LockTableViewCell: UITableViewCell {
     internal var lock: Lock! = nil {
         didSet {
-            self.lockStatus.on = lock.locked == Lock.LockStatus.Locked
-            self.textLabel?.text = lock.name
+            self.lockStatus.on = self.lock.locked == Lock.LockStatus.Locked
+            self.textLabel?.text = self.lock.name
         }
     }
 
@@ -18,7 +18,7 @@ public class LockTableViewCell: UITableViewCell {
 
     internal var animating: Bool = false {
         didSet {
-            if animating {
+            if self.animating {
                 self.contentView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
             } else {
                 self.contentView.backgroundColor = UIColor.clearColor()
@@ -42,6 +42,6 @@ public class LockTableViewCell: UITableViewCell {
         } else {
             desiredLockStatus = .Locked
         }
-        self.delegate?.lockCell(self, shouldChangeLockStatus: desiredLockStatus, ofLock: lock)
+        self.delegate?.lockCell(self, shouldChangeLockStatus: desiredLockStatus, ofLock: self.lock)
     }
 }
