@@ -74,6 +74,7 @@
 		89E008831AD975A3001A54D5 /* ColorPickerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E008821AD975A3001A54D5 /* ColorPickerSpec.swift */; };
 		89E008861AD977EC001A54D5 /* FakeTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E008851AD977EC001A54D5 /* FakeTouch.swift */; };
 		89E2A3331B68930E00A40D4E /* BulbTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E2A3321B68930E00A40D4E /* BulbTableViewCell.swift */; };
+		89FAE2701B926D4C009A3604 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 89FAE26F1B926D4C009A3604 /* Settings.bundle */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -253,6 +254,7 @@
 		89E008821AD975A3001A54D5 /* ColorPickerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickerSpec.swift; sourceTree = "<group>"; };
 		89E008851AD977EC001A54D5 /* FakeTouch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTouch.swift; sourceTree = "<group>"; };
 		89E2A3321B68930E00A40D4E /* BulbTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulbTableViewCell.swift; sourceTree = "<group>"; };
+		89FAE26F1B926D4C009A3604 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -344,6 +346,7 @@
 			children = (
 				895634E21ACA5DA200CA60E9 /* AppDelegate.swift */,
 				8956351C1ACA6EE800CA60E9 /* ApplicationModule.swift */,
+				89FAE26F1B926D4C009A3604 /* Settings.bundle */,
 				8956351B1ACA6ED500CA60E9 /* Features */,
 				89E008811AD8E4BC001A54D5 /* Views */,
 				895634E91ACA5DA300CA60E9 /* Images.xcassets */,
@@ -747,6 +750,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				895634ED1ACA5DA300CA60E9 /* LaunchScreen.xib in Resources */,
+				89FAE2701B926D4C009A3604 /* Settings.bundle in Resources */,
 				895634EA1ACA5DA300CA60E9 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -51,6 +51,7 @@ public class HomeViewController: UIViewController {
 
         self.tableView.dataSource = self
         self.tableView.delegate = self
+        self.tableView.tableFooterView = UIView()
 
         let lockSectionTitle = HomeViewSection.Locks.description
         let lightSectionTitle = HomeViewSection.Lights.description
@@ -72,6 +73,7 @@ public class HomeViewController: UIViewController {
         self.lightsService.allBulbs {bulbs, error in
             if let bulbs = bulbs {
                 self.bulbs = bulbs
+                self.tableView.reloadSections(NSIndexSet(index: HomeViewSection.Lights.rawValue), withRowAnimation: .Automatic)
             } else if let error = error {
                 let alert = UIAlertController(title: "Error getting lights", message: error.localizedDescription, preferredStyle: .Alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: .Cancel, handler: {_ in
@@ -86,6 +88,7 @@ public class HomeViewController: UIViewController {
         self.lockService.allLocks {locks, error in
             if let locks = locks {
                 self.locks = locks
+                self.tableView.reloadSections(NSIndexSet(index: HomeViewSection.Locks.rawValue), withRowAnimation: .Automatic)
             } else if let error = error {
                 let alert = UIAlertController(title: "Error getting locks", message: error.localizedDescription, preferredStyle: .Alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: .Cancel, handler: {_ in

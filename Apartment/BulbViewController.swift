@@ -32,10 +32,10 @@ public class BulbViewController: UIViewController {
         containerView.autoSetDimension(.Height, toSize: 200)
         containerView.layer.cornerRadius = 5
 
-        self.titleField.text = bulb.name
+        self.titleField.text = self.bulb.name
         self.titleField.backgroundColor = UIColor.clearColor()
         self.titleField.placeholder = NSLocalizedString("Name", comment: "")
-        containerView.addSubview(titleField)
+        containerView.addSubview(self.titleField)
 
         self.titleField.autoPinEdgesToSuperviewEdgesWithInsets(UIEdgeInsetsMake(20, 20, 0, 20), excludingEdge: .Bottom)
 
@@ -46,7 +46,7 @@ public class BulbViewController: UIViewController {
         self.colorPicker.autoPinEdgeToSuperviewEdge(.Leading)
         self.colorPicker.autoPinEdgeToSuperviewEdge(.Trailing)
         self.colorPicker.autoSetDimension(.Height, toSize: 100)
-        self.colorPicker.autoPinEdge(.Top, toEdge: .Bottom, ofView: titleField, withOffset: 8)
+        self.colorPicker.autoPinEdge(.Top, toEdge: .Bottom, ofView: self.titleField, withOffset: 8)
     }
 
     public override func viewWillAppear(animated: Bool) {

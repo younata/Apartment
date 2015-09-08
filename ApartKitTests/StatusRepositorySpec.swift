@@ -2,7 +2,7 @@ import Quick
 import Nimble
 @testable import ApartKit
 
-class FakeStatusSubscriber: StatusSubscriber {
+class FakeStatusSubscriber: NSObject, StatusSubscriber {
     var receivedBulbs: [Bulb]? = nil
     func didUpdateBulbs(bulbs: [Bulb]) {
         receivedBulbs = bulbs
@@ -12,8 +12,6 @@ class FakeStatusSubscriber: StatusSubscriber {
     func didUpdateLocks(locks: [Lock]) {
         receivedLocks = locks
     }
-
-    init() {}
 }
 
 class StatusRepositorySpec: QuickSpec {

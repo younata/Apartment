@@ -98,7 +98,7 @@ public class LightsService {
         let urlRequest = NSMutableURLRequest(URL: NSURL(string: url)!)
         urlRequest.setValue("Token token=\(self.authenticationToken)", forHTTPHeaderField: "Authentication")
         self.urlSession.dataTaskWithRequest(urlRequest) {data, response, error in
-            if let httpResponse = response as? NSHTTPURLResponse where httpResponse.statusCode < 300 {
+            if let httpResponse = response as? NSHTTPURLResponse where httpResponse.statusCode > 299 {
                 let statusCodeString = NSHTTPURLResponse.localizedStringForStatusCode(httpResponse.statusCode)
                 let error = NSError(domain: "com.rachelbrindle.apartment.error.network", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: statusCodeString])
                 callback(nil, error)
