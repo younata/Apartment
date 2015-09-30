@@ -1,17 +1,7 @@
 import ClockKit
 import ApartWatchKit
 
-class ComplicationController: NSObject, CLKComplicationDataSource, StatusSubscriber {
-
-    private var bulbs = Array<Bulb>()
-    private var locks = Array<Lock>()
-    
-    lazy var lightsRepository = (WKExtension.sharedExtension().delegate as? ExtensionDelegate)?.statusRepository
-
-    override init() {
-        super.init()
-        lightsRepository?.addSubscriber(self)
-    }
+class ComplicationController: NSObject, CLKComplicationDataSource {
 
     // MARK: - Timeline Configuration
 
@@ -35,23 +25,8 @@ class ComplicationController: NSObject, CLKComplicationDataSource, StatusSubscri
     // MARK: - Timeline Population
     
     func getCurrentTimelineEntryForComplication(complication: CLKComplication, withHandler handler: ((CLKComplicationTimelineEntry?) -> Void)) {
-        // Call the handler with the current timeline entry
-        self.lightsRepository?.updateBulbs()
-        let lightsOn = self.bulbs.reduce(0) { $0 + ($1.on ? 1 : 0) }
-        let lightsPlural = lightsOn == 1 ? "" : "s"
-
-        let locksUnlocked = self.locks.reduce(0) { $0 + ($1.locked != Lock.LockStatus.Locked ? 1 : 0) }
-        let locksPlural = locksUnlocked == 1 ? "" : "s"
-
-        let longText: String
-        let shortText: String
-        if self.locks.count == 0 && self.bulbs.count == 0 {
-            longText = "No connection"
-            shortText = "--"
-        } else {
-            longText = "\(locksUnlocked) lock\(locksPlural) unlocked\n\(lightsOn) light\(lightsPlural) on"
-            shortText = "\(locksUnlocked)/\(lightsOn)"
-        }
+        let longText: String = ""
+        let shortText: String = ""
 
         let template : CLKComplicationTemplate?
 
@@ -102,14 +77,5 @@ class ComplicationController: NSObject, CLKComplicationDataSource, StatusSubscri
     func getNextRequestedUpdateDateWithHandler(handler: (NSDate?) -> Void) {
         // Call the handler with the date when you would next like to be given the opportunity to update your complication content
         handler(NSDate(timeIntervalSinceNow: 300));
-    }
-    // MARK: - StatusSubscriber
-
-    func didUpdateBulbs(bulbs: [Bulb]) {
-        self.bulbs = bulbs
-    }
-
-    func didUpdateLocks(locks: [Lock]) {
-        self.locks = locks
     }
 }
