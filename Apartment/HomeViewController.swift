@@ -10,9 +10,13 @@ public class HomeViewController: UIViewController {
 
     private var services = Array<Service>()
 
-    private lazy var homeAssistantService: HomeAssistantService = {
-        return self.injector!.create(HomeAssistantService.self) as! HomeAssistantService
+    private lazy var homeAssistantRepository: HomeAssistantRepository = {
+        return self.injector!.create(HomeAssistantRepository.self) as! HomeAssistantRepository
     }()
+
+    private var homeAssistantService: HomeAssistantService {
+        return self.homeAssistantRepository.homeService
+    }
 
     private lazy var tableViewController = UITableViewController(style: .Grouped)
 
@@ -54,31 +58,23 @@ public class HomeViewController: UIViewController {
     // MARK: Private
 
     internal func refresh() {
-        self.homeAssistantService.status {states, error in
-            if let error = error {
-                let alert = UIAlertController(title: "Error getting home states", message: error.localizedDescription, preferredStyle: .Alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: .Cancel, handler: {_ in
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                }))
-                self.presentViewController(alert, animated: true, completion: nil)
-            } else {
-                self.states = states
+        self.homeAssistantRepository.states(true) {states in
+            self.states = states
 
-                let groups = states.filter { $0.isGroup }
-                var groupData = Array<(String, [State])>()
-                for group in groups {
-                    if let entities = group.groupEntities, displayName = group.displayName {
-                        let groupStates = states.filter({ entities.contains($0.entityId) }).sort({$0.entityId < $1.entityId})
-                        groupData.append((displayName, groupStates))
-                    }
+            let groups = states.filter { $0.isGroup }
+            var groupData = Array<(String, [State])>()
+            for group in groups {
+                if let entities = group.groupEntities, displayName = group.displayName {
+                    let groupStates = states.filter({ entities.contains($0.entityId) }).sort({$0.entityId < $1.entityId})
+                    groupData.append((displayName, groupStates))
                 }
-
-                let scenes = states.filter { $0.isScene }
-                groupData.append(("scenes", scenes))
-
-                self.groups = groupData.sort { $0.0.lowercaseString < $1.0.lowercaseString }
-                self.tableView.reloadData()
             }
+
+            let scenes = states.filter { $0.isScene }
+            groupData.append(("scenes", scenes))
+
+            self.groups = groupData.sort { $0.0.lowercaseString < $1.0.lowercaseString }
+            self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
         }
         self.homeAssistantService.services {services, error in

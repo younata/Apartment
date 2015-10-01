@@ -26,6 +26,37 @@ extension State {
     }
 }
 
+// MARK: - Serializable
+
+extension State {
+    public var jsonObject: [String: AnyObject] {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "HH:mm:ss dd-MM-yyyy"
+        return [
+            "attributes": self.attributes,
+            "entity_id": self.entityId,
+            "last_changed": dateFormatter.stringFromDate(self.lastChanged),
+            "last_updated": dateFormatter.stringFromDate(self.lastUpdated),
+            "state": self.state
+        ]
+    }
+
+    public static func NewFromJSON(jsonObject: [String: AnyObject]) -> State? {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "HH:mm:ss dd-MM-yyyy"
+        if let attributes = jsonObject["attributes"] as? [String: AnyObject],
+            entityId = jsonObject["entity_id"] as? String,
+            lastChangedStr = jsonObject["last_changed"] as? String,
+            lastChanged = dateFormatter.dateFromString(lastChangedStr),
+            lastUpdatedStr = jsonObject["last_updated"] as? String,
+            lastUpdated = dateFormatter.dateFromString(lastUpdatedStr),
+            state = jsonObject["state"] as? String {
+                return State(attributes: attributes, entityId: entityId, lastChanged: lastChanged, lastUpdated: lastUpdated, state: state)
+        }
+        return nil
+    }
+}
+
 // MARK: - Sensor
 
 extension State {

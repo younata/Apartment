@@ -11,12 +11,14 @@ class HomeViewControllerSpec: QuickSpec {
         var injector: Ra.Injector! = nil
         var navigationController: UINavigationController! = nil
         var homeService: FakeHomeAssistantService! = nil
+        var homeRepository: HomeAssistantRepository! = nil
 
         beforeEach {
             injector = Ra.Injector()
 
             homeService = FakeHomeAssistantService()
-            injector.bind(HomeAssistantService.self, to: homeService)
+            homeRepository = HomeAssistantRepository(homeService: homeService)
+            injector.bind(HomeAssistantRepository.self, to: homeRepository)
 
             subject = injector.create(HomeViewController.self) as! HomeViewController
             navigationController = UINavigationController(rootViewController: subject)
@@ -258,21 +260,6 @@ class HomeViewControllerSpec: QuickSpec {
 
                 it("should stop the refresh control") {
                     expect(subject.refreshControl?.refreshing).to(beFalsy())
-                }
-
-                it("should notify the user that they're Dave, and we're HAL.") {
-                    expect(subject.presentedViewController).to(beAnInstanceOf(UIAlertController.self))
-
-                    if let alert = subject.presentedViewController as? UIAlertController {
-                        expect(alert.title).to(equal("Error getting home states"))
-                        expect(alert.actions.count).to(equal(1))
-                        if let action = alert.actions.first {
-                            expect(action.title).to(equal("Ok"))
-                            expect(action.style).to(equal(UIAlertActionStyle.Cancel))
-                            action.handler()(action)
-                            expect(subject.presentedViewController).to(beNil())
-                        }
-                    }
                 }
             }
         }
