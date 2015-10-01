@@ -26,11 +26,23 @@ public class HomeViewController: UIViewController {
         return self.injector!.create(kLightsService) as! LightsService
     }
 
+<<<<<<< HEAD
     private var lockService: LockService {
         return self.injector!.create(kLockService) as! LockService
     }
 
     private lazy var tableViewController = UITableViewController()
+=======
+    private lazy var homeAssistantRepository: HomeAssistantRepository = {
+        return self.injector!.create(HomeAssistantRepository.self) as! HomeAssistantRepository
+    }()
+
+    private var homeAssistantService: HomeAssistantService {
+        return self.homeAssistantRepository.homeService
+    }
+
+    private lazy var tableViewController = UITableViewController(style: .Grouped)
+>>>>>>> efa7124... Add HomeAssistantRepository, to better communicate with the watch
 
     public var tableView: UITableView {
         return self.tableViewController.tableView
@@ -69,6 +81,7 @@ public class HomeViewController: UIViewController {
 
     // MARK: Private
 
+<<<<<<< HEAD
     private func getLights() {
         self.lightsService.allBulbs {bulbs, error in
             if let bulbs = bulbs {
@@ -81,6 +94,27 @@ public class HomeViewController: UIViewController {
                 }))
                 self.presentViewController(alert, animated: true, completion: nil)
             }
+=======
+    internal func refresh() {
+        self.homeAssistantRepository.states(true) {states in
+            self.states = states
+
+            let groups = states.filter { $0.isGroup }
+            var groupData = Array<(String, [State])>()
+            for group in groups {
+                if let entities = group.groupEntities, displayName = group.displayName {
+                    let groupStates = states.filter({ entities.contains($0.entityId) }).sort({$0.entityId < $1.entityId})
+                    groupData.append((displayName, groupStates))
+                }
+            }
+
+            let scenes = states.filter { $0.isScene }
+            groupData.append(("scenes", scenes))
+
+            self.groups = groupData.sort { $0.0.lowercaseString < $1.0.lowercaseString }
+            self.tableView.reloadData()
+            self.refreshControl?.endRefreshing()
+>>>>>>> efa7124... Add HomeAssistantRepository, to better communicate with the watch
         }
     }
 

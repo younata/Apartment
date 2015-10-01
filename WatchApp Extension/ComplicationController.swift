@@ -1,6 +1,7 @@
 import ClockKit
 import ApartWatchKit
 
+<<<<<<< HEAD
 class ComplicationController: NSObject, CLKComplicationDataSource, StatusSubscriber {
 
     private var bulbs = Array<Bulb>()
@@ -12,8 +13,23 @@ class ComplicationController: NSObject, CLKComplicationDataSource, StatusSubscri
         super.init()
         lightsRepository?.addSubscriber(self)
     }
+=======
+class ComplicationController: NSObject, CLKComplicationDataSource, HomeRepositorySubscriber {
+>>>>>>> efa7124... Add HomeAssistantRepository, to better communicate with the watch
 
     // MARK: - Timeline Configuration
+
+    lazy var homeRepository: HomeAssistantRepository = {
+        let repo = (WKExtension.sharedExtension().delegate as! ExtensionDelegate).homeRepository
+        repo.addSubscriber(self)
+        return repo
+    }()
+
+    var lights = Array<State>()
+
+    func didUpdateStates(states: [State]) {
+        self.lights = states.filter { $0.isLight }
+    }
 
     func getSupportedTimeTravelDirectionsForComplication(complication: CLKComplication, withHandler handler: (CLKComplicationTimeTravelDirections) -> Void) {
 //        handler([.Forward, .Backward])
@@ -35,6 +51,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, StatusSubscri
     // MARK: - Timeline Population
     
     func getCurrentTimelineEntryForComplication(complication: CLKComplication, withHandler handler: ((CLKComplicationTimelineEntry?) -> Void)) {
+<<<<<<< HEAD
         // Call the handler with the current timeline entry
         self.lightsRepository?.updateBulbs()
         let lightsOn = self.bulbs.reduce(0) { $0 + ($1.on ? 1 : 0) }
@@ -52,34 +69,42 @@ class ComplicationController: NSObject, CLKComplicationDataSource, StatusSubscri
             longText = "\(locksUnlocked) lock\(locksPlural) unlocked\n\(lightsOn) light\(lightsPlural) on"
             shortText = "\(locksUnlocked)/\(lightsOn)"
         }
+=======
+        self.homeRepository.states(false) {states in
+            self.lights = states.filter { $0.isLight }
+            let lightsOn = self.lights.filter { $0.lightState == true }.count
+            let longText: String = "\(lightsOn) lights on"
+            let shortText: String = "\(lightsOn) / \(self.lights.count)"
+>>>>>>> efa7124... Add HomeAssistantRepository, to better communicate with the watch
 
-        let template : CLKComplicationTemplate?
+            let template : CLKComplicationTemplate?
 
-        switch (complication.family) {
-        case .ModularSmall:
-            let textTemplate = CLKComplicationTemplateModularSmallSimpleText()
-            textTemplate.textProvider = CLKSimpleTextProvider(text: longText, shortText: shortText)
-            template = textTemplate
-        case .ModularLarge:
-            let textTemplate = CLKComplicationTemplateModularLargeStandardBody()
-            textTemplate.headerTextProvider = CLKSimpleTextProvider(text: "Apartment")
-            textTemplate.body1TextProvider = CLKSimpleTextProvider(text: longText)
-            template = textTemplate
-        case .UtilitarianSmall:
-            let textTemplate = CLKComplicationTemplateUtilitarianSmallRingText()
-            textTemplate.textProvider = CLKSimpleTextProvider(text: shortText)
-            template = textTemplate
-        case .CircularSmall:
-            let textTemplate = CLKComplicationTemplateCircularSmallSimpleText()
-            textTemplate.textProvider = CLKSimpleTextProvider(text: longText, shortText: shortText)
-            template = textTemplate
-        default:
-            template = nil
-        }
-        if let template = template {
-            handler(CLKComplicationTimelineEntry(date: NSDate(), complicationTemplate: template))
-        } else {
-            handler(nil)
+            switch (complication.family) {
+            case .ModularSmall:
+                let textTemplate = CLKComplicationTemplateModularSmallSimpleText()
+                textTemplate.textProvider = CLKSimpleTextProvider(text: longText, shortText: shortText)
+                template = textTemplate
+            case .ModularLarge:
+                let textTemplate = CLKComplicationTemplateModularLargeStandardBody()
+                textTemplate.headerTextProvider = CLKSimpleTextProvider(text: "Apartment")
+                textTemplate.body1TextProvider = CLKSimpleTextProvider(text: longText)
+                template = textTemplate
+            case .UtilitarianSmall:
+                let textTemplate = CLKComplicationTemplateUtilitarianSmallRingText()
+                textTemplate.textProvider = CLKSimpleTextProvider(text: shortText)
+                template = textTemplate
+            case .CircularSmall:
+                let textTemplate = CLKComplicationTemplateCircularSmallSimpleText()
+                textTemplate.textProvider = CLKSimpleTextProvider(text: longText, shortText: shortText)
+                template = textTemplate
+            default:
+                template = nil
+            }
+            if let template = template {
+                handler(CLKComplicationTimelineEntry(date: NSDate(), complicationTemplate: template))
+            } else {
+                handler(nil)
+            }
         }
     }
     

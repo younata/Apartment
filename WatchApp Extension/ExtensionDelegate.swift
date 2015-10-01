@@ -2,27 +2,39 @@ import WatchKit
 import WatchConnectivity
 import ApartWatchKit
 
-class ExtensionDelegate: NSObject, WKExtensionDelegate, WCSessionDelegate {
+class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
-    lazy var session: WCSession = WCSession.defaultSession()
+    var homeRepository: HomeAssistantRepository! = nil
 
     lazy var statusRepository = StatusRepository()
 
     func applicationDidFinishLaunching() {
-        session.delegate = self
-        session.activateSession()
+        let urlSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: URLSessionDelegate(), delegateQueue: nil)
+        let homeAssistantURL = NSURL(string: "https://apartment.younata.com")!
+        let apiKey = "WannaSeeMeBuyATelescope"
+        let homeService = HomeAssistantService(baseURL: homeAssistantURL, apiKey: apiKey, urlSession: urlSession, mainQueue: NSOperationQueue.mainQueue())
+
+        self.homeRepository = HomeAssistantRepository(homeService: homeService)
+        self.homeRepository.watchSession.activateSession()
     }
 
     func applicationDidBecomeActive() {
         statusRepository.updateLocks()
         statusRepository.updateBulbs()
     }
+}
 
+<<<<<<< HEAD
     func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
         let baseURL = applicationContext["baseURL"] as? String
         let authenticationToken = applicationContext["authenticationToken"] as? String
 
         self.statusRepository.backendURL = baseURL ?? ""
         self.statusRepository.authenticationToken = authenticationToken ?? ""
+=======
+private class URLSessionDelegate: NSObject, NSURLSessionDelegate {
+    @objc private func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
+        completionHandler(NSURLSessionAuthChallengeDisposition.UseCredential, NSURLCredential(forTrust: challenge.protectionSpace.serverTrust!))
+>>>>>>> efa7124... Add HomeAssistantRepository, to better communicate with the watch
     }
 }

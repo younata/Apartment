@@ -12,11 +12,17 @@ class HomeViewControllerSpec: QuickSpec {
         var lightsService: FakeLightsService! = nil
         var lockService: FakeLockService! = nil
         var navigationController: UINavigationController! = nil
+<<<<<<< HEAD
         var appModule: SpecApplicationModule! = nil
+=======
+        var homeService: FakeHomeAssistantService! = nil
+        var homeRepository: HomeAssistantRepository! = nil
+>>>>>>> efa7124... Add HomeAssistantRepository, to better communicate with the watch
 
         beforeEach {
             injector = Ra.Injector()
 
+<<<<<<< HEAD
             appModule = SpecApplicationModule()
             appModule.configureInjector(injector)
 
@@ -25,6 +31,11 @@ class HomeViewControllerSpec: QuickSpec {
 
             lockService = FakeLockService(backendURL: "", urlSession: NSURLSession.sharedSession(), authenticationToken: "", mainQueue: NSOperationQueue.mainQueue())
             injector.bind(kLockService, to: lockService)
+=======
+            homeService = FakeHomeAssistantService()
+            homeRepository = HomeAssistantRepository(homeService: homeService)
+            injector.bind(HomeAssistantRepository.self, to: homeRepository)
+>>>>>>> efa7124... Add HomeAssistantRepository, to better communicate with the watch
 
             subject = injector.create(HomeViewController.self) as! HomeViewController
             navigationController = UINavigationController(rootViewController: subject)
@@ -289,6 +300,7 @@ class HomeViewControllerSpec: QuickSpec {
                                     }
                                 }
 
+<<<<<<< HEAD
                                 it("resets the switch") {
                                     expect(cell?.bulbStatus.on).to(beFalsy())
                                 }
@@ -299,6 +311,10 @@ class HomeViewControllerSpec: QuickSpec {
                             }
                         }
                     }
+=======
+                it("should stop the refresh control") {
+                    expect(subject.refreshControl?.refreshing).to(beFalsy())
+>>>>>>> efa7124... Add HomeAssistantRepository, to better communicate with the watch
                 }
             }
         }
