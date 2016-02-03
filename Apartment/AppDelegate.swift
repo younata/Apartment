@@ -18,7 +18,7 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         if NSClassFromString("XCTestCase") != nil && launchOptions?["test"] as? Bool != true {
             self.window?.rootViewController = UIViewController()
         } else {
-            let homeViewController = anInjector.create(HomeViewController.self) as! HomeViewController
+            let homeViewController = anInjector.create(HomeViewController.self)!
             let navController = UINavigationController(rootViewController: homeViewController)
             self.window?.rootViewController = navController
         }

@@ -10,15 +10,10 @@ class HomeViewControllerSpec: QuickSpec {
         var subject: HomeViewController! = nil
         var injector: Ra.Injector! = nil
         var navigationController: UINavigationController! = nil
-        var appModule: SpecApplicationModule! = nil
-        var homeService: FakeHomeAssistantService! = nil
         var homeRepository: HomeAssistantRepository! = nil
 
         beforeEach {
             injector = Ra.Injector()
-
-            appModule = SpecApplicationModule()
-            appModule.configureInjector(injector)
 
             homeService = FakeHomeAssistantService()
             homeRepository = HomeAssistantRepository(homeService: homeService)
@@ -276,5 +271,6 @@ class HomeViewControllerSpec: QuickSpec {
                 }
             }
         }
+    }
     }
 }

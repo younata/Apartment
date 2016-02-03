@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		892151FC1B8E594600CBF7E4 /* UIKit+PivotalSpecHelperStubs-iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892151FB1B8E594600CBF7E4 /* UIKit+PivotalSpecHelperStubs-iOS.framework */; };
-		892151FE1B8E59EF00CBF7E4 /* FakeOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892151FD1B8E59EF00CBF7E4 /* FakeOperationQueue.swift */; };
 		895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895634E21ACA5DA200CA60E9 /* AppDelegate.swift */; };
 		895634EA1ACA5DA300CA60E9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895634E91ACA5DA300CA60E9 /* Images.xcassets */; };
 		895634ED1ACA5DA300CA60E9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 895634EB1ACA5DA300CA60E9 /* LaunchScreen.xib */; };
@@ -16,11 +14,9 @@
 		8956350C1ACA60E100CA60E9 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8956350A1ACA60E100CA60E9 /* Quick.framework */; };
 		8956350E1ACA60F900CA60E9 /* Nimble.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 895635091ACA60E100CA60E9 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8956350F1ACA60F900CA60E9 /* Quick.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8956350A1ACA60E100CA60E9 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		895635111ACA627A00CA60E9 /* AppDelegateSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895635101ACA627A00CA60E9 /* AppDelegateSpec.swift */; };
 		895635191ACA6EBA00CA60E9 /* Ra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; };
 		8956351A1ACA6EC800CA60E9 /* Ra.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8956351D1ACA6EE800CA60E9 /* ApplicationModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8956351C1ACA6EE800CA60E9 /* ApplicationModule.swift */; };
-		895636161ACFA02E00CA60E9 /* HomeViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636151ACFA02E00CA60E9 /* HomeViewControllerSpec.swift */; };
 		895636191ACFA4F600CA60E9 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636181ACFA4F600CA60E9 /* HomeViewController.swift */; };
 		89A5A1BB1B5E165E00FC3FE3 /* ApartKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 89A5A1BA1B5E165E00FC3FE3 /* ApartKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		89A5A1C21B5E165E00FC3FE3 /* ApartKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A5A1B81B5E165E00FC3FE3 /* ApartKit.framework */; };
@@ -32,8 +28,6 @@
 		89A5A1D91B5E16B400FC3FE3 /* Quick.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8956350A1ACA60E100CA60E9 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		89A5A1DB1B5E16D800FC3FE3 /* FakeURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A5A1DA1B5E16D800FC3FE3 /* FakeURLSession.swift */; };
 		89A5A1E11B5E18B500FC3FE3 /* UIColor+Apartment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8956362B1AD0B5D000CA60E9 /* UIColor+Apartment.swift */; };
-		89A5A1E61B5E959400FC3FE3 /* PureLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A5A1E41B5E958500FC3FE3 /* PureLayout.framework */; };
-		89A5A1E71B5E959400FC3FE3 /* PureLayout.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 89A5A1E41B5E958500FC3FE3 /* PureLayout.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		89A5A1EE1B5E9BD400FC3FE3 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89A5A1EC1B5E9BD400FC3FE3 /* Interface.storyboard */; };
 		89A5A1F01B5E9BD400FC3FE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89A5A1EF1B5E9BD400FC3FE3 /* Assets.xcassets */; };
 		89A5A1F71B5E9BD500FC3FE3 /* WatchApp Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 89A5A1F61B5E9BD500FC3FE3 /* WatchApp Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -48,25 +42,32 @@
 		89A5A2281B5EE0AE00FC3FE3 /* ApartWatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A5A21B1B5EE08200FC3FE3 /* ApartWatchKit.framework */; };
 		89A5A2291B5EE0B800FC3FE3 /* ApartWatchKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 89A5A21B1B5EE08200FC3FE3 /* ApartWatchKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		89A5A22F1B5F332A00FC3FE3 /* (null) in Sources */ = {isa = PBXBuildFile; };
-		89A5A2311B5F404800FC3FE3 /* StatusRepositorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A5A2301B5F404800FC3FE3 /* StatusRepositorySpec.swift */; };
 		89B1C7021BB9CA3700BF0870 /* HomeAssistantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C7011BB9CA3700BF0870 /* HomeAssistantService.swift */; };
 		89B1C7031BB9CA3700BF0870 /* HomeAssistantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C7011BB9CA3700BF0870 /* HomeAssistantService.swift */; };
-		89B1C7051BB9CA9300BF0870 /* HomeAssistantServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C7041BB9CA9300BF0870 /* HomeAssistantServiceSpec.swift */; };
 		89B1C7071BB9EB4100BF0870 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C7061BB9EB4100BF0870 /* State.swift */; };
 		89B1C7081BB9EB4100BF0870 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C7061BB9EB4100BF0870 /* State.swift */; };
 		89B1C70A1BBA04EB00BF0870 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C7091BBA04EB00BF0870 /* Event.swift */; };
 		89B1C70B1BBA04EB00BF0870 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C7091BBA04EB00BF0870 /* Event.swift */; };
 		89B1C70D1BBA0B5D00BF0870 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C70C1BBA0B5D00BF0870 /* Service.swift */; };
 		89B1C70E1BBA0B5D00BF0870 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C70C1BBA0B5D00BF0870 /* Service.swift */; };
-		89B1C7121BBB16CC00BF0870 /* FakeHomeAssistantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C7111BBB16CC00BF0870 /* FakeHomeAssistantService.swift */; };
 		89B1C7171BBB38DC00BF0870 /* HomeAssistantRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C7161BBB38DC00BF0870 /* HomeAssistantRepository.swift */; };
 		89B1C7181BBB38DC00BF0870 /* HomeAssistantRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C7161BBB38DC00BF0870 /* HomeAssistantRepository.swift */; };
 		89B1C71C1BBC5CC700BF0870 /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C71B1BBC5CC700BF0870 /* SwitchTableViewCell.swift */; };
-		89B1C71E1BBC6CC700BF0870 /* HomeAssistantRepositorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C71D1BBC6CC700BF0870 /* HomeAssistantRepositorySpec.swift */; };
-		89B1C71F1BBC6CF800BF0870 /* FakeHomeAssistantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C7111BBB16CC00BF0870 /* FakeHomeAssistantService.swift */; };
 		89E0087F1AD7902E001A54D5 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E0087E1AD7902E001A54D5 /* ColorPicker.swift */; };
-		89E008831AD975A3001A54D5 /* ColorPickerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E008821AD975A3001A54D5 /* ColorPickerSpec.swift */; };
-		89E008861AD977EC001A54D5 /* FakeTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E008851AD977EC001A54D5 /* FakeTouch.swift */; };
+		AE2BC2AD1C6285DE00524B6E /* FakeOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892151FD1B8E59EF00CBF7E4 /* FakeOperationQueue.swift */; };
+		AE2BC2AE1C62860F00524B6E /* FakeHomeAssistantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C7111BBB16CC00BF0870 /* FakeHomeAssistantService.swift */; };
+		AE2BC2B01C62861300524B6E /* FakeTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E008851AD977EC001A54D5 /* FakeTouch.swift */; };
+		AE2BC2B11C62861600524B6E /* AppDelegateSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895635101ACA627A00CA60E9 /* AppDelegateSpec.swift */; };
+		AE2BC2B21C62861C00524B6E /* HomeViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636151ACFA02E00CA60E9 /* HomeViewControllerSpec.swift */; };
+		AE2BC2B31C62862100524B6E /* ColorPickerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E008821AD975A3001A54D5 /* ColorPickerSpec.swift */; };
+		AE2BC2B41C62863400524B6E /* HomeAssistantServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C7041BB9CA9300BF0870 /* HomeAssistantServiceSpec.swift */; };
+		AE7BF7581C62872000B87382 /* PureLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE7BF7571C62871500B87382 /* PureLayout.framework */; };
+		AE7BF7591C62872400B87382 /* PureLayout.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AE7BF7571C62871500B87382 /* PureLayout.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AE7BF75A1C62872D00B87382 /* PureLayout.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AE7BF7571C62871500B87382 /* PureLayout.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AE7BF75C1C62884E00B87382 /* UIKit_PivotalSpecHelperStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE7BF75B1C62884E00B87382 /* UIKit_PivotalSpecHelperStubs.framework */; };
+		AE7BF75D1C62885700B87382 /* UIKit_PivotalSpecHelperStubs.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AE7BF75B1C62884E00B87382 /* UIKit_PivotalSpecHelperStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AE7BF75F1C628B4200B87382 /* FakeHomeAssistantRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7BF75E1C628B4200B87382 /* FakeHomeAssistantRepository.swift */; };
+		AE7BF7601C62947F00B87382 /* HomeAssistantRepositorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C71D1BBC6CC700BF0870 /* HomeAssistantRepositorySpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,9 +122,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				89A5A1E71B5E959400FC3FE3 /* PureLayout.framework in Copy Frameworks */,
 				89A5A1CE1B5E165E00FC3FE3 /* ApartKit.framework in Copy Frameworks */,
 				8956351A1ACA6EC800CA60E9 /* Ra.framework in Copy Frameworks */,
+				AE7BF7591C62872400B87382 /* PureLayout.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -136,6 +137,8 @@
 			files = (
 				8956350E1ACA60F900CA60E9 /* Nimble.framework in Copy Frameworks */,
 				8956350F1ACA60F900CA60E9 /* Quick.framework in Copy Frameworks */,
+				AE7BF75A1C62872D00B87382 /* PureLayout.framework in Copy Frameworks */,
+				AE7BF75D1C62885700B87382 /* UIKit_PivotalSpecHelperStubs.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -188,7 +191,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		892151FB1B8E594600CBF7E4 /* UIKit+PivotalSpecHelperStubs-iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "UIKit+PivotalSpecHelperStubs-iOS.framework"; path = "Vendor/UIKit+PivotalSpecHelperStubs-iOS.framework"; sourceTree = SOURCE_ROOT; };
 		892151FD1B8E59EF00CBF7E4 /* FakeOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeOperationQueue.swift; sourceTree = "<group>"; };
 		895634DD1ACA5DA200CA60E9 /* Apartment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Apartment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		895634E11ACA5DA200CA60E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -211,7 +213,6 @@
 		89A5A1C11B5E165E00FC3FE3 /* ApartKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ApartKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89A5A1CA1B5E165E00FC3FE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89A5A1DA1B5E16D800FC3FE3 /* FakeURLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeURLSession.swift; sourceTree = "<group>"; };
-		89A5A1E41B5E958500FC3FE3 /* PureLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PureLayout.framework; path = Carthage/Build/iOS/PureLayout.framework; sourceTree = SOURCE_ROOT; };
 		89A5A1EA1B5E9BD400FC3FE3 /* WatchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89A5A1ED1B5E9BD400FC3FE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		89A5A1EF1B5E9BD400FC3FE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -226,13 +227,12 @@
 		89A5A21B1B5EE08200FC3FE3 /* ApartWatchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ApartWatchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		89A5A21D1B5EE08200FC3FE3 /* ApartWatchKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApartWatchKit.h; sourceTree = "<group>"; };
 		89A5A21F1B5EE08200FC3FE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		89A5A2301B5F404800FC3FE3 /* StatusRepositorySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatusRepositorySpec.swift; path = ApartKitTests/StatusRepositorySpec.swift; sourceTree = SOURCE_ROOT; };
 		89B1C7011BB9CA3700BF0870 /* HomeAssistantService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeAssistantService.swift; sourceTree = "<group>"; };
 		89B1C7041BB9CA9300BF0870 /* HomeAssistantServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeAssistantServiceSpec.swift; sourceTree = "<group>"; };
 		89B1C7061BB9EB4100BF0870 /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		89B1C7091BBA04EB00BF0870 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		89B1C70C1BBA0B5D00BF0870 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
-		89B1C7111BBB16CC00BF0870 /* FakeHomeAssistantService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeHomeAssistantService.swift; sourceTree = "<group>"; };
+		89B1C7111BBB16CC00BF0870 /* FakeHomeAssistantService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FakeHomeAssistantService.swift; path = ../ApartmentTests/FakeHomeAssistantService.swift; sourceTree = "<group>"; };
 		89B1C7131BBB1BB600BF0870 /* ApartmentTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ApartmentTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		89B1C7161BBB38DC00BF0870 /* HomeAssistantRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeAssistantRepository.swift; sourceTree = "<group>"; };
 		89B1C71B1BBC5CC700BF0870 /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
@@ -240,6 +240,9 @@
 		89E0087E1AD7902E001A54D5 /* ColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
 		89E008821AD975A3001A54D5 /* ColorPickerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickerSpec.swift; sourceTree = "<group>"; };
 		89E008851AD977EC001A54D5 /* FakeTouch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTouch.swift; sourceTree = "<group>"; };
+		AE7BF7571C62871500B87382 /* PureLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PureLayout.framework; path = ../Carthage/Build/iOS/PureLayout.framework; sourceTree = "<group>"; };
+		AE7BF75B1C62884E00B87382 /* UIKit_PivotalSpecHelperStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit_PivotalSpecHelperStubs.framework; path = ../Carthage/Build/iOS/UIKit_PivotalSpecHelperStubs.framework; sourceTree = "<group>"; };
+		AE7BF75E1C628B4200B87382 /* FakeHomeAssistantRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeHomeAssistantRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,9 +250,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89A5A1E61B5E959400FC3FE3 /* PureLayout.framework in Frameworks */,
 				89A5A1CD1B5E165E00FC3FE3 /* ApartKit.framework in Frameworks */,
 				895635191ACA6EBA00CA60E9 /* Ra.framework in Frameworks */,
+				AE7BF7581C62872000B87382 /* PureLayout.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,9 +260,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				892151FC1B8E594600CBF7E4 /* UIKit+PivotalSpecHelperStubs-iOS.framework in Frameworks */,
 				8956350C1ACA60E100CA60E9 /* Quick.framework in Frameworks */,
 				8956350B1ACA60E100CA60E9 /* Nimble.framework in Frameworks */,
+				AE7BF75C1C62884E00B87382 /* UIKit_PivotalSpecHelperStubs.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,7 +338,7 @@
 				89E008811AD8E4BC001A54D5 /* Views */,
 				895634E91ACA5DA300CA60E9 /* Images.xcassets */,
 				895634EB1ACA5DA300CA60E9 /* LaunchScreen.xib */,
-				89A5A1E41B5E958500FC3FE3 /* PureLayout.framework */,
+				AE7BF7571C62871500B87382 /* PureLayout.framework */,
 				895635181ACA6EBA00CA60E9 /* Ra.framework */,
 				895634E01ACA5DA200CA60E9 /* Supporting Files */,
 			);
@@ -355,10 +358,10 @@
 			children = (
 				895635101ACA627A00CA60E9 /* AppDelegateSpec.swift */,
 				89E008851AD977EC001A54D5 /* FakeTouch.swift */,
-				89B1C7111BBB16CC00BF0870 /* FakeHomeAssistantService.swift */,
+				AE7BF75E1C628B4200B87382 /* FakeHomeAssistantRepository.swift */,
 				895636171ACFA03600CA60E9 /* Features */,
 				89E008841AD975A6001A54D5 /* Views */,
-				892151FB1B8E594600CBF7E4 /* UIKit+PivotalSpecHelperStubs-iOS.framework */,
+				AE7BF75B1C62884E00B87382 /* UIKit_PivotalSpecHelperStubs.framework */,
 				895635091ACA60E100CA60E9 /* Nimble.framework */,
 				8956350A1ACA60E100CA60E9 /* Quick.framework */,
 				895634F61ACA5DA300CA60E9 /* Supporting Files */,
@@ -426,7 +429,6 @@
 		89A5A1C71B5E165E00FC3FE3 /* ApartKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				89A5A2301B5F404800FC3FE3 /* StatusRepositorySpec.swift */,
 				89B1C7041BB9CA9300BF0870 /* HomeAssistantServiceSpec.swift */,
 				89B1C71D1BBC6CC700BF0870 /* HomeAssistantRepositorySpec.swift */,
 				89A5A1DC1B5E170B00FC3FE3 /* Mocks/Fakes */,
@@ -440,6 +442,7 @@
 			children = (
 				89A5A1DA1B5E16D800FC3FE3 /* FakeURLSession.swift */,
 				892151FD1B8E59EF00CBF7E4 /* FakeOperationQueue.swift */,
+				89B1C7111BBB16CC00BF0870 /* FakeHomeAssistantService.swift */,
 			);
 			name = Mocks/Fakes;
 			sourceTree = "<group>";
@@ -778,11 +781,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89E008861AD977EC001A54D5 /* FakeTouch.swift in Sources */,
-				89B1C7121BBB16CC00BF0870 /* FakeHomeAssistantService.swift in Sources */,
-				89E008831AD975A3001A54D5 /* ColorPickerSpec.swift in Sources */,
-				895636161ACFA02E00CA60E9 /* HomeViewControllerSpec.swift in Sources */,
-				895635111ACA627A00CA60E9 /* AppDelegateSpec.swift in Sources */,
+				AE2BC2B01C62861300524B6E /* FakeTouch.swift in Sources */,
+				AE2BC2B11C62861600524B6E /* AppDelegateSpec.swift in Sources */,
+				AE7BF75F1C628B4200B87382 /* FakeHomeAssistantRepository.swift in Sources */,
+				AE2BC2B21C62861C00524B6E /* HomeViewControllerSpec.swift in Sources */,
+				AE2BC2B31C62862100524B6E /* ColorPickerSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -805,16 +808,10 @@
 			files = (
 				89A5A1DB1B5E16D800FC3FE3 /* FakeURLSession.swift in Sources */,
 				89A5A22F1B5F332A00FC3FE3 /* (null) in Sources */,
-				892151FE1B8E59EF00CBF7E4 /* FakeOperationQueue.swift in Sources */,
-				89A5A2311B5F404800FC3FE3 /* StatusRepositorySpec.swift in Sources */,
-				89B1C71F1BBC6CF800BF0870 /* FakeHomeAssistantService.swift in Sources */,
-				892151FE1B8E59EF00CBF7E4 /* FakeOperationQueue.swift in Sources */,
-				89B1C71E1BBC6CC700BF0870 /* HomeAssistantRepositorySpec.swift in Sources */,
-				89B1C7051BB9CA9300BF0870 /* HomeAssistantServiceSpec.swift in Sources */,
-				89B1C71F1BBC6CF800BF0870 /* FakeHomeAssistantService.swift in Sources */,
-				892151FE1B8E59EF00CBF7E4 /* FakeOperationQueue.swift in Sources */,
-				89B1C71E1BBC6CC700BF0870 /* HomeAssistantRepositorySpec.swift in Sources */,
-				89B1C7051BB9CA9300BF0870 /* HomeAssistantServiceSpec.swift in Sources */,
+				AE7BF7601C62947F00B87382 /* HomeAssistantRepositorySpec.swift in Sources */,
+				AE2BC2B41C62863400524B6E /* HomeAssistantServiceSpec.swift in Sources */,
+				AE2BC2AD1C6285DE00524B6E /* FakeOperationQueue.swift in Sources */,
+				AE2BC2AE1C62860F00524B6E /* FakeHomeAssistantService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,21 +1,31 @@
 import Foundation
 import WatchConnectivity
 
+public protocol HomeRepository {
+    func addSubscriber(subscriber: HomeRepositorySubscriber)
+
+    func states(callback: [State] -> Void)
+    func services(callback: [Service] -> Void)
+
+    func updateService(service: Service, method: String, onEntity: State, callback: ([State], NSError?) -> Void)
+}
+
 public protocol HomeRepositorySubscriber: NSObjectProtocol {
     func didUpdateStates(states: [State])
 }
 
-public class HomeAssistantRepository {
-    private var _states = Array<State>()
+public class HomeAssistantRepository: HomeRepository {
+    private var _states = [State]()
+    private var _services = [Service]()
 
     public let watchSession = WCSession.defaultSession()
     private let watchDelegate = WatchConnectivityDelegate()
 
-    public let homeService: HomeAssistantService
+    let homeService: HomeAssistantService
 
     private let subscribers = NSHashTable.weakObjectsHashTable()
 
-    public init(homeService: HomeAssistantService) {
+    init(homeService: HomeAssistantService) {
         self.homeService = homeService
         self.watchDelegate.didUpdateStates = {
             self.updateStates($0)
@@ -27,6 +37,49 @@ public class HomeAssistantRepository {
         self.subscribers.addObject(subscriber)
     }
 
+    public func states(callback: [State] -> Void) {
+        if !self._states.isEmpty {
+            callback(self._states)
+        }
+
+        self.forceUpdateStates(callback)
+    }
+
+    public func services(callback: [Service] -> Void) {
+        if !self._services.isEmpty {
+            callback(self._services)
+        }
+
+        self.homeService.services { services, error in
+            if let _ = error {
+                callback([])
+                return
+            }
+            callback(services)
+            self._services = services
+        }
+    }
+
+    public func updateService(service: Service, method: String, onEntity state: State, callback: ([State], NSError?) -> Void) {
+        self.homeService.callService(service.domain, onDomain: method, data: ["entity_id": state.entityId]) { states, error in
+            callback(states, error)
+            if error == nil {
+                self.forceUpdateStates{ _ in }
+            }
+        }
+    }
+
+    private func forceUpdateStates(callback: [State] -> Void) {
+        self.homeService.status {states, error in
+            if let _ = error {
+                callback([])
+                return
+            }
+            self.updateStates(states)
+            callback(self._states)
+        }
+    }
+
     private func updateStates(newStates: [State]) {
         self._states = newStates
 
@@ -36,21 +89,6 @@ public class HomeAssistantRepository {
         for object in self.subscribers.allObjects {
             guard let subscriber = object as? HomeRepositorySubscriber else { continue }
             subscriber.didUpdateStates(self._states)
-        }
-    }
-
-    public func states(forceUpdate: Bool, callback: ([State]) -> (Void)) {
-        if !self._states.isEmpty && !forceUpdate {
-            callback(self._states)
-        }
-
-        self.homeService.status {states, error in
-            if let _ = error {
-                callback([])
-                return
-            }
-            self.updateStates(states)
-            callback(self._states)
         }
     }
 }

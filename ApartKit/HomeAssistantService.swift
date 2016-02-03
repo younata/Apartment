@@ -1,13 +1,13 @@
 import Foundation
 
-public class HomeAssistantService {
+class HomeAssistantService {
     var baseURL: NSURL
     var apiKey: String
     let urlSession: NSURLSession
     let mainQueue: NSOperationQueue
     let dateFormatter = NSDateFormatter()
 
-    public init(baseURL: NSURL, apiKey: String, urlSession: NSURLSession, mainQueue: NSOperationQueue) {
+    init(baseURL: NSURL, apiKey: String, urlSession: NSURLSession, mainQueue: NSOperationQueue) {
         self.baseURL = baseURL.URLByAppendingPathComponent("api", isDirectory: true)
         self.apiKey = apiKey
         self.urlSession = urlSession
@@ -18,7 +18,7 @@ public class HomeAssistantService {
 
     // MARK: Events
 
-    public func events(callback: ([Event], NSError?) -> (Void)) {
+    func events(callback: ([Event], NSError?) -> (Void)) {
         let url = self.baseURL.URLByAppendingPathComponent("events")
         let request = NSMutableURLRequest(URL: url)
         request.addValue(self.apiKey, forHTTPHeaderField: "x-ha-access")
@@ -47,7 +47,7 @@ public class HomeAssistantService {
         }.resume()
     }
 
-    public func fireEvent(event: String, data: [String: AnyObject]?, callback: (String?, NSError?) -> (Void)) {
+    func fireEvent(event: String, data: [String: AnyObject]?, callback: (String?, NSError?) -> (Void)) {
         let url = self.baseURL.URLByAppendingPathComponent("events", isDirectory: true).URLByAppendingPathComponent(event)
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
@@ -78,7 +78,7 @@ public class HomeAssistantService {
 
     // MARK: Services
 
-    public func services(callback: ([Service], NSError?) -> (Void)) {
+    func services(callback: ([Service], NSError?) -> (Void)) {
         let url = self.baseURL.URLByAppendingPathComponent("services")
         let request = NSMutableURLRequest(URL: url)
         request.addValue(self.apiKey, forHTTPHeaderField: "x-ha-access")
@@ -109,7 +109,7 @@ public class HomeAssistantService {
         }.resume()
     }
 
-    public func callService(service: String, onDomain domain: String, data: [String: AnyObject]?, callback: ([State], NSError?) -> (Void)) {
+    func callService(service: String, onDomain domain: String, data: [String: AnyObject]?, callback: ([State], NSError?) -> (Void)) {
         let url = self.baseURL.URLByAppendingPathComponent("services", isDirectory: true).URLByAppendingPathComponent("\(domain)/\(service)")
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
@@ -145,7 +145,7 @@ public class HomeAssistantService {
 
     // MARK: States
 
-    public func status(callback: ([State], NSError?) -> (Void)) {
+    func status(callback: ([State], NSError?) -> (Void)) {
         let url = self.baseURL.URLByAppendingPathComponent("states")
         let request = NSMutableURLRequest(URL: url)
         request.addValue(self.apiKey, forHTTPHeaderField: "x-ha-access")
@@ -173,7 +173,7 @@ public class HomeAssistantService {
         }.resume()
     }
 
-    public func status(entityId: String, callback: (State?, NSError?) -> (Void)) {
+    func status(entityId: String, callback: (State?, NSError?) -> (Void)) {
         let url = self.baseURL.URLByAppendingPathComponent("states", isDirectory: true).URLByAppendingPathComponent(entityId)
         let request = NSMutableURLRequest(URL: url)
         request.addValue(self.apiKey, forHTTPHeaderField: "x-ha-access")
@@ -182,7 +182,7 @@ public class HomeAssistantService {
         }.resume()
     }
 
-    public func update(entityId: String, newStatus: String, callback: (State?, NSError?) -> (Void)) {
+    func update(entityId: String, newStatus: String, callback: (State?, NSError?) -> (Void)) {
         let url = self.baseURL.URLByAppendingPathComponent("states", isDirectory: true).URLByAppendingPathComponent(entityId)
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"

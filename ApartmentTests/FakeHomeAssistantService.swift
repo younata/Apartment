@@ -1,5 +1,5 @@
 import Foundation
-import ApartKit
+@testable import ApartKit
 
 class FakeHomeAssistantService: HomeAssistantService {
     init() {

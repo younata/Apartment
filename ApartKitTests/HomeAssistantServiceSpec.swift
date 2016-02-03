@@ -1,6 +1,6 @@
 import Quick
 import Nimble
-import ApartKit
+@testable import ApartKit
 
 class HomeAssistantServiceSpec: QuickSpec {
     override func spec() {

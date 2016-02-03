@@ -1,7 +1,7 @@
 import Quick
 import Nimble
 import WatchConnectivity
-import ApartKit
+@testable import ApartKit
 
 private class HomeRepoSubscriber: NSObject, HomeRepositorySubscriber {
     var states: [State]? = nil
@@ -28,84 +28,181 @@ class HomeAssistantRepositorySpec: QuickSpec {
 
         describe("updating states") {
             var receivedStates: [State]? = nil
-            describe("when we don't have any prior knowledge of the states") {
+            beforeEach {
+                subject.states {newStates in
+                    receivedStates = newStates
+                }
+            }
+
+            it("should not immediately return") {
+                expect(receivedStates).to(beNil())
+            }
+
+            it("should kick off a request to the homeService for states") {
+                expect(homeService.statusCallback).toNot(beNil())
+            }
+
+            context("when the request suceeds") {
+                let df = NSDateFormatter()
+                df.dateFormat = "HH:mm:ss dd-MM-yyyy"
+
+                let states = [
+                    State(attributes: ["brightness": 254, "friendly_name": "Bedroom", "xy_color": [0.4499, 0.408]], entityId: "light.bedroom", lastChanged: df.dateFromString("17:31:56 28-09-2015")!, lastUpdated: df.dateFromString("19:18:51 28-09-2015")!, state: "on"),
+                    State(attributes: ["auto": true, "entity_id": ["light.bedroom", "light.hue_lamp", "light.living_room"], "friendly_name": "all_lights"], entityId: "group.all_lights", lastChanged: df.dateFromString("17:31:56 28-09-2015")!, lastUpdated: df.dateFromString("17:31:56 28-09-2015")!, state: "on"),
+                    State(attributes: ["friendly_name": "internet switch"], entityId: "switch.internet_switch", lastChanged: df.dateFromString("17:29:56 28-09-2015")!, lastUpdated: df.dateFromString("19:18:51 28-09-2015")!, state: "off")
+                ]
+
                 beforeEach {
-                    subject.states(false) {newStates in
+                    homeService.statusCallback?(states, nil)
+                }
+
+                it("should call the callback with the states") {
+                    expect(receivedStates).to(equal(states))
+                }
+
+                it("should inform any subscribers") {
+                    expect(subscriber.states).to(equal(states))
+                }
+
+                it("should immediately returns with the states when we request them again, without informing subscribers") {
+                    receivedStates = nil
+                    subscriber.states = nil
+                    subject.states {newStates in
                         receivedStates = newStates
                     }
+                    expect(receivedStates).to(equal(states))
+
+                    expect(subscriber.states).to(beNil())
+                }
+            }
+
+            context("when the request fails") {
+                beforeEach {
+                    let error = NSError(domain: "", code: 0, userInfo: nil)
+                    homeService.statusCallback?([], error)
                 }
 
-                it("should not immediately return") {
-                    expect(receivedStates).to(beNil())
+                it("should immediately call the callback with no results") {
+                    expect(receivedStates).to(equal(Array<State>()))
                 }
 
-                it("should kick off a request to the homeService for states") {
+                it("does not inform any subscribers") {
+                    expect(subscriber.states).to(beNil())
+                }
+            }
+        }
+
+        describe("getting all the services") {
+            var receivedServices: [Service]?
+            beforeEach {
+                receivedServices = nil
+
+                subject.services { services in
+                    receivedServices = services
+                }
+            }
+
+            it("does not immediately return") {
+                expect(receivedServices).to(beNil())
+            }
+
+            it("kicks off a request to the homeService for services") {
+                expect(homeService.servicesCallback).toNot(beNil())
+            }
+
+            context("when the request suceeds") {
+                let service1 = Service(domain: "home_assistant", services: ["turn_on", "turn_off"])
+                let service2 = Service(domain: "lights", services: ["turn_on", "turn_off"])
+
+                let services = [service1, service2]
+
+                beforeEach {
+                    homeService.servicesCallback?(services, nil)
+                }
+
+                it("should call the callback with the states") {
+                    expect(receivedServices).to(equal(services))
+                }
+                it("should immediately returns with the states when we request them again") {
+                    receivedServices = nil
+                    subject.services {newServices in
+                        receivedServices = newServices
+                    }
+                    expect(receivedServices) == services
+                }
+            }
+
+            context("when the request fails") {
+                beforeEach {
+                    let error = NSError(domain: "", code: 0, userInfo: nil)
+                    homeService.servicesCallback?([], error)
+                }
+
+                it("should immediately call the callback with no results") {
+                    expect(receivedServices?.isEmpty) == true
+                }
+            }
+        }
+
+        describe("updating a service") {
+            let service = Service(domain: "home_assistant", services: ["turn_on", "turn_on"])
+            let state = State(attributes: ["entity_id": "lights"], entityId: "group.lights", lastChanged: NSDate(), lastUpdated: NSDate(), state: "off")
+
+            var receivedStates: [State]?
+            var receivedError: NSError?
+
+            beforeEach {
+                receivedStates = nil
+                receivedError = nil;
+
+                subject.updateService(service, method: "turn_on", onEntity: state) { newStates, error in
+                    receivedStates = newStates
+                    receivedError = error
+                }
+            }
+
+            it("makes a call into the Service") {
+                expect(homeService.calledService) == "home_assistant"
+                expect(homeService.calledServiceDomain) == "turn_on"
+                expect(homeService.calledServiceData?.keys.count) == 1
+                expect(homeService.calledServiceData?["entity_id"] as? String) == "group.lights"
+                expect(homeService.calledServiceCallback).toNot(beNil())
+
+                expect(receivedStates).to(beNil())
+                expect(receivedError).to(beNil())
+            }
+
+            context("when the call succeeds") {
+                let updatedState = State(attributes: ["entity_id": "lights"], entityId: "group.lights", lastChanged: NSDate(), lastUpdated: NSDate(), state: "on")
+
+                beforeEach {
+                    homeService.calledServiceCallback?([updatedState], nil)
+                }
+
+                it("tells the receiver") {
+                    expect(receivedStates) == [updatedState]
+                    expect(receivedError).to(beNil())
+                }
+
+                it("tries to update the status") {
                     expect(homeService.statusCallback).toNot(beNil())
                 }
+            }
 
-                describe("when the request returns successfully") {
-                    let df = NSDateFormatter()
-                    df.dateFormat = "HH:mm:ss dd-MM-yyyy"
+            context("when the call fails") {
+                let error = NSError(domain: "com.example.error", code: 20, userInfo: nil)
 
-                    let states = [
-                        State(attributes: ["brightness": 254, "friendly_name": "Bedroom", "xy_color": [0.4499, 0.408]], entityId: "light.bedroom", lastChanged: df.dateFromString("17:31:56 28-09-2015")!, lastUpdated: df.dateFromString("19:18:51 28-09-2015")!, state: "on"),
-                        State(attributes: ["auto": true, "entity_id": ["light.bedroom", "light.hue_lamp", "light.living_room"], "friendly_name": "all_lights"], entityId: "group.all_lights", lastChanged: df.dateFromString("17:31:56 28-09-2015")!, lastUpdated: df.dateFromString("17:31:56 28-09-2015")!, state: "on"),
-                        State(attributes: ["friendly_name": "internet switch"], entityId: "switch.internet_switch", lastChanged: df.dateFromString("17:29:56 28-09-2015")!, lastUpdated: df.dateFromString("19:18:51 28-09-2015")!, state: "off")
-                    ]
-
-                    beforeEach {
-                        homeService.statusCallback?(states, nil)
-                    }
-
-                    it("should call the callback with the states") {
-                        expect(receivedStates).to(equal(states))
-                    }
-
-                    it("should inform any subscribers") {
-                        expect(subscriber.states).to(equal(states))
-                    }
-
-                    it("should immediately returns with the states when we request them again, without informing subscribers") {
-                        receivedStates = nil
-                        subscriber.states = nil
-                        subject.states(false) {newStates in
-                            receivedStates = newStates
-                        }
-                        expect(receivedStates).to(equal(states))
-
-                        expect(subscriber.states).to(beNil())
-                    }
-
-                    describe("when we force an update") {
-                        beforeEach {
-                            receivedStates = nil
-                            homeService.statusCallback = nil
-                            subject.states(true) {newStates in
-                                receivedStates = newStates
-                            }
-                        }
-
-                        it("should not immediately return") {
-                            expect(receivedStates).to(beNil())
-                        }
-
-                        it("should kick off a request to the homeService for states") {
-                            expect(homeService.statusCallback).toNot(beNil())
-                        }
-
-                        // we know how it goes...
-                    }
+                beforeEach {
+                    homeService.calledServiceCallback?([], error)
                 }
 
-                describe("when the request fails") {
-                    beforeEach {
-                        let error = NSError(domain: "", code: 0, userInfo: nil)
-                        homeService.statusCallback?([], error)
-                    }
+                it("tells the receiver") {
+                    expect(receivedStates) == []
+                    expect(receivedError) == error
+                }
 
-                    it("should immediately call the callback with no results") {
-                        expect(receivedStates).to(equal(Array<State>()))
-                    }
+                it("does not try to update the status") {
+                    expect(homeService.statusCallback).to(beNil())
                 }
             }
         }

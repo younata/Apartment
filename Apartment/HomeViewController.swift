@@ -1,7 +1,7 @@
 import UIKit
 import Ra
 import ApartKit
-import PureLayout_iOS
+import PureLayout
 
 public class HomeViewController: UIViewController {
 
@@ -11,16 +11,8 @@ public class HomeViewController: UIViewController {
     private var services = Array<Service>()
 
     private lazy var homeAssistantRepository: HomeAssistantRepository = {
-        return self.injector!.create(HomeAssistantRepository.self) as! HomeAssistantRepository
+        return self.injector!.create(HomeAssistantRepository.self)!
     }()
-
-    private lazy var homeAssistantRepository: HomeAssistantRepository = {
-        return self.injector!.create(HomeAssistantRepository.self) as! HomeAssistantRepository
-    }()
-
-    private var homeAssistantService: HomeAssistantService {
-        return self.homeAssistantRepository.homeService
-    }
 
     private lazy var tableViewController = UITableViewController(style: .Grouped)
 
@@ -118,7 +110,7 @@ extension HomeViewController: UITableViewDataSource {
 
         if let domain = state.domain where domains.contains(domain) {
             let service = on ? "turn_on" : "turn_off"
-            self.homeAssistantService.callService(service, onDomain: domain, data: ["entity_id": state.entityId]) {states, error in
+            self.homeAssistantRepository.updateService(service, onDomain: domain, entity: state) {states, error in
                 self.refreshControl?.beginRefreshing()
                 self.refresh()
             }
