@@ -10,7 +10,7 @@ public class HomeViewController: UIViewController {
 
     private var services = [Service]()
 
-    private lazy var homeAssistantRepository: HomeRepository = {
+    private lazy var homeRepository: HomeRepository = {
         return self.injector!.create(HomeRepository)!
     }()
 
@@ -54,7 +54,7 @@ public class HomeViewController: UIViewController {
     // MARK: Private
 
     @objc private func refresh() {
-        self.homeAssistantRepository.states {states in
+        self.homeRepository.states {states in
             self.states = states
 
             let groups = states.filter { $0.isGroup }
@@ -73,6 +73,8 @@ public class HomeViewController: UIViewController {
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
         }
+
+        self.homeRepository.services { self.services = $0 }
     }
 }
 
@@ -119,7 +121,7 @@ extension HomeViewController: UITableViewDataSource {
 
         if let service = serviceForDomain(state.domain ?? "") {
             let method = on ? "turn_on" : "turn_off"
-            self.homeAssistantRepository.updateService(service, method: method, onEntity: state) {states, error in
+            self.homeRepository.updateService(service, method: method, onEntity: state) {states, error in
                 self.refreshControl?.beginRefreshing()
                 self.refresh()
             }

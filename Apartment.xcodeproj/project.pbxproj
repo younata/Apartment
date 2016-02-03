@@ -65,7 +65,7 @@
 		AE7BF75A1C62872D00B87382 /* PureLayout.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AE7BF7571C62871500B87382 /* PureLayout.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AE7BF75C1C62884E00B87382 /* UIKit_PivotalSpecHelperStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE7BF75B1C62884E00B87382 /* UIKit_PivotalSpecHelperStubs.framework */; };
 		AE7BF75D1C62885700B87382 /* UIKit_PivotalSpecHelperStubs.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AE7BF75B1C62884E00B87382 /* UIKit_PivotalSpecHelperStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		AE7BF75F1C628B4200B87382 /* FakeHomeAssistantRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7BF75E1C628B4200B87382 /* FakeHomeAssistantRepository.swift */; };
+		AE7BF75F1C628B4200B87382 /* FakeHomeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7BF75E1C628B4200B87382 /* FakeHomeRepository.swift */; };
 		AE7BF7601C62947F00B87382 /* HomeAssistantRepositorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C71D1BBC6CC700BF0870 /* HomeAssistantRepositorySpec.swift */; };
 		AE8595631C62B4AC00706602 /* ApartWatchKitModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8595621C62B4AC00706602 /* ApartWatchKitModule.swift */; };
 		AED985461C62AD1F00A20780 /* ApartKitModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED985451C62AD1F00A20780 /* ApartKitModule.swift */; };
@@ -245,7 +245,7 @@
 		89E008851AD977EC001A54D5 /* FakeTouch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTouch.swift; sourceTree = "<group>"; };
 		AE7BF7571C62871500B87382 /* PureLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PureLayout.framework; path = ../Carthage/Build/iOS/PureLayout.framework; sourceTree = "<group>"; };
 		AE7BF75B1C62884E00B87382 /* UIKit_PivotalSpecHelperStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit_PivotalSpecHelperStubs.framework; path = ../Carthage/Build/iOS/UIKit_PivotalSpecHelperStubs.framework; sourceTree = "<group>"; };
-		AE7BF75E1C628B4200B87382 /* FakeHomeAssistantRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeHomeAssistantRepository.swift; sourceTree = "<group>"; };
+		AE7BF75E1C628B4200B87382 /* FakeHomeRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeHomeRepository.swift; sourceTree = "<group>"; };
 		AE8595621C62B4AC00706602 /* ApartWatchKitModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApartWatchKitModule.swift; sourceTree = "<group>"; };
 		AED985451C62AD1F00A20780 /* ApartKitModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApartKitModule.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -363,7 +363,7 @@
 			children = (
 				895635101ACA627A00CA60E9 /* AppDelegateSpec.swift */,
 				89E008851AD977EC001A54D5 /* FakeTouch.swift */,
-				AE7BF75E1C628B4200B87382 /* FakeHomeAssistantRepository.swift */,
+				AE7BF75E1C628B4200B87382 /* FakeHomeRepository.swift */,
 				895636171ACFA03600CA60E9 /* Features */,
 				89E008841AD975A6001A54D5 /* Views */,
 				AE7BF75B1C62884E00B87382 /* UIKit_PivotalSpecHelperStubs.framework */,
@@ -789,7 +789,7 @@
 			files = (
 				AE2BC2B01C62861300524B6E /* FakeTouch.swift in Sources */,
 				AE2BC2B11C62861600524B6E /* AppDelegateSpec.swift in Sources */,
-				AE7BF75F1C628B4200B87382 /* FakeHomeAssistantRepository.swift in Sources */,
+				AE7BF75F1C628B4200B87382 /* FakeHomeRepository.swift in Sources */,
 				AE2BC2B21C62861C00524B6E /* HomeViewControllerSpec.swift in Sources */,
 				AE2BC2B31C62862100524B6E /* ColorPickerSpec.swift in Sources */,
 			);

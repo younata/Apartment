@@ -10,30 +10,32 @@ class HomeViewControllerSpec: QuickSpec {
         var subject: HomeViewController! = nil
         var injector: Ra.Injector! = nil
         var navigationController: UINavigationController! = nil
-        var homeRepository: HomeAssistantRepository! = nil
+        var homeRepository: FakeHomeRepository! = nil
 
         beforeEach {
             injector = Ra.Injector()
 
-            homeService = FakeHomeAssistantService()
-            homeRepository = HomeAssistantRepository(homeService: homeService)
-            injector.bind(HomeAssistantRepository.self, to: homeRepository)
+            homeRepository = FakeHomeRepository()
+            injector.bind(HomeRepository.self, toInstance: homeRepository)
 
-            subject = injector.create(HomeViewController.self) as! HomeViewController
+            subject = injector.create(HomeViewController.self)!
             navigationController = UINavigationController(rootViewController: subject)
+
+            subject.view.layoutIfNeeded()
         }
 
-        describe("on view load") {
+        context("once the home repository has been configured") {
             beforeEach {
-                expect(subject.view).toNot(beNil())
+                homeRepository.backendURL = NSURL(string: "https://example.com")
+                homeRepository.backendPassword = "password"
             }
 
             it("should request that the home service gets updated status") {
-                expect(homeService.statusCallback).toNot(beNil())
+                expect(homeRepository.statesCallback).toNot(beNil())
             }
 
             it("should request that the home service gets the list of all services") {
-                expect(homeService.servicesCallback).toNot(beNil())
+                expect(homeRepository.servicesCallback).toNot(beNil())
             }
 
             it("should start off the refresh control") {
@@ -42,7 +44,7 @@ class HomeViewControllerSpec: QuickSpec {
 
             describe("when the home service comes back successfully") {
                 beforeEach {
-                    guard let callback = homeService.statusCallback else { return }
+                    guard let callback = homeRepository.statesCallback else { return }
 
                     let df = NSDateFormatter()
                     df.dateFormat = "HH:mm:ss dd-MM-yyyy"
@@ -63,7 +65,7 @@ class HomeViewControllerSpec: QuickSpec {
                         State(attributes: ["unit_of_measurement": "°F", "friendly_name": "Weather Temperature"], entityId: "sensor.weather_temperature", lastChanged: NSDate(timeIntervalSince1970: 1443658172.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "60.6")
                     ]
 
-                    callback(states, nil)
+                    callback(states)
                 }
 
                 describe("the tableView") {
@@ -84,18 +86,18 @@ class HomeViewControllerSpec: QuickSpec {
                     }
 
                     it("should have a section for each group, plus one for each scene") {
-                        expect(dataSource?.numberOfSectionsInTableView?(subject.tableView)).to(equal(3))
+                        expect(dataSource?.numberOfSectionsInTableView?(subject.tableView)) == 3
                     }
 
                     describe("the first through n-1 section") {
                         let sectionNumber = 0
 
                         it("should be titled for that group name") {
-                            expect(dataSource?.tableView?(subject.tableView, titleForHeaderInSection: sectionNumber)).to(equal("all lights"))
+                            expect(dataSource?.tableView?(subject.tableView, titleForHeaderInSection: sectionNumber)) == "all lights"
                         }
 
                         it("should have only as many sections as there are items in the group") {
-                            expect(dataSource?.tableView(subject.tableView, numberOfRowsInSection: sectionNumber)).to(equal(3))
+                            expect(dataSource?.tableView(subject.tableView, numberOfRowsInSection: sectionNumber)) == 3
                         }
 
                         describe("a cell") {
@@ -108,7 +110,7 @@ class HomeViewControllerSpec: QuickSpec {
                             }
 
                             it("should have the same title as the displayName") {
-                                expect(cell?.textLabel?.text).to(equal("Bedroom"))
+                                expect(cell?.textLabel?.text) == "Bedroom"
                             }
 
                             describe("toggling the switch") {
@@ -120,26 +122,28 @@ class HomeViewControllerSpec: QuickSpec {
                                     }
 
                                     it("should not make any request to change things") {
-                                        expect(homeService.calledServiceCallback).to(beNil())
+                                        expect(homeRepository.updateServiceCallback).to(beNil())
                                     }
                                 }
 
                                 describe("after the services request has finished") {
+                                    let services = [
+                                        Service(domain: "light", services: ["turn_on", "turn_off"]),
+                                        Service(domain: "scene", services: ["turn_on", "turn_off"]),
+                                        Service(domain: "homeassistant", services: ["turn_on", "stop", "turn_off"])
+                                    ]
+
                                     beforeEach {
-                                        let services = [
-                                            Service(domain: "light", services: ["turn_on", "turn_off"]),
-                                            Service(domain: "scene", services: ["turn_on", "turn_off"]),
-                                            Service(domain: "homeassistant", services: ["turn_on", "stop", "turn_off"])
-                                        ]
-                                        homeService.servicesCallback?(services, nil)
+                                        homeRepository.servicesCallback?(services)
                                         cell?.cellSwitch.on = false
                                         cell?.cellSwitch.sendActionsForControlEvents(.ValueChanged)
                                     }
 
                                     it("should make a request to change the light") {
-                                        expect(homeService.calledServiceCallback).toNot(beNil())
-                                        expect(homeService.calledServiceDomain).to(equal("light"))
-                                        expect(homeService.calledService).to(equal("turn_off"))
+                                        expect(homeRepository.updateServiceCallback).toNot(beNil())
+                                        expect(homeRepository.updateServiceService) == services.first
+                                        expect(homeRepository.updateServiceMethod) == "turn_off"
+                                        expect(homeRepository.updateServiceEntity).toNot(beNil())
                                     }
                                 }
                             }
@@ -156,11 +160,11 @@ class HomeViewControllerSpec: QuickSpec {
                         let sectionNumber = 2
 
                         it("should be titled 'scenes'") {
-                            expect(dataSource?.tableView?(subject.tableView, titleForHeaderInSection: sectionNumber)).to(equal("scenes"))
+                            expect(dataSource?.tableView?(subject.tableView, titleForHeaderInSection: sectionNumber)) == "scenes"
                         }
 
                         it("should have only as many sections as there are scenes") {
-                            expect(dataSource?.tableView(subject.tableView, numberOfRowsInSection: sectionNumber)).to(equal(3))
+                            expect(dataSource?.tableView(subject.tableView, numberOfRowsInSection: sectionNumber)) == 3
                         }
 
                         describe("a cell") {
@@ -174,7 +178,7 @@ class HomeViewControllerSpec: QuickSpec {
                             }
 
                             it("should have the same title as the displayName") {
-                                expect(cell?.textLabel?.text).to(equal("romantic"))
+                                expect(cell?.textLabel?.text) == "romantic"
                             }
 
                             describe("tapping it") {
@@ -184,25 +188,26 @@ class HomeViewControllerSpec: QuickSpec {
                                     }
 
                                     it("should not make any request to change things") {
-                                        expect(homeService.calledServiceCallback).to(beNil())
+                                        expect(homeRepository.updateServiceCallback).to(beNil())
                                     }
                                 }
 
                                 describe("after the services request has finished") {
+                                    let services = [
+                                        Service(domain: "light", services: ["turn_on", "turn_off"]),
+                                        Service(domain: "scene", services: ["turn_on", "turn_off"]),
+                                        Service(domain: "homeassistant", services: ["turn_on", "stop", "turn_off"])
+                                    ]
+
                                     beforeEach {
-                                        let services = [
-                                            Service(domain: "light", services: ["turn_on", "turn_off"]),
-                                            Service(domain: "scene", services: ["turn_on", "turn_off"]),
-                                            Service(domain: "homeassistant", services: ["turn_on", "stop", "turn_off"])
-                                        ]
-                                        homeService.servicesCallback?(services, nil)
+                                        homeRepository.servicesCallback?(services)
                                         delegate?.tableView?(subject.tableView, didSelectRowAtIndexPath: indexPath)
                                     }
 
                                     it("should make a request to change the light") {
-                                        expect(homeService.calledServiceCallback).toNot(beNil())
-                                        expect(homeService.calledServiceDomain).to(equal("scene"))
-                                        expect(homeService.calledService).to(equal("turn_on"))
+                                        expect(homeRepository.updateServiceCallback).toNot(beNil())
+                                        expect(homeRepository.updateServiceService) == services[1]
+                                        expect(homeRepository.updateServiceMethod) == "turn_on"
                                     }
                                 }
                             }
@@ -217,18 +222,18 @@ class HomeViewControllerSpec: QuickSpec {
                         }
 
                         describe("a cell") {
-                            var cell: UITableViewCell? = nil
+                            var cell: SwitchTableViewCell? = nil
                             var indexPath = NSIndexPath(forRow: 0, inSection: 0)
 
                             beforeEach {
                                 indexPath = NSIndexPath(forRow: 0, inSection: sectionNumber)
-                                cell = dataSource?.tableView(subject.tableView, cellForRowAtIndexPath: indexPath)
+                                cell = dataSource?.tableView(subject.tableView, cellForRowAtIndexPath: indexPath) as? SwitchTableViewCell
                                 expect(cell).toNot(beNil())
                             }
 
                             it("should have the same title as the name") {
                                 let expectedTitle = sharedContext()["cellTitle"] as? String
-                                expect(cell?.textLabel?.text).to(equal(expectedTitle))
+                                expect(cell?.textLabel?.text) == expectedTitle
                             }
 
                             describe("tapping it") {
@@ -244,33 +249,33 @@ class HomeViewControllerSpec: QuickSpec {
                                         expect(navigationController.topViewController).to(beAKindOf(detailScreen))
                                     }
                                 }
+
                                 it("resets the switch") {
-                                    expect(cell?.bulbStatus.on).to(beFalsy())
+                                    expect(cell?.cellSwitch.on).to(beFalsy())
                                 }
 
                                 it("should update the UI to show the not-in-progress state") {
-                                    expect(cell?.contentView.backgroundColor).to(equal(UIColor.clearColor()))
+                                    expect(cell?.contentView.backgroundColor) == UIColor.clearColor()
                                 }
                             }
                         }
                     }
-                it("should stop the refresh control") {
-                    expect(subject.refreshControl?.refreshing).to(beFalsy())
-                }
-            }
-
-            describe("when the home service fails") {
-                beforeEach {
-                    guard let callback = homeService.statusCallback else { return }
-                    let error = NSError(domain: "", code: 0, userInfo: nil)
-                    callback([], error)
+                    it("should stop the refresh control") {
+                        expect(subject.refreshControl?.refreshing).to(beFalsy())
+                    }
                 }
 
-                it("should stop the refresh control") {
-                    expect(subject.refreshControl?.refreshing).to(beFalsy())
+                describe("when the home service fails") {
+                    beforeEach {
+                        guard let callback = homeRepository.statesCallback else { return }
+                        callback([])
+                    }
+
+                    it("should stop the refresh control") {
+                        expect(subject.refreshControl?.refreshing).to(beFalsy())
+                    }
                 }
             }
         }
-    }
     }
 }

@@ -28,7 +28,7 @@ class ColorPickerSpec: QuickSpec {
         describe("Setting saturation") {
             it("sets the selectedPoint's y value") {
                 subject.saturation = 0.6
-                expect(subject.selectedPoint.y).to(equal(60.0))
+                expect(subject.selectedPoint.y).to(beCloseTo(60.0))
             }
         }
 
