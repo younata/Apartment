@@ -1,5 +1,6 @@
 import UIKit
 import Ra
+import ApartKit
 
 @UIApplicationMain
 public class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -7,7 +8,7 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
     public var window: UIWindow?
     public lazy var anInjector: Ra.Injector = {
         let injector = Ra.Injector()
-        ApplicationModule().configureInjector(injector)
+        ApartKitModule().configureInjector(injector)
         return injector
     }()
 

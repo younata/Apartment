@@ -15,7 +15,10 @@ class HomeAssistantServiceSpec: QuickSpec {
             urlSession = FakeURLSession()
             mainQueue = FakeOperationQueue()
 
-            subject = HomeAssistantService(baseURL: NSURL(string: "http://localhost.com")!, apiKey: "blah", urlSession: urlSession, mainQueue: mainQueue)
+            subject = HomeAssistantService(urlSession: urlSession, mainQueue: mainQueue)
+
+            subject.baseURL = NSURL(string: "http://localhost.com/api/")
+            subject.apiKey = "blah"
         }
 
 

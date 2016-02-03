@@ -1,15 +1,13 @@
 import Foundation
 
 class HomeAssistantService {
-    var baseURL: NSURL
-    var apiKey: String
+    var baseURL: NSURL!
+    var apiKey: String!
     let urlSession: NSURLSession
     let mainQueue: NSOperationQueue
     let dateFormatter = NSDateFormatter()
 
-    init(baseURL: NSURL, apiKey: String, urlSession: NSURLSession, mainQueue: NSOperationQueue) {
-        self.baseURL = baseURL.URLByAppendingPathComponent("api", isDirectory: true)
-        self.apiKey = apiKey
+    init(urlSession: NSURLSession, mainQueue: NSOperationQueue) {
         self.urlSession = urlSession
         self.mainQueue = mainQueue
 

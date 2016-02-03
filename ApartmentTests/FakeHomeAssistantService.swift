@@ -3,11 +3,11 @@ import Foundation
 
 class FakeHomeAssistantService: HomeAssistantService {
     init() {
-        super.init(baseURL: NSURL(string: "")!, apiKey: "", urlSession: NSURLSession.sharedSession(), mainQueue: NSOperationQueue.mainQueue())
+        super.init(urlSession: NSURLSession.sharedSession(), mainQueue: NSOperationQueue.mainQueue())
     }
 
-    override init(baseURL: NSURL, apiKey: String, urlSession: NSURLSession, mainQueue: NSOperationQueue) {
-        super.init(baseURL: baseURL, apiKey: apiKey, urlSession: urlSession, mainQueue: mainQueue)
+    override init(urlSession: NSURLSession, mainQueue: NSOperationQueue) {
+        super.init(urlSession: urlSession, mainQueue: mainQueue)
     }
 
     var eventsCallback: (([Event], NSError?) -> (Void))? = nil

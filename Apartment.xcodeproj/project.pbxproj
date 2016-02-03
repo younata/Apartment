@@ -16,7 +16,6 @@
 		8956350F1ACA60F900CA60E9 /* Quick.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8956350A1ACA60E100CA60E9 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		895635191ACA6EBA00CA60E9 /* Ra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; };
 		8956351A1ACA6EC800CA60E9 /* Ra.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8956351D1ACA6EE800CA60E9 /* ApplicationModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8956351C1ACA6EE800CA60E9 /* ApplicationModule.swift */; };
 		895636191ACFA4F600CA60E9 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895636181ACFA4F600CA60E9 /* HomeViewController.swift */; };
 		89A5A1BB1B5E165E00FC3FE3 /* ApartKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 89A5A1BA1B5E165E00FC3FE3 /* ApartKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		89A5A1C21B5E165E00FC3FE3 /* ApartKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A5A1B81B5E165E00FC3FE3 /* ApartKit.framework */; };
@@ -68,6 +67,10 @@
 		AE7BF75D1C62885700B87382 /* UIKit_PivotalSpecHelperStubs.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AE7BF75B1C62884E00B87382 /* UIKit_PivotalSpecHelperStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AE7BF75F1C628B4200B87382 /* FakeHomeAssistantRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7BF75E1C628B4200B87382 /* FakeHomeAssistantRepository.swift */; };
 		AE7BF7601C62947F00B87382 /* HomeAssistantRepositorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C71D1BBC6CC700BF0870 /* HomeAssistantRepositorySpec.swift */; };
+		AE8595631C62B4AC00706602 /* ApartWatchKitModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8595621C62B4AC00706602 /* ApartWatchKitModule.swift */; };
+		AED985461C62AD1F00A20780 /* ApartKitModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED985451C62AD1F00A20780 /* ApartKitModule.swift */; };
+		AED9854B1C62B20900A20780 /* Ra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; };
+		AED9854C1C62B21200A20780 /* Ra.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +154,7 @@
 			files = (
 				89A5A1D81B5E16B400FC3FE3 /* Nimble.framework in Embed Frameworks */,
 				89A5A1D91B5E16B400FC3FE3 /* Quick.framework in Embed Frameworks */,
+				AED9854C1C62B21200A20780 /* Ra.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -203,7 +207,6 @@
 		8956350A1ACA60E100CA60E9 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = SOURCE_ROOT; };
 		895635101ACA627A00CA60E9 /* AppDelegateSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegateSpec.swift; sourceTree = "<group>"; };
 		895635181ACA6EBA00CA60E9 /* Ra.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ra.framework; path = Carthage/Build/iOS/Ra.framework; sourceTree = SOURCE_ROOT; };
-		8956351C1ACA6EE800CA60E9 /* ApplicationModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationModule.swift; sourceTree = "<group>"; };
 		895636151ACFA02E00CA60E9 /* HomeViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerSpec.swift; sourceTree = "<group>"; };
 		895636181ACFA4F600CA60E9 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		8956362B1AD0B5D000CA60E9 /* UIColor+Apartment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+Apartment.swift"; path = "../Apartment/UIColor+Apartment.swift"; sourceTree = "<group>"; };
@@ -243,6 +246,8 @@
 		AE7BF7571C62871500B87382 /* PureLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PureLayout.framework; path = ../Carthage/Build/iOS/PureLayout.framework; sourceTree = "<group>"; };
 		AE7BF75B1C62884E00B87382 /* UIKit_PivotalSpecHelperStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit_PivotalSpecHelperStubs.framework; path = ../Carthage/Build/iOS/UIKit_PivotalSpecHelperStubs.framework; sourceTree = "<group>"; };
 		AE7BF75E1C628B4200B87382 /* FakeHomeAssistantRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeHomeAssistantRepository.swift; sourceTree = "<group>"; };
+		AE8595621C62B4AC00706602 /* ApartWatchKitModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApartWatchKitModule.swift; sourceTree = "<group>"; };
+		AED985451C62AD1F00A20780 /* ApartKitModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApartKitModule.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -270,6 +275,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AED9854B1C62B20900A20780 /* Ra.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,7 +339,6 @@
 			isa = PBXGroup;
 			children = (
 				895634E21ACA5DA200CA60E9 /* AppDelegate.swift */,
-				8956351C1ACA6EE800CA60E9 /* ApplicationModule.swift */,
 				8956351B1ACA6ED500CA60E9 /* Features */,
 				89E008811AD8E4BC001A54D5 /* Views */,
 				895634E91ACA5DA300CA60E9 /* Images.xcassets */,
@@ -415,6 +420,7 @@
 			isa = PBXGroup;
 			children = (
 				8956362B1AD0B5D000CA60E9 /* UIColor+Apartment.swift */,
+				AED985451C62AD1F00A20780 /* ApartKitModule.swift */,
 				89B1C7011BB9CA3700BF0870 /* HomeAssistantService.swift */,
 				89B1C7161BBB38DC00BF0870 /* HomeAssistantRepository.swift */,
 				89B1C7061BB9EB4100BF0870 /* State.swift */,
@@ -474,6 +480,7 @@
 			isa = PBXGroup;
 			children = (
 				89A5A21D1B5EE08200FC3FE3 /* ApartWatchKit.h */,
+				AE8595621C62B4AC00706602 /* ApartWatchKitModule.swift */,
 				89A5A21F1B5EE08200FC3FE3 /* Info.plist */,
 			);
 			path = ApartWatchKit;
@@ -770,7 +777,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				895636191ACFA4F600CA60E9 /* HomeViewController.swift in Sources */,
-				8956351D1ACA6EE800CA60E9 /* ApplicationModule.swift in Sources */,
 				89B1C71C1BBC5CC700BF0870 /* SwitchTableViewCell.swift in Sources */,
 				895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */,
 				89E0087F1AD7902E001A54D5 /* ColorPicker.swift in Sources */,
@@ -794,6 +800,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				89B1C70A1BBA04EB00BF0870 /* Event.swift in Sources */,
+				AED985461C62AD1F00A20780 /* ApartKitModule.swift in Sources */,
 				89B1C7021BB9CA3700BF0870 /* HomeAssistantService.swift in Sources */,
 				89B1C70D1BBA0B5D00BF0870 /* Service.swift in Sources */,
 				89B1C7171BBB38DC00BF0870 /* HomeAssistantRepository.swift in Sources */,
@@ -831,6 +838,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				89B1C70B1BBA04EB00BF0870 /* Event.swift in Sources */,
+				AE8595631C62B4AC00706602 /* ApartWatchKitModule.swift in Sources */,
 				89A5A2231B5EE09300FC3FE3 /* UIColor+Apartment.swift in Sources */,
 				89B1C7031BB9CA3700BF0870 /* HomeAssistantService.swift in Sources */,
 				89B1C7181BBB38DC00BF0870 /* HomeAssistantRepository.swift in Sources */,
@@ -1075,8 +1083,13 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = ApartKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rachelbrindle.ApartKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1096,8 +1109,13 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = ApartKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rachelbrindle.ApartKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1140,6 +1158,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
 				INFOPLIST_FILE = "WatchApp Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rachelbrindle.Apartment.watchkitapp.watchkitextension;
@@ -1155,6 +1177,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
 				INFOPLIST_FILE = "WatchApp Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rachelbrindle.Apartment.watchkitapp.watchkitextension;
@@ -1209,6 +1235,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/watchOS";
 				INFOPLIST_FILE = ApartWatchKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1232,6 +1259,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/watchOS";
 				INFOPLIST_FILE = ApartWatchKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

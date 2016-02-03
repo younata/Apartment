@@ -5,13 +5,13 @@ import PureLayout
 
 public class HomeViewController: UIViewController {
 
-    private var states = Array<State>()
-    private var groups = Array<(String, [State])>()
+    private var states = [State]()
+    private var groups = [(String, [State])]()
 
-    private var services = Array<Service>()
+    private var services = [Service]()
 
-    private lazy var homeAssistantRepository: HomeAssistantRepository = {
-        return self.injector!.create(HomeAssistantRepository.self)!
+    private lazy var homeAssistantRepository: HomeRepository = {
+        return self.injector!.create(HomeRepository)!
     }()
 
     private lazy var tableViewController = UITableViewController(style: .Grouped)
@@ -54,7 +54,7 @@ public class HomeViewController: UIViewController {
     // MARK: Private
 
     @objc private func refresh() {
-        self.homeAssistantRepository.states(true) {states in
+        self.homeAssistantRepository.states {states in
             self.states = states
 
             let groups = states.filter { $0.isGroup }
@@ -106,11 +106,20 @@ extension HomeViewController: UITableViewDataSource {
     }
 
     private func changeState(state: State, on: Bool) {
-        let domains = self.services.map { $0.domain }
+        let serviceForDomain: String -> Service? = { domain in
+            if let service = self.services.filter({
+                $0.domain == domain
+            }).first {
+                return service
+            }
+            return self.services.filter {
+                $0.domain == "home_assistant"
+            }.first
+        }
 
-        if let domain = state.domain where domains.contains(domain) {
-            let service = on ? "turn_on" : "turn_off"
-            self.homeAssistantRepository.updateService(service, onDomain: domain, entity: state) {states, error in
+        if let service = serviceForDomain(state.domain ?? "") {
+            let method = on ? "turn_on" : "turn_off"
+            self.homeAssistantRepository.updateService(service, method: method, onEntity: state) {states, error in
                 self.refreshControl?.beginRefreshing()
                 self.refresh()
             }

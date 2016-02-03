@@ -2,6 +2,9 @@ import Foundation
 import WatchConnectivity
 
 public protocol HomeRepository {
+    var backendURL: NSURL! { get set }
+    var backendPassword: String! { get set }
+
     func addSubscriber(subscriber: HomeRepositorySubscriber)
 
     func states(callback: [State] -> Void)
@@ -10,15 +13,55 @@ public protocol HomeRepository {
     func updateService(service: Service, method: String, onEntity: State, callback: ([State], NSError?) -> Void)
 }
 
+public extension HomeRepository {
+    var configured: Bool {
+        return self.backendPassword != nil && self.backendURL != nil
+    }
+}
+
 public protocol HomeRepositorySubscriber: NSObjectProtocol {
     func didUpdateStates(states: [State])
 }
 
-public class HomeAssistantRepository: HomeRepository {
+class HomeAssistantRepository: HomeRepository {
+    var backendURL: NSURL! {
+        get {
+            let url = self.homeService.baseURL
+            if url == nil {
+                return nil
+            }
+
+            let port: Int
+            if let portNumber = url.port {
+                port = portNumber.integerValue
+            } else if url.scheme == "https" {
+                port = 443
+            } else {
+                port = 80
+            }
+
+            return NSURL(string: "\(url.scheme)://\(url.host!):\(port)")
+        }
+        set {
+            self.homeService.baseURL = newValue.URLByAppendingPathComponent("api", isDirectory: true)
+            self.breakCache()
+        }
+    }
+
+    var backendPassword: String! {
+        get {
+            return self.homeService.apiKey
+        }
+        set {
+            self.homeService.apiKey = newValue
+            self.breakCache()
+        }
+    }
+
     private var _states = [State]()
     private var _services = [Service]()
 
-    public let watchSession = WCSession.defaultSession()
+    let watchSession = WCSession.defaultSession()
     private let watchDelegate = WatchConnectivityDelegate()
 
     let homeService: HomeAssistantService
@@ -33,11 +76,11 @@ public class HomeAssistantRepository: HomeRepository {
         self.watchSession.delegate = self.watchDelegate
     }
 
-    public func addSubscriber(subscriber: HomeRepositorySubscriber) {
+    func addSubscriber(subscriber: HomeRepositorySubscriber) {
         self.subscribers.addObject(subscriber)
     }
 
-    public func states(callback: [State] -> Void) {
+    func states(callback: [State] -> Void) {
         if !self._states.isEmpty {
             callback(self._states)
         }
@@ -45,7 +88,7 @@ public class HomeAssistantRepository: HomeRepository {
         self.forceUpdateStates(callback)
     }
 
-    public func services(callback: [Service] -> Void) {
+    func services(callback: [Service] -> Void) {
         if !self._services.isEmpty {
             callback(self._services)
         }
@@ -60,7 +103,7 @@ public class HomeAssistantRepository: HomeRepository {
         }
     }
 
-    public func updateService(service: Service, method: String, onEntity state: State, callback: ([State], NSError?) -> Void) {
+    func updateService(service: Service, method: String, onEntity state: State, callback: ([State], NSError?) -> Void) {
         self.homeService.callService(service.domain, onDomain: method, data: ["entity_id": state.entityId]) { states, error in
             callback(states, error)
             if error == nil {
@@ -90,6 +133,14 @@ public class HomeAssistantRepository: HomeRepository {
             guard let subscriber = object as? HomeRepositorySubscriber else { continue }
             subscriber.didUpdateStates(self._states)
         }
+    }
+
+    private func breakCache() {
+        self._services = []
+        self._states = []
+
+        self.forceUpdateStates { _ in }
+        self.services { _ in }
     }
 }
 

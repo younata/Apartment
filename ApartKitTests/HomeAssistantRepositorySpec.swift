@@ -3,7 +3,7 @@ import Nimble
 import WatchConnectivity
 @testable import ApartKit
 
-private class HomeRepoSubscriber: NSObject, HomeRepositorySubscriber {
+private class FakeHomeRepositorySubscriber: NSObject, HomeRepositorySubscriber {
     var states: [State]? = nil
     private func didUpdateStates(states: [State]) {
         self.states = states
@@ -14,16 +14,54 @@ class HomeAssistantRepositorySpec: QuickSpec {
     override func spec() {
         var subject: HomeAssistantRepository! = nil
         var homeService: FakeHomeAssistantService! = nil
-        var subscriber: HomeRepoSubscriber! = nil
+        var subscriber: FakeHomeRepositorySubscriber! = nil
 
         beforeEach {
             homeService = FakeHomeAssistantService()
 
-            subscriber = HomeRepoSubscriber()
+            subscriber = FakeHomeRepositorySubscriber()
 
             subject = HomeAssistantRepository(homeService: homeService)
 
             subject.addSubscriber(subscriber)
+        }
+
+        it("returns nil as the backendURL until it is set") {
+            expect(subject.backendURL).to(beNil())
+        }
+
+        it("returns nil as the backendPassword until it is set") {
+            expect(subject.backendPassword).to(beNil())
+        }
+
+        describe("updating the backendURL") {
+            beforeEach {
+                subject.backendURL = NSURL(string: "https://example.com")
+            }
+
+            it("sets the homeService's baseURL") {
+                expect(homeService.baseURL) == NSURL(string: "https://example.com/api/")
+            }
+
+            it("breaks the repositories cache and forces a refresh of states and services") {
+                expect(homeService.statusCallback).toNot(beNil())
+                expect(homeService.servicesCallback).toNot(beNil())
+            }
+        }
+
+        describe("updating the backendPassword") {
+            beforeEach {
+                subject.backendPassword = "example"
+            }
+
+            it("sets the homeService's apiKey") {
+                expect(homeService.apiKey) == "example"
+            }
+
+            it("breaks the repositories cache and forces a refresh of states and services") {
+                expect(homeService.statusCallback).toNot(beNil())
+                expect(homeService.servicesCallback).toNot(beNil())
+            }
         }
 
         describe("updating states") {
