@@ -15,7 +15,7 @@ class MapViewControllerSpec: QuickSpec {
             "friendly_name": "Home",
             "icon": "mdi:home",
             "latitude": 37,
-            "longitude": -122,
+            "longitude": -122.2,
             "radius": 100
             ], entityId: "zone.home", lastChanged: NSDate(), lastUpdated: NSDate(), state: "zoning")
 
@@ -35,11 +35,12 @@ class MapViewControllerSpec: QuickSpec {
             }
 
             it("shows a pin annotation for that device") {
-
-            }
-
-            describe("tapping the pin") {
-                // blah
+                expect(subject.map.annotations.count) == 1
+                expect(subject.map.annotations.first is MKPointAnnotation) == true
+                if let pin = subject.map.annotations.first as? MKPointAnnotation {
+                    expect(pin.title) == "my phone"
+                    expect(pin.subtitle) == "home"
+                }
             }
         }
 
@@ -53,11 +54,7 @@ class MapViewControllerSpec: QuickSpec {
             }
 
             it("shows some other kind of annotation for that device") {
-
-            }
-
-            describe("tapping it") {
-
+                expect(subject.map.annotations.count) == 1
             }
         }
 
@@ -71,7 +68,7 @@ class MapViewControllerSpec: QuickSpec {
             }
 
             it("zooms out to show all of the annotations") {
-
+                expect(subject.map.annotations.count) == 2
             }
         }
     }

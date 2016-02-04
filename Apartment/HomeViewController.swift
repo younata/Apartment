@@ -53,7 +53,9 @@ public class HomeViewController: UIViewController {
 
         self.tableViewController.refreshControl = UIRefreshControl()
         self.refreshControl?.addTarget(self, action: Selector("refresh"), forControlEvents: .ValueChanged)
+    }
 
+    public override func viewWillAppear(animated: Bool) {
         if self.homeRepository.configured {
             self.refreshControl?.beginRefreshing()
             self.refresh()

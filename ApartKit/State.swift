@@ -178,7 +178,7 @@ extension State {
     }
 
     public var trackerCoordinate: CLLocationCoordinate2D? {
-        if let latitude = self.trackerLatitude, longitude = self.trackerLatitude where self.isDeviceTracker {
+        if let latitude = self.trackerLatitude, longitude = self.trackerLongitude {
             return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         }
         return nil

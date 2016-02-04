@@ -18,16 +18,17 @@ class HomeViewControllerSpec: QuickSpec {
             injector.bind(HomeRepository.self, toInstance: homeRepository)
 
             subject = injector.create(HomeViewController)!
+
+            subject.view.layoutIfNeeded()
         }
 
         it("sets the title to something") {
-            subject.view.layoutIfNeeded()
             expect(subject.title) == "Apartment"
         }
 
         context("if the home repository has not been configured") {
             beforeEach {
-                subject.view.layoutIfNeeded()
+                subject.viewWillAppear(false)
             }
 
             it("presents a login view controller so that the user can login") {
@@ -63,7 +64,7 @@ class HomeViewControllerSpec: QuickSpec {
                 homeRepository.backendURL = NSURL(string: "https://example.com")
                 homeRepository.backendPassword = "password"
 
-                subject.view.layoutIfNeeded()
+                subject.viewWillAppear(false)
             }
 
             it("should request that the home service gets updated status") {

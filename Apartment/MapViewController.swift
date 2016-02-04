@@ -5,10 +5,28 @@ import ApartKit
 import PureLayout
 
 public class MapViewController: UIViewController {
-    public private(set) var devices = [State]()
-    public private(set) var zones = [State]()
+    public private(set) var devices = [State]() {
+        didSet {
+            for device in devices {
+                let pin = MKPointAnnotation()
+                pin.coordinate = device.trackerCoordinate!
+                pin.title = device.displayName
+                pin.subtitle = device.state
+                self.map.addAnnotation(pin)
+            }
+        }
+    }
+    public private(set) var zones = [State]() {
+        didSet {
+            for zone in zones {
+                let pin = MKPointAnnotation() // todo: not a point annotation
+                pin.coordinate = zone.zoneCoordinate!
+                self.map.addAnnotation(pin)
+            }
+        }
+    }
 
-    private let map = MKMapView(forAutoLayout: ())
+    public let map = MKMapView(forAutoLayout: ())
 
     public func configure(states: [State]) {
         let states = states.filter { $0.isDeviceTracker || $0.isZone }
@@ -20,6 +38,8 @@ public class MapViewController: UIViewController {
         } else {
             self.title = "Map"
         }
+
+        self.map.showAnnotations(self.map.annotations, animated: true)
     }
 
     public override func viewDidLoad() {
