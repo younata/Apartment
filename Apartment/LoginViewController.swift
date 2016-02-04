@@ -25,6 +25,11 @@ public class LoginViewController: UIViewController {
     public private(set) lazy var urlField: UITextField = {
         let field = UITextField()
         field.delegate = self
+        field.autocapitalizationType = .None
+        field.autocorrectionType = .No
+        field.spellCheckingType = .No
+        field.textAlignment = .Center
+        field.placeholder = "Home Assistant URL"
         return field
     }()
 
@@ -32,13 +37,15 @@ public class LoginViewController: UIViewController {
         let field = UITextField()
         field.secureTextEntry = true
         field.delegate = self
+        field.textAlignment = .Center
+        field.placeholder = "Home Assistant Password"
         return field
     }()
 
     public private(set) lazy var loginButton: UIButton = {
         let button = UIButton(type: .System)
         button.enabled = false
-
+        button.setTitle("Login", forState: .Normal)
         button.addTarget(self, action: Selector("didTapLogin"), forControlEvents: .TouchUpInside)
         return button
     }()
@@ -51,21 +58,28 @@ public class LoginViewController: UIViewController {
 
         let centerGuide = UIStackView(forAutoLayout: ())
         centerGuide.axis = .Vertical
+        centerGuide.alignment = .Center
+        centerGuide.spacing = 8
 
         self.view.addSubview(centerGuide)
 
         centerGuide.autoPinEdgeToSuperviewMargin(.Leading)
         centerGuide.autoPinEdgeToSuperviewMargin(.Trailing)
-        centerGuide.autoAlignAxisToSuperviewAxis(.Vertical)
+        centerGuide.autoAlignAxisToSuperviewAxis(.Horizontal)
 
         let label = UILabel(forAutoLayout: ())
-        centerGuide.addSubview(label)
+        centerGuide.addArrangedSubview(label)
         label.text = "Login"
 
         centerGuide.addArrangedSubview(self.errorLabel)
         centerGuide.addArrangedSubview(self.urlField)
+        self.urlField.autoPinEdgeToSuperviewMargin(.Leading)
+        self.urlField.autoPinEdgeToSuperviewMargin(.Trailing)
         centerGuide.addArrangedSubview(self.passwordField)
+        self.passwordField.autoPinEdgeToSuperviewMargin(.Leading)
+        self.passwordField.autoPinEdgeToSuperviewMargin(.Trailing)
         centerGuide.addArrangedSubview(self.loginButton)
+        self.view.backgroundColor = UIColor.whiteColor()
     }
 
     @objc private func didTapLogin() {
@@ -100,6 +114,8 @@ extension LoginViewController: UITextFieldDelegate {
 
         if !self.urlString.isEmpty && !self.password.isEmpty {
             self.loginButton.enabled = true
+        } else {
+            self.loginButton.enabled = false
         }
 
         return true

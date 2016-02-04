@@ -1,0 +1,192 @@
+[
+    {
+        "domain": "light",
+        "services": {
+            "turn_off": {
+                "description": "Turn a light off",
+                "fields": {
+                    "entity_id": {
+                        "description": "Name(s) of entities to turn off",
+                        "example": "light.kitchen"
+                    },
+                    "transition": {
+                        "description": "Duration in seconds it takes to get to next state",
+                        "example": 60
+                    }
+                }
+            },
+            "turn_on": {
+                "description": "Turn a light on",
+                "fields": {
+                    "brightness": {
+                        "description": "Number between 0..255 indicating brightness",
+                        "example": 120
+                    },
+                    "color_temp": {
+                        "description": "Color temperature for the light in mireds (154-500)",
+                        "example": "250"
+                    },
+                    "effect": {
+                        "description": "Light effect",
+                        "values": [
+                            "colorloop"
+                        ]
+                    },
+                    "entity_id": {
+                        "description": "Name(s) of entities to turn on",
+                        "example": "light.kitchen"
+                    },
+                    "flash": {
+                        "description": "If the light should flash",
+                        "values": [
+                            "short",
+                            "long"
+                        ]
+                    },
+                    "profile": {
+                        "description": "Name of a light profile to use",
+                        "example": "relax"
+                    },
+                    "rgb_color": {
+                        "description": "Color for the light in RGB-format",
+                        "example": "[255, 100, 100]"
+                    },
+                    "transition": {
+                        "description": "Duration in seconds it takes to get to next state",
+                        "example": 60
+                    },
+                    "xy_color": {
+                        "description": "Color for the light in XY-format",
+                        "example": "[0.52, 0.43]"
+                    }
+                }
+            }
+        }
+    },
+    {
+        "domain": "mqtt",
+        "services": {
+            "publish": {
+                "description": "",
+                "fields": {}
+            }
+        }
+    },
+    {
+        "domain": "switch",
+        "services": {
+            "turn_off": {
+                "description": "",
+                "fields": {}
+            },
+            "turn_on": {
+                "description": "",
+                "fields": {}
+            }
+        }
+    },
+    {
+        "domain": "scene",
+        "services": {
+            "turn_on": {
+                "description": "",
+                "fields": {}
+            }
+        }
+    },
+    {
+        "domain": "homeassistant",
+        "services": {
+            "stop": {
+                "description": "",
+                "fields": {}
+            },
+            "turn_off": {
+                "description": "",
+                "fields": {}
+            },
+            "turn_on": {
+                "description": "",
+                "fields": {}
+            }
+        }
+    },
+    {
+        "domain": "media_player",
+        "services": {
+            "media_next_track": {
+                "description": "",
+                "fields": {}
+            },
+            "media_pause": {
+                "description": "",
+                "fields": {}
+            },
+            "media_play": {
+                "description": "",
+                "fields": {}
+            },
+            "media_play_pause": {
+                "description": "",
+                "fields": {}
+            },
+            "media_previous_track": {
+                "description": "",
+                "fields": {}
+            },
+            "media_seek": {
+                "description": "",
+                "fields": {}
+            },
+            "play_media": {
+                "description": "",
+                "fields": {}
+            },
+            "play_youtube_video": {
+                "description": "",
+                "fields": {}
+            },
+            "start_epic_sax": {
+                "description": "",
+                "fields": {}
+            },
+            "start_fireplace": {
+                "description": "",
+                "fields": {}
+            },
+            "turn_off": {
+                "description": "",
+                "fields": {}
+            },
+            "turn_on": {
+                "description": "",
+                "fields": {}
+            },
+            "volume_down": {
+                "description": "",
+                "fields": {}
+            },
+            "volume_mute": {
+                "description": "",
+                "fields": {}
+            },
+            "volume_set": {
+                "description": "",
+                "fields": {}
+            },
+            "volume_up": {
+                "description": "",
+                "fields": {}
+            }
+        }
+    },
+    {
+        "domain": "device_tracker",
+        "services": {
+            "see": {
+                "description": "",
+                "fields": {}
+            }
+        }
+    }
+]

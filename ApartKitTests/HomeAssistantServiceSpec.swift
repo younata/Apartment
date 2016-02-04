@@ -187,7 +187,8 @@ class HomeAssistantServiceSpec: QuickSpec {
                 }
 
                 it("returns all the services on success") {
-                    let data = NSString(string: "[{\"domain\":\"switch\",\"services\":[\"turn_off\",\"turn_on\"]},{\"domain\":\"light\",\"services\":[\"turn_off\",\"turn_on\"]}]").dataUsingEncoding(NSUTF8StringEncoding)
+                    let url = NSBundle(forClass: self.classForCoder).URLForResource("Services", withExtension: "json")!
+                    let data = NSData(contentsOfURL: url)!
                     urlSession.lastCompletionHandler(data, nil, nil)
                     mainQueue.runNextOperation()
 
@@ -195,8 +196,16 @@ class HomeAssistantServiceSpec: QuickSpec {
                     df.dateFormat = "HH:mm:ss dd-MM-yyyy"
 
                     let services = [
+                        Service(domain: "light", services: ["turn_off", "turn_on"]),
+                        Service(domain: "mqtt", services: ["publish"]),
                         Service(domain: "switch", services: ["turn_off", "turn_on"]),
-                        Service(domain: "light", services: ["turn_off", "turn_on"])
+                        Service(domain: "scene", services: ["turn_on"]),
+                        Service(domain: "homeassistant", services: ["turn_off", "stop", "turn_on"]),
+                        Service(domain: "media_player", services: ["start_epic_sax", "turn_off", "volume_set",
+                            "start_fireplace", "play_media", "media_previous_track", "media_play", "turn_on",
+                            "media_pause", "volume_mute", "media_next_track", "media_play_pause", "volume_up",
+                            "media_seek", "play_youtube_video", "volume_down"]),
+                        Service(domain: "device_tracker", services: ["see"]),
                     ]
 
                     expect(receivedServices).to(equal(services))

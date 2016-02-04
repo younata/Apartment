@@ -112,8 +112,8 @@ class HomeAssistantService {
                     var ret = Array<Service>()
                     for dictionary in dictionaries {
                         if let name = dictionary["domain"] as? String,
-                            services = dictionary["services"] as? [String] {
-                                ret.append(Service(domain: name, services: services))
+                            services = dictionary["services"] as? [String: AnyObject] {
+                                ret.append(Service(domain: name, services: Array(services.keys)))
                         }
                     }
                     self.mainQueue.addOperationWithBlock {

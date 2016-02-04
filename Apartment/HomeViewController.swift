@@ -120,7 +120,7 @@ extension HomeViewController: UITableViewDataSource {
                 return service
             }
             return self.services.filter {
-                $0.domain == "home_assistant"
+                $0.domain == "homeassistant"
             }.first
         }
 

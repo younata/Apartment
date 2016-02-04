@@ -10,6 +10,12 @@ public struct Service: Equatable {
     }
 }
 
+extension Service: CustomStringConvertible {
+    public var description: String {
+        return "<Service: domain: \(self.domain), services: \(self.services)>"
+    }
+}
+
 public func ==(a: Service, b: Service) -> Bool {
     return a.domain == b.domain && a.services == b.services
 }

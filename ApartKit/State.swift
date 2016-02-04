@@ -26,6 +26,12 @@ extension State {
     }
 }
 
+extension State: CustomStringConvertible {
+    public var description: String {
+        return "<State: entityId: \(self.entityId), state: \(self.state)>"
+    }
+}
+
 // MARK: - Serializable
 
 extension State {

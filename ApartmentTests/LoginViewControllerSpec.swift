@@ -62,6 +62,9 @@ class LoginViewControllerSpec: QuickSpec {
             changeTextInTextField(subject.urlField, string: "https://example.com")
             changeTextInTextField(subject.passwordField, string: "password")
             expect(subject.loginButton.enabled) == true
+
+            changeTextInTextField(subject.passwordField, string: "")
+            expect(subject.loginButton.enabled) == false
         }
 
         describe("tapping 'login'") {

@@ -73,6 +73,7 @@
 		AE85956B1C62C5D100706602 /* UIKit_PivotalSpecHelper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE85956A1C62C5D100706602 /* UIKit_PivotalSpecHelper.framework */; };
 		AE85956C1C62C5F700706602 /* UIKit_PivotalSpecHelper.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AE85956A1C62C5D100706602 /* UIKit_PivotalSpecHelper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AE85956E1C62D42500706602 /* FakeUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE85956D1C62D42500706602 /* FakeUserDefaults.swift */; };
+		AE8595711C62E62C00706602 /* Services.json in Resources */ = {isa = PBXBuildFile; fileRef = AE8595701C62E62C00706602 /* Services.json */; };
 		AED985461C62AD1F00A20780 /* ApartKitModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED985451C62AD1F00A20780 /* ApartKitModule.swift */; };
 		AED9854B1C62B20900A20780 /* Ra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; };
 		AED9854C1C62B21200A20780 /* Ra.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -257,6 +258,7 @@
 		AE8595681C62C3E700706602 /* LoginViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewControllerSpec.swift; sourceTree = "<group>"; };
 		AE85956A1C62C5D100706602 /* UIKit_PivotalSpecHelper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit_PivotalSpecHelper.framework; path = Carthage/Build/iOS/UIKit_PivotalSpecHelper.framework; sourceTree = SOURCE_ROOT; };
 		AE85956D1C62D42500706602 /* FakeUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeUserDefaults.swift; sourceTree = "<group>"; };
+		AE8595701C62E62C00706602 /* Services.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Services.json; sourceTree = "<group>"; };
 		AED985451C62AD1F00A20780 /* ApartKitModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApartKitModule.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -450,6 +452,7 @@
 		89A5A1C71B5E165E00FC3FE3 /* ApartKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				AE85956F1C62E61700706602 /* Fixtures */,
 				89B1C7041BB9CA9300BF0870 /* HomeAssistantServiceSpec.swift */,
 				89B1C71D1BBC6CC700BF0870 /* HomeAssistantRepositorySpec.swift */,
 				89A5A1DC1B5E170B00FC3FE3 /* Mocks/Fakes */,
@@ -531,6 +534,14 @@
 				AE8595681C62C3E700706602 /* LoginViewControllerSpec.swift */,
 			);
 			name = Onboarding;
+			sourceTree = "<group>";
+		};
+		AE85956F1C62E61700706602 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				AE8595701C62E62C00706602 /* Services.json */,
+			);
+			name = Fixtures;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -773,6 +784,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE8595711C62E62C00706602 /* Services.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
