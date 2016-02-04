@@ -137,7 +137,7 @@ extension HomeViewController: UITableViewDataSource {
             if let unit = state.sensorUnitOfMeasurement {
                 text += " \(unit)"
             }
-            cell.detailTextLabel?.text = text
+            cell.detailTextLabel?.text = text.desnake
         } else {
             cell.detailTextLabel?.text = ""
         }

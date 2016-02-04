@@ -101,7 +101,7 @@ class HomeViewControllerSpec: QuickSpec {
                         State(attributes: ["auto": 1, "friendly_name": "all switches", "entity_id": [ "switch.internet_switch" ]], entityId: "group.all_switches", lastChanged: NSDate(timeIntervalSince1970: 1443612568.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "off"),
                         State(attributes: ["auto": 0, "friendly_name": "Apartment", "entity_id": [ "switch.internet_switch", "light.living_room", "light.bedroom", "sensor.weather_temperature", "device_tracker.my_phone" ]], entityId: "group.apartment", lastChanged: NSDate(), lastUpdated: NSDate(), state: "off"),
                         State(attributes: ["unit_of_measurement": "°F", "friendly_name": "Weather Temperature"], entityId: "sensor.weather_temperature", lastChanged: NSDate(timeIntervalSince1970: 1443658172.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "60.6"),
-                        State(attributes: ["battery": 75, "friendly_name": "my phone", "gps_accuracy": 65, "latitude": 37, "longitude": 122], entityId: "device_tracker.my_phone", lastChanged: NSDate(), lastUpdated: NSDate(), state: "home"),
+                        State(attributes: ["battery": 75, "friendly_name": "my phone", "gps_accuracy": 65, "latitude": 37, "longitude": 122], entityId: "device_tracker.my_phone", lastChanged: NSDate(), lastUpdated: NSDate(), state: "not_home"),
                         State(attributes: ["friendly_name": "work", "hidden": true, "latitude": 37, "longitude": 122.2, "radius": 100], entityId: "zone.work", lastChanged: NSDate(), lastUpdated: NSDate(), state: "zoning"),
                     ]
 
@@ -323,7 +323,7 @@ class HomeViewControllerSpec: QuickSpec {
                             }
 
                             it("should show the state as the detail") {
-                                expect(cell?.detailTextLabel?.text) == "home"
+                                expect(cell?.detailTextLabel?.text) == "Not home"
                             }
 
                             describe("tapping the cell") {

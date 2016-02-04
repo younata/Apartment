@@ -57,6 +57,9 @@
 		89E6DB8F1C633B750033709D /* UIViewController+ApartmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E6DB8E1C633B750033709D /* UIViewController+ApartmentTests.m */; };
 		89E6DB921C633C150033709D /* PCKMethodRedirector.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E6DB911C633C150033709D /* PCKMethodRedirector.m */; };
 		89E6DB951C633DF20033709D /* MapViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E6DB941C633DF20033709D /* MapViewControllerSpec.swift */; };
+		89E6DB971C63E4F60033709D /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E6DB961C63E4F60033709D /* StringExtensions.swift */; };
+		89E6DB981C63E4F60033709D /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E6DB961C63E4F60033709D /* StringExtensions.swift */; };
+		89E6DB9A1C63E6F30033709D /* StringExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E6DB991C63E6F30033709D /* StringExtensionsSpec.swift */; };
 		AE2BC2AD1C6285DE00524B6E /* FakeOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892151FD1B8E59EF00CBF7E4 /* FakeOperationQueue.swift */; };
 		AE2BC2AE1C62860F00524B6E /* FakeHomeAssistantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C7111BBB16CC00BF0870 /* FakeHomeAssistantService.swift */; };
 		AE2BC2B01C62861300524B6E /* FakeTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E008851AD977EC001A54D5 /* FakeTouch.swift */; };
@@ -260,6 +263,8 @@
 		89E6DB901C633C150033709D /* PCKMethodRedirector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCKMethodRedirector.h; sourceTree = "<group>"; };
 		89E6DB911C633C150033709D /* PCKMethodRedirector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCKMethodRedirector.m; sourceTree = "<group>"; };
 		89E6DB941C633DF20033709D /* MapViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewControllerSpec.swift; sourceTree = "<group>"; };
+		89E6DB961C63E4F60033709D /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		89E6DB991C63E6F30033709D /* StringExtensionsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensionsSpec.swift; sourceTree = "<group>"; };
 		AE7BF7571C62871500B87382 /* PureLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PureLayout.framework; path = ../Carthage/Build/iOS/PureLayout.framework; sourceTree = "<group>"; };
 		AE7BF75B1C62884E00B87382 /* UIKit_PivotalSpecHelperStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit_PivotalSpecHelperStubs.framework; path = ../Carthage/Build/iOS/UIKit_PivotalSpecHelperStubs.framework; sourceTree = "<group>"; };
 		AE7BF75E1C628B4200B87382 /* FakeHomeRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeHomeRepository.swift; sourceTree = "<group>"; };
@@ -454,6 +459,7 @@
 			children = (
 				8956362B1AD0B5D000CA60E9 /* UIColor+Apartment.swift */,
 				AED985451C62AD1F00A20780 /* ApartKitModule.swift */,
+				89E6DB961C63E4F60033709D /* StringExtensions.swift */,
 				89B1C7011BB9CA3700BF0870 /* HomeAssistantService.swift */,
 				89B1C7161BBB38DC00BF0870 /* HomeAssistantRepository.swift */,
 				89B1C7061BB9EB4100BF0870 /* State.swift */,
@@ -471,6 +477,7 @@
 				AE85956F1C62E61700706602 /* Fixtures */,
 				89B1C7041BB9CA9300BF0870 /* HomeAssistantServiceSpec.swift */,
 				89B1C71D1BBC6CC700BF0870 /* HomeAssistantRepositorySpec.swift */,
+				89E6DB991C63E6F30033709D /* StringExtensionsSpec.swift */,
 				89A5A1DC1B5E170B00FC3FE3 /* Mocks/Fakes */,
 				89A5A1CA1B5E165E00FC3FE3 /* Info.plist */,
 			);
@@ -881,6 +888,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89E6DB971C63E4F60033709D /* StringExtensions.swift in Sources */,
 				89B1C70A1BBA04EB00BF0870 /* Event.swift in Sources */,
 				AED985461C62AD1F00A20780 /* ApartKitModule.swift in Sources */,
 				89B1C7021BB9CA3700BF0870 /* HomeAssistantService.swift in Sources */,
@@ -896,6 +904,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				89A5A1DB1B5E16D800FC3FE3 /* FakeURLSession.swift in Sources */,
+				89E6DB9A1C63E6F30033709D /* StringExtensionsSpec.swift in Sources */,
 				89A5A22F1B5F332A00FC3FE3 /* (null) in Sources */,
 				AE7BF7601C62947F00B87382 /* HomeAssistantRepositorySpec.swift in Sources */,
 				AE2BC2B41C62863400524B6E /* HomeAssistantServiceSpec.swift in Sources */,
@@ -919,6 +928,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89E6DB981C63E4F60033709D /* StringExtensions.swift in Sources */,
 				89B1C70B1BBA04EB00BF0870 /* Event.swift in Sources */,
 				AE8595631C62B4AC00706602 /* ApartWatchKitModule.swift in Sources */,
 				89A5A2231B5EE09300FC3FE3 /* UIColor+Apartment.swift in Sources */,
