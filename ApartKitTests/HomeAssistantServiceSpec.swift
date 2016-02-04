@@ -54,6 +54,50 @@ class HomeAssistantServiceSpec: QuickSpec {
             }
         }
 
+        describe("checking if the api is available") {
+            var apiIsAvailable: Bool? = nil
+
+            beforeEach {
+                apiIsAvailable = nil
+                subject.apiAvailable { apiIsAvailable = $0 }
+            }
+
+            it("makes a url request") {
+                expect(urlSession.lastURLRequest).toNot(beNil())
+                expect(urlSession.lastURLRequest?.URL) == NSURL(string: "http://localhost.com/api/")
+                expect(urlSession.lastURLRequest?.HTTPMethod) == "GET"
+            }
+
+            it("should have the authentication token correctly configured") {
+                let headers = urlSession.lastURLRequest?.allHTTPHeaderFields
+                expect(headers?["x-ha-access"]).to(equal("blah"))
+            }
+
+            it("returns false on network error") {
+                let error = NSError(domain: "", code: 0, userInfo: [:])
+                urlSession.lastCompletionHandler(nil, nil, error)
+                mainQueue.runNextOperation()
+
+                expect(apiIsAvailable) == false
+            }
+
+            it("returns false if the response code is 400-level") {
+                let response = NSHTTPURLResponse(URL: NSURL(string: "http://google.com")!, statusCode: 400, HTTPVersion: "", headerFields: [:])
+                urlSession.lastCompletionHandler(nil, response, nil)
+                mainQueue.runNextOperation()
+
+                expect(apiIsAvailable) == false
+            }
+
+            it("returns true on success") {
+                let data = NSString(string: "{\"message\": \"API running.\"}").dataUsingEncoding(NSUTF8StringEncoding)
+                urlSession.lastCompletionHandler(data, nil, nil)
+                mainQueue.runNextOperation()
+
+                expect(apiIsAvailable) == true
+            }
+        }
+
         describe("events") {
             describe("Getting all the events") {
                 var receivedEvents = Array<Event>()

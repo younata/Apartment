@@ -7,6 +7,8 @@ public protocol HomeRepository {
 
     func addSubscriber(subscriber: HomeRepositorySubscriber)
 
+    func apiAvailable(callback: Bool -> Void)
+
     func states(callback: [State] -> Void)
     func services(callback: [Service] -> Void)
 
@@ -24,6 +26,7 @@ public protocol HomeRepositorySubscriber: NSObjectProtocol {
 }
 
 class HomeAssistantRepository: HomeRepository {
+    private var _backendURL: NSURL?
     var backendURL: NSURL! {
         get {
             let url = self.homeService.baseURL
@@ -43,8 +46,15 @@ class HomeAssistantRepository: HomeRepository {
             return NSURL(string: "\(url.scheme)://\(url.host!):\(port)")
         }
         set {
+            if _backendURL == newValue {
+                return
+            }
+            _backendURL = newValue
             self.homeService.baseURL = newValue.URLByAppendingPathComponent("api", isDirectory: true)
-            self.breakCache()
+            if self.configured {
+                self.breakCache()
+                _ = try? self.watchSession?.updateApplicationContext(["backendURL": newValue, "backendPassword": self.backendPassword])
+            }
         }
     }
 
@@ -53,15 +63,27 @@ class HomeAssistantRepository: HomeRepository {
             return self.homeService.apiKey
         }
         set {
+            if self.homeService.apiKey == newValue {
+                return
+            }
             self.homeService.apiKey = newValue
-            self.breakCache()
+
+            if self.configured {
+                self.breakCache()
+                _ = try? self.watchSession?.updateApplicationContext(["backendURL": self.backendURL, "backendPassword": newValue])
+            }
         }
     }
 
     private var _states = [State]()
     private var _services = [Service]()
 
-    let watchSession = WCSession.defaultSession()
+    let watchSession: WCSession? = {
+        if WCSession.isSupported() {
+            return WCSession.defaultSession()
+        }
+        return nil
+    }()
     private let watchDelegate = WatchConnectivityDelegate()
 
     let homeService: HomeAssistantService
@@ -73,11 +95,21 @@ class HomeAssistantRepository: HomeRepository {
         self.watchDelegate.didUpdateStates = {
             self.updateStates($0)
         }
-        self.watchSession.delegate = self.watchDelegate
+        self.watchSession?.delegate = self.watchDelegate
+        self.watchDelegate.homeRepository = self
+        self.watchSession?.activateSession()
     }
 
     func addSubscriber(subscriber: HomeRepositorySubscriber) {
         self.subscribers.addObject(subscriber)
+    }
+
+    func apiAvailable(callback: Bool -> Void) {
+        if !self.configured {
+            callback(false)
+        } else {
+            self.homeService.apiAvailable(callback)
+        }
     }
 
     func states(callback: [State] -> Void) {
@@ -127,7 +159,7 @@ class HomeAssistantRepository: HomeRepository {
         self._states = newStates
 
         let message = ["states": newStates.map({ $0.jsonObject })]
-        self.watchSession.sendMessage(message, replyHandler: nil, errorHandler: nil)
+        self.watchSession?.sendMessage(message, replyHandler: nil, errorHandler: nil)
 
         for object in self.subscribers.allObjects {
             guard let subscriber = object as? HomeRepositorySubscriber else { continue }
@@ -145,7 +177,8 @@ class HomeAssistantRepository: HomeRepository {
 }
 
 private class WatchConnectivityDelegate: NSObject, WCSessionDelegate {
-    var didUpdateStates: (([State]) -> (Void))? = nil
+    var didUpdateStates: (([State]) -> (Void))?
+    var homeRepository: HomeRepository?
 
     @objc private func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
         if let statesJson = message["states"] as? [[String: AnyObject]] {
@@ -157,5 +190,10 @@ private class WatchConnectivityDelegate: NSObject, WCSessionDelegate {
             }
             self.didUpdateStates?(states)
         }
+    }
+
+    @objc private func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
+        self.homeRepository?.backendURL = applicationContext["backendURL"] as? NSURL
+        self.homeRepository?.backendPassword = applicationContext["backendPassword"] as? String
     }
 }

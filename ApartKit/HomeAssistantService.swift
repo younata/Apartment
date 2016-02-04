@@ -2,7 +2,7 @@ import Foundation
 
 class HomeAssistantService {
     var baseURL: NSURL!
-    var apiKey: String!
+    var apiKey: String?
     let urlSession: NSURLSession
     let mainQueue: NSOperationQueue
     let dateFormatter = NSDateFormatter()
@@ -14,12 +14,33 @@ class HomeAssistantService {
         self.dateFormatter.dateFormat = "HH:mm:ss dd-MM-yyyy"
     }
 
+    func apiAvailable(callback: Bool -> Void) {
+        let url = self.baseURL
+        let request = NSMutableURLRequest(URL: url)
+        request.addValue(self.apiKey ?? "", forHTTPHeaderField: "x-ha-access")
+        self.urlSession.dataTaskWithRequest(request) {data, response, error in
+            if let _ = error {
+                self.mainQueue.addOperationWithBlock {
+                    callback(false)
+                }
+            } else if let data = data, objects = try? NSJSONSerialization.JSONObjectWithData(data, options: []), dictionary = objects as? [String: AnyObject] where dictionary["message"] as? String == "API running." {
+                self.mainQueue.addOperationWithBlock {
+                    callback(true)
+                }
+            } else  {
+                self.mainQueue.addOperationWithBlock {
+                    callback(false)
+                }
+            }
+        }.resume()
+    }
+
     // MARK: Events
 
     func events(callback: ([Event], NSError?) -> (Void)) {
         let url = self.baseURL.URLByAppendingPathComponent("events")
         let request = NSMutableURLRequest(URL: url)
-        request.addValue(self.apiKey, forHTTPHeaderField: "x-ha-access")
+        request.addValue(self.apiKey ?? "", forHTTPHeaderField: "x-ha-access")
         self.urlSession.dataTaskWithRequest(request) {data, response, error in
             if let _ = error {
                 self.mainQueue.addOperationWithBlock {
@@ -52,7 +73,7 @@ class HomeAssistantService {
         if let data = data {
             request.HTTPBody = try? NSJSONSerialization.dataWithJSONObject(data, options: [])
         }
-        request.addValue(self.apiKey, forHTTPHeaderField: "x-ha-access")
+        request.addValue(self.apiKey ?? "", forHTTPHeaderField: "x-ha-access")
         self.urlSession.dataTaskWithRequest(request) {data, response, error in
             if let _ = error {
                 self.mainQueue.addOperationWithBlock {
@@ -79,7 +100,7 @@ class HomeAssistantService {
     func services(callback: ([Service], NSError?) -> (Void)) {
         let url = self.baseURL.URLByAppendingPathComponent("services")
         let request = NSMutableURLRequest(URL: url)
-        request.addValue(self.apiKey, forHTTPHeaderField: "x-ha-access")
+        request.addValue(self.apiKey ?? "", forHTTPHeaderField: "x-ha-access")
         self.urlSession.dataTaskWithRequest(request) {data, response, error in
             if let _ = error {
                 self.mainQueue.addOperationWithBlock {
@@ -114,7 +135,7 @@ class HomeAssistantService {
         if let data = data {
             request.HTTPBody = try? NSJSONSerialization.dataWithJSONObject(data, options: [])
         }
-        request.addValue(self.apiKey, forHTTPHeaderField: "x-ha-access")
+        request.addValue(self.apiKey ?? "", forHTTPHeaderField: "x-ha-access")
         self.urlSession.dataTaskWithRequest(request) {data, response, error in
             if let _ = error {
                 self.mainQueue.addOperationWithBlock {
@@ -146,7 +167,7 @@ class HomeAssistantService {
     func status(callback: ([State], NSError?) -> (Void)) {
         let url = self.baseURL.URLByAppendingPathComponent("states")
         let request = NSMutableURLRequest(URL: url)
-        request.addValue(self.apiKey, forHTTPHeaderField: "x-ha-access")
+        request.addValue(self.apiKey ?? "", forHTTPHeaderField: "x-ha-access")
         self.urlSession.dataTaskWithRequest(request) {data, response, error in
             if let _ = error {
                 self.mainQueue.addOperationWithBlock {
@@ -174,7 +195,7 @@ class HomeAssistantService {
     func status(entityId: String, callback: (State?, NSError?) -> (Void)) {
         let url = self.baseURL.URLByAppendingPathComponent("states", isDirectory: true).URLByAppendingPathComponent(entityId)
         let request = NSMutableURLRequest(URL: url)
-        request.addValue(self.apiKey, forHTTPHeaderField: "x-ha-access")
+        request.addValue(self.apiKey ?? "", forHTTPHeaderField: "x-ha-access")
         self.urlSession.dataTaskWithRequest(request) {data, response, error in
             self.parseStatusUpdate(data, response: response, error: error, callback: callback)
         }.resume()
@@ -185,7 +206,7 @@ class HomeAssistantService {
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
         request.HTTPBody = try? NSJSONSerialization.dataWithJSONObject(["state": newStatus], options: [])
-        request.addValue(self.apiKey, forHTTPHeaderField: "x-ha-access")
+        request.addValue(self.apiKey ?? "", forHTTPHeaderField: "x-ha-access")
         self.urlSession.dataTaskWithRequest(request) {data, response, error in
             self.parseStatusUpdate(data, response: response, error: error, callback: callback)
         }.resume()

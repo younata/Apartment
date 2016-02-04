@@ -7,27 +7,60 @@ import ApartKit
 
 class HomeViewControllerSpec: QuickSpec {
     override func spec() {
-        var subject: HomeViewController! = nil
-        var injector: Ra.Injector! = nil
-        var navigationController: UINavigationController! = nil
-        var homeRepository: FakeHomeRepository! = nil
+        var subject: HomeViewController!
+        var injector: Injector!
+        var navigationController: UINavigationController!
+        var homeRepository: FakeHomeRepository!
 
         beforeEach {
-            injector = Ra.Injector()
+            injector = Injector()
 
             homeRepository = FakeHomeRepository()
             injector.bind(HomeRepository.self, toInstance: homeRepository)
 
-            subject = injector.create(HomeViewController.self)!
+            subject = injector.create(HomeViewController)!
             navigationController = UINavigationController(rootViewController: subject)
+        }
 
-            subject.view.layoutIfNeeded()
+        context("if the home repository has not been configured") {
+            beforeEach {
+                subject.view.layoutIfNeeded()
+            }
+
+            it("presents a login view controller so that the user can login") {
+                expect(subject.presentedViewController).to(beAKindOf(LoginViewController.self))
+            }
+
+            describe("when the user logs in") {
+                beforeEach {
+                    homeRepository.backendURL = NSURL(string: "https://example.com")
+                    homeRepository.backendPassword = "password"
+
+                    let loginVC = subject.presentedViewController as? LoginViewController
+                    subject.dismissViewControllerAnimated(false, completion: nil)
+                    loginVC?.onLogin?()
+                }
+
+                it("should request that the home service gets updated status") {
+                    expect(homeRepository.statesCallback).toNot(beNil())
+                }
+
+                it("should request that the home service gets the list of all services") {
+                    expect(homeRepository.servicesCallback).toNot(beNil())
+                }
+
+                it("should start off the refresh control") {
+                    expect(subject.refreshControl?.refreshing).to(beTruthy())
+                }
+            }
         }
 
         context("once the home repository has been configured") {
             beforeEach {
                 homeRepository.backendURL = NSURL(string: "https://example.com")
                 homeRepository.backendPassword = "password"
+
+                subject.view.layoutIfNeeded()
             }
 
             it("should request that the home service gets updated status") {

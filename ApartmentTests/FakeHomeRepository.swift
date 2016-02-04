@@ -6,6 +6,11 @@ class FakeHomeRepository: HomeRepository {
 
     init() {}
 
+    var apiAvailableCallback: (Bool -> Void)?
+    func apiAvailable(callback: Bool -> Void) {
+        apiAvailableCallback = callback
+    }
+
     var subscribers = [HomeRepositorySubscriber]()
     func addSubscriber(subscriber: HomeRepositorySubscriber) {
         subscribers.append(subscriber)

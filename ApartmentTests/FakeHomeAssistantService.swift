@@ -10,6 +10,11 @@ class FakeHomeAssistantService: HomeAssistantService {
         super.init(urlSession: urlSession, mainQueue: mainQueue)
     }
 
+    var apiAvailableCallback: (Bool -> Void)?
+    override func apiAvailable(callback: Bool -> Void) {
+        apiAvailableCallback = callback
+    }
+
     var eventsCallback: (([Event], NSError?) -> (Void))? = nil
     override func events(callback: ([Event], NSError?) -> (Void)) {
         self.eventsCallback = callback

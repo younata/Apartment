@@ -68,6 +68,11 @@
 		AE7BF75F1C628B4200B87382 /* FakeHomeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7BF75E1C628B4200B87382 /* FakeHomeRepository.swift */; };
 		AE7BF7601C62947F00B87382 /* HomeAssistantRepositorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C71D1BBC6CC700BF0870 /* HomeAssistantRepositorySpec.swift */; };
 		AE8595631C62B4AC00706602 /* ApartWatchKitModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8595621C62B4AC00706602 /* ApartWatchKitModule.swift */; };
+		AE8595661C62C2B400706602 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8595651C62C2B400706602 /* LoginViewController.swift */; };
+		AE8595691C62C3E700706602 /* LoginViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8595681C62C3E700706602 /* LoginViewControllerSpec.swift */; };
+		AE85956B1C62C5D100706602 /* UIKit_PivotalSpecHelper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE85956A1C62C5D100706602 /* UIKit_PivotalSpecHelper.framework */; };
+		AE85956C1C62C5F700706602 /* UIKit_PivotalSpecHelper.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AE85956A1C62C5D100706602 /* UIKit_PivotalSpecHelper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AE85956E1C62D42500706602 /* FakeUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE85956D1C62D42500706602 /* FakeUserDefaults.swift */; };
 		AED985461C62AD1F00A20780 /* ApartKitModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED985451C62AD1F00A20780 /* ApartKitModule.swift */; };
 		AED9854B1C62B20900A20780 /* Ra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; };
 		AED9854C1C62B21200A20780 /* Ra.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -141,6 +146,7 @@
 				8956350E1ACA60F900CA60E9 /* Nimble.framework in Copy Frameworks */,
 				8956350F1ACA60F900CA60E9 /* Quick.framework in Copy Frameworks */,
 				AE7BF75A1C62872D00B87382 /* PureLayout.framework in Copy Frameworks */,
+				AE85956C1C62C5F700706602 /* UIKit_PivotalSpecHelper.framework in Copy Frameworks */,
 				AE7BF75D1C62885700B87382 /* UIKit_PivotalSpecHelperStubs.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -247,6 +253,10 @@
 		AE7BF75B1C62884E00B87382 /* UIKit_PivotalSpecHelperStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit_PivotalSpecHelperStubs.framework; path = ../Carthage/Build/iOS/UIKit_PivotalSpecHelperStubs.framework; sourceTree = "<group>"; };
 		AE7BF75E1C628B4200B87382 /* FakeHomeRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeHomeRepository.swift; sourceTree = "<group>"; };
 		AE8595621C62B4AC00706602 /* ApartWatchKitModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApartWatchKitModule.swift; sourceTree = "<group>"; };
+		AE8595651C62C2B400706602 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		AE8595681C62C3E700706602 /* LoginViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewControllerSpec.swift; sourceTree = "<group>"; };
+		AE85956A1C62C5D100706602 /* UIKit_PivotalSpecHelper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit_PivotalSpecHelper.framework; path = Carthage/Build/iOS/UIKit_PivotalSpecHelper.framework; sourceTree = SOURCE_ROOT; };
+		AE85956D1C62D42500706602 /* FakeUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeUserDefaults.swift; sourceTree = "<group>"; };
 		AED985451C62AD1F00A20780 /* ApartKitModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApartKitModule.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -267,6 +277,7 @@
 			files = (
 				8956350C1ACA60E100CA60E9 /* Quick.framework in Frameworks */,
 				8956350B1ACA60E100CA60E9 /* Nimble.framework in Frameworks */,
+				AE85956B1C62C5D100706602 /* UIKit_PivotalSpecHelper.framework in Frameworks */,
 				AE7BF75C1C62884E00B87382 /* UIKit_PivotalSpecHelperStubs.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,9 +374,11 @@
 			children = (
 				895635101ACA627A00CA60E9 /* AppDelegateSpec.swift */,
 				89E008851AD977EC001A54D5 /* FakeTouch.swift */,
+				AE85956D1C62D42500706602 /* FakeUserDefaults.swift */,
 				AE7BF75E1C628B4200B87382 /* FakeHomeRepository.swift */,
 				895636171ACFA03600CA60E9 /* Features */,
 				89E008841AD975A6001A54D5 /* Views */,
+				AE85956A1C62C5D100706602 /* UIKit_PivotalSpecHelper.framework */,
 				AE7BF75B1C62884E00B87382 /* UIKit_PivotalSpecHelperStubs.framework */,
 				895635091ACA60E100CA60E9 /* Nimble.framework */,
 				8956350A1ACA60E100CA60E9 /* Quick.framework */,
@@ -386,6 +399,7 @@
 		8956351B1ACA6ED500CA60E9 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				AE8595641C62C29E00706602 /* Onboarding */,
 				895636351AD0FB8F00CA60E9 /* Home Screen */,
 			);
 			name = Features;
@@ -394,6 +408,7 @@
 		895636171ACFA03600CA60E9 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				AE8595671C62C3D800706602 /* Onboarding */,
 				895636361AD0FBA300CA60E9 /* Home Screen */,
 			);
 			name = Features;
@@ -500,6 +515,22 @@
 				89E008821AD975A3001A54D5 /* ColorPickerSpec.swift */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		AE8595641C62C29E00706602 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				AE8595651C62C2B400706602 /* LoginViewController.swift */,
+			);
+			name = Onboarding;
+			sourceTree = "<group>";
+		};
+		AE8595671C62C3D800706602 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				AE8595681C62C3E700706602 /* LoginViewControllerSpec.swift */,
+			);
+			name = Onboarding;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -779,6 +810,7 @@
 				895636191ACFA4F600CA60E9 /* HomeViewController.swift in Sources */,
 				89B1C71C1BBC5CC700BF0870 /* SwitchTableViewCell.swift in Sources */,
 				895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */,
+				AE8595661C62C2B400706602 /* LoginViewController.swift in Sources */,
 				89E0087F1AD7902E001A54D5 /* ColorPicker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -787,11 +819,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE85956E1C62D42500706602 /* FakeUserDefaults.swift in Sources */,
 				AE2BC2B01C62861300524B6E /* FakeTouch.swift in Sources */,
 				AE2BC2B11C62861600524B6E /* AppDelegateSpec.swift in Sources */,
 				AE7BF75F1C628B4200B87382 /* FakeHomeRepository.swift in Sources */,
 				AE2BC2B21C62861C00524B6E /* HomeViewControllerSpec.swift in Sources */,
 				AE2BC2B31C62862100524B6E /* ColorPickerSpec.swift in Sources */,
+				AE8595691C62C3E700706602 /* LoginViewControllerSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

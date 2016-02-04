@@ -43,12 +43,17 @@ public class HomeViewController: UIViewController {
         self.tableViewController.refreshControl = UIRefreshControl()
         self.refreshControl?.addTarget(self, action: Selector("refresh"), forControlEvents: .ValueChanged)
 
-        self.refreshControl?.beginRefreshing()
-        self.refresh()
-    }
-
-    public override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+        if self.homeRepository.configured {
+            self.refreshControl?.beginRefreshing()
+            self.refresh()
+        } else {
+            let loginViewController = self.injector!.create(LoginViewController)!
+            loginViewController.onLogin = {
+                self.refreshControl?.beginRefreshing()
+                self.refresh()
+            }
+            self.presentViewController(loginViewController, animated: true, completion: nil)
+        }
     }
 
     // MARK: Private

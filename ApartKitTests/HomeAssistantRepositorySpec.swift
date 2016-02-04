@@ -34,8 +34,55 @@ class HomeAssistantRepositorySpec: QuickSpec {
             expect(subject.backendPassword).to(beNil())
         }
 
+        describe("testing if the api is available") {
+            var apiIsAvailable: Bool?
+            beforeEach {
+                apiIsAvailable = nil
+            }
+
+            it("immediately returns false if the backendURL is not set") {
+                subject.backendPassword = "hello"
+                subject.apiAvailable { apiIsAvailable = $0 }
+
+                expect(apiIsAvailable) == false
+                expect(homeService.apiAvailableCallback).to(beNil())
+            }
+
+            it("immediately returns false if the backendPassword is not set") {
+                subject.backendURL = NSURL(string: "https://example.com")
+                subject.apiAvailable { apiIsAvailable = $0 }
+
+                expect(apiIsAvailable) == false
+                expect(homeService.apiAvailableCallback).to(beNil())
+            }
+
+            context("when both the backendURL and the backendPassword are set") {
+                beforeEach {
+                    subject.backendURL = NSURL(string: "https://example.com")
+                    subject.backendPassword = "hello"
+                    subject.apiAvailable { apiIsAvailable = $0 }
+                }
+
+                it("calls out to the service") {
+                    expect(apiIsAvailable).to(beNil())
+                    expect(homeService.apiAvailableCallback).toNot(beNil())
+                }
+
+                it("returns true if the service says yes") {
+                    homeService.apiAvailableCallback?(true)
+                    expect(apiIsAvailable) == true
+                }
+
+                it("returns false if the service says no") {
+                    homeService.apiAvailableCallback?(false)
+                    expect(apiIsAvailable) == false
+                }
+            }
+        }
+
         describe("updating the backendURL") {
             beforeEach {
+                subject.backendPassword = "hello"
                 subject.backendURL = NSURL(string: "https://example.com")
             }
 
@@ -47,10 +94,20 @@ class HomeAssistantRepositorySpec: QuickSpec {
                 expect(homeService.statusCallback).toNot(beNil())
                 expect(homeService.servicesCallback).toNot(beNil())
             }
+
+            it("does not call out to the homeService if the backendURL wasn't actually changed") {
+                homeService.statusCallback = nil
+                homeService.servicesCallback = nil
+                subject.backendURL = NSURL(string: "https://example.com")
+
+                expect(homeService.statusCallback).to(beNil())
+                expect(homeService.servicesCallback).to(beNil())
+            }
         }
 
         describe("updating the backendPassword") {
             beforeEach {
+                subject.backendURL = NSURL(string: "https://example.com")
                 subject.backendPassword = "example"
             }
 
@@ -61,6 +118,15 @@ class HomeAssistantRepositorySpec: QuickSpec {
             it("breaks the repositories cache and forces a refresh of states and services") {
                 expect(homeService.statusCallback).toNot(beNil())
                 expect(homeService.servicesCallback).toNot(beNil())
+            }
+
+            it("does not call out to the homeService if the backendPassword wasn't actually changed") {
+                homeService.statusCallback = nil
+                homeService.servicesCallback = nil
+                subject.backendPassword = "example"
+
+                expect(homeService.statusCallback).to(beNil())
+                expect(homeService.servicesCallback).to(beNil())
             }
         }
 

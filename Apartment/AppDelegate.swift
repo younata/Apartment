@@ -9,7 +9,16 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
     public lazy var anInjector: Ra.Injector = {
         let injector = Ra.Injector()
         ApartKitModule().configureInjector(injector)
+        injector.bind(NSUserDefaults.self, toInstance: NSUserDefaults.standardUserDefaults())
         return injector
+    }()
+
+    private lazy var homeRepository: HomeRepository = {
+        return self.anInjector.create(HomeRepository)!
+    }()
+
+    private lazy var userDefaults: NSUserDefaults = {
+        return self.anInjector.create(NSUserDefaults)!
     }()
 
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -19,6 +28,10 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         if NSClassFromString("XCTestCase") != nil && launchOptions?["test"] as? Bool != true {
             self.window?.rootViewController = UIViewController()
         } else {
+            if let url = self.userDefaults.URLForKey("backendURL"), let password = self.userDefaults.stringForKey("backendPassword") {
+                self.homeRepository.backendURL = url
+                self.homeRepository.backendPassword = password
+            }
             let homeViewController = anInjector.create(HomeViewController.self)!
             let navController = UINavigationController(rootViewController: homeViewController)
             self.window?.rootViewController = navController
