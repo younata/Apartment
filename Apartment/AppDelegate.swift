@@ -34,6 +34,8 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             let homeViewController = anInjector.create(HomeViewController.self)!
             let navController = UINavigationController(rootViewController: homeViewController)
+            navController.toolbarHidden = false
+            navController.delegate = self
             let splitViewController = UISplitViewController()
             splitViewController.viewControllers = [navController]
             self.window?.rootViewController = splitViewController
@@ -43,3 +45,8 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
+extension AppDelegate: UINavigationControllerDelegate {
+    public func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+        navigationController.setToolbarHidden(!(viewController is HomeViewController), animated: animated)
+    }
+}

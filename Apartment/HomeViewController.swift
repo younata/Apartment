@@ -33,6 +33,10 @@ public class HomeViewController: UIViewController {
         }
     }
 
+    private lazy var mapViewController: MapViewController = {
+        return self.injector!.create(MapViewController)!
+    }()
+
     public override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -80,19 +84,30 @@ public class HomeViewController: UIViewController {
             for group in groups {
                 if let entities = group.groupEntities {
                     let displayName = group.displayName
-                    let groupStates = states.filter({ entities.contains($0.entityId) }).sort({$0.displayName < $1.displayName})
+                    let groupStates = states.filter({ entities.contains($0.entityId) && !$0.hidden }).sort({$0.displayName < $1.displayName})
                     groupData.append((displayName, groupStates))
                 }
             }
 
             self.groups = groupData.sort { $0.0.lowercaseString < $1.0.lowercaseString }
-            let scenes = states.filter { $0.isScene }
+            let scenes = states.filter { $0.isScene && !$0.hidden }
             self.groups.insert(("scenes", scenes), atIndex: 0)
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
+
+            let mapItem = UIBarButtonItem(title: "Map", style: .Plain, target: self, action: Selector("showMap"))
+
+            let spacer = { return UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil) }
+
+            self.toolbarItems = [spacer(), mapItem, spacer()]
         }
 
         self.homeRepository.services { self.services = $0 }
+    }
+
+    @objc private func showMap() {
+        self.mapViewController.configure(self.states)
+        self.showDetailViewController(self.mapViewController, sender: self)
     }
 }
 
@@ -162,9 +177,8 @@ extension HomeViewController: UITableViewDelegate {
         if state.isScene {
             self.changeState(state, on: true)
         } else if state.isDeviceTracker {
-            let map = MapViewController()
-            map.configure([state])
-            self.showDetailViewController(map, sender: self)
+            self.mapViewController.configure([state])
+            self.showDetailViewController(self.mapViewController, sender: self)
         }
 
         tableView.deselectRowAtIndexPath(indexPath, animated: false)

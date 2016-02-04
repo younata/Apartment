@@ -95,16 +95,41 @@ class HomeViewControllerSpec: QuickSpec {
                         State(attributes: ["supported_media_commands": 63, "friendly_name": "osmc"], entityId: "media_player.osmc", lastChanged: NSDate(timeIntervalSince1970: 1443601945.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "idle"),
                         State(attributes: ["next_setting": "01:53:48 01-10-2015", "next_rising": "14:04:56 01-10-2015", "friendly_name": "Sun"], entityId: "sun.sun", lastChanged: NSDate(timeIntervalSince1970: 1443647044.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "above_horizon"),
                         State(attributes: ["friendly_name": "Weather Summary"], entityId: "sensor.weather_summary", lastChanged: NSDate(timeIntervalSince1970: 1443658172.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "Light Rain"),
-                        State(attributes: ["active_requested": 0, "friendly_name": "all_lights_off", "entity_id": [ "light.living_room", "light.bedroom" ]], entityId: "scene.all_lights_off", lastChanged: NSDate(timeIntervalSince1970: 1443649080.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "off"),
+                        State(attributes: ["hidden": 1, "active_requested": 0, "friendly_name": "all_lights_off", "entity_id": [ "light.living_room", "light.bedroom" ]], entityId: "scene.all_lights_off", lastChanged: NSDate(timeIntervalSince1970: 1443649080.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "off"),
                         State(attributes: ["active_requested": 0, "friendly_name": "all_lights_on", "entity_id": [ "light.living_room", "light.bedroom" ]], entityId: "scene.all_lights_on", lastChanged: NSDate(timeIntervalSince1970: 1443601946.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "off"),
                         State(attributes: ["auto": 1, "friendly_name": "all lights", "entity_id": [ "light.hue_lamp", "light.living_room", "light.bedroom" ]], entityId: "group.all_lights", lastChanged: NSDate(timeIntervalSince1970: 1443649080.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "on"),
                         State(attributes: ["auto": 1, "friendly_name": "all switches", "entity_id": [ "switch.internet_switch" ]], entityId: "group.all_switches", lastChanged: NSDate(timeIntervalSince1970: 1443612568.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "off"),
                         State(attributes: ["auto": 0, "friendly_name": "Apartment", "entity_id": [ "switch.internet_switch", "light.living_room", "light.bedroom", "sensor.weather_temperature", "device_tracker.my_phone" ]], entityId: "group.apartment", lastChanged: NSDate(), lastUpdated: NSDate(), state: "off"),
                         State(attributes: ["unit_of_measurement": "°F", "friendly_name": "Weather Temperature"], entityId: "sensor.weather_temperature", lastChanged: NSDate(timeIntervalSince1970: 1443658172.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "60.6"),
                         State(attributes: ["battery": 75, "friendly_name": "my phone", "gps_accuracy": 65, "latitude": 37, "longitude": 122], entityId: "device_tracker.my_phone", lastChanged: NSDate(), lastUpdated: NSDate(), state: "home"),
+                        State(attributes: ["friendly_name": "work", "hidden": true, "latitude": 37, "longitude": 122.2, "radius": 100], entityId: "zone.work", lastChanged: NSDate(), lastUpdated: NSDate(), state: "zoning"),
                     ]
 
                     callback(states)
+                }
+
+                describe("the toolbar") {
+                    it("a single toolbar item, titled map, centered in the middle") {
+                        let items = subject.toolbarItems
+                        expect(items).toNot(beNil())
+                        expect(items?.count) == 3
+                        expect(items?[1].title) == "Map"
+                    }
+
+                    describe("tapping the map item") {
+                        beforeEach {
+                            subject.toolbarItems?[1].tap()
+                        }
+
+                        it("displays a map view controller") {
+                            expect(subject.shownDetailViewController).to(beAKindOf(MapViewController.self))
+
+                            if let mapViewController = subject.shownDetailViewController as? MapViewController {
+                                expect(mapViewController.devices.count) == 1
+                                expect(mapViewController.zones.count) == 1
+                            }
+                        }
+                    }
                 }
 
                 describe("the tableView") {
@@ -135,8 +160,8 @@ class HomeViewControllerSpec: QuickSpec {
                             expect(dataSource?.tableView?(subject.tableView, titleForHeaderInSection: sectionNumber)) == "scenes"
                         }
 
-                        it("should have only as many sections as there are scenes") {
-                            expect(dataSource?.tableView(subject.tableView, numberOfRowsInSection: sectionNumber)) == 3
+                        it("should have only as many rows as there are unhidden scenes") {
+                            expect(dataSource?.tableView(subject.tableView, numberOfRowsInSection: sectionNumber)) == 2
                         }
 
                         describe("a cell") {
@@ -306,7 +331,7 @@ class HomeViewControllerSpec: QuickSpec {
                                     delegate?.tableView?(subject.tableView, didSelectRowAtIndexPath: indexPath)
                                 }
 
-                                it("displays the map view controller") {
+                                it("displays a map view controller") {
                                     expect(subject.shownDetailViewController).to(beAKindOf(MapViewController.self))
 
                                     if let mapViewController = subject.shownDetailViewController as? MapViewController {

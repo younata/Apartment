@@ -61,6 +61,7 @@ class AppDelegateSpec: QuickSpec {
                             expect(sv.viewControllers.first).to(beAnInstanceOf(UINavigationController.self))
                             if let nc = sv.viewControllers.first as? UINavigationController {
                                 expect(nc.viewControllers.first).to(beAnInstanceOf(HomeViewController.self))
+                                expect(nc.toolbarHidden) == false
                             }
                         }
                     }
@@ -69,6 +70,31 @@ class AppDelegateSpec: QuickSpec {
                 it("sets the credentials for the HomeRepository") {
                     expect(homeRepository.backendPassword) == "password"
                     expect(homeRepository.backendURL) == NSURL(string: "https://example.com")
+                }
+            }
+
+            describe("the navigation controller's delegate") {
+                var navigationController: UINavigationController?
+
+                beforeEach {
+                    subject.application(UIApplication.sharedApplication(), didFinishLaunchingWithOptions: ["test": true])
+
+                    if let window = subject!.window {
+                        if let sv = window.rootViewController as? UISplitViewController {
+                            navigationController = sv.viewControllers.first as? UINavigationController
+                        }
+                    }
+                }
+
+                it("hides the toolbar when something other than the home view controller is shown") {
+                    navigationController?.delegate?.navigationController?(navigationController!, willShowViewController: UIViewController(), animated: false)
+
+                    expect(navigationController?.toolbarHidden) == true
+
+                    navigationController?.popViewControllerAnimated(false)
+                    navigationController?.delegate?.navigationController?(navigationController!, willShowViewController: navigationController!.viewControllers.first!, animated: false)
+
+                    expect(navigationController?.toolbarHidden) == false
                 }
             }
         }
