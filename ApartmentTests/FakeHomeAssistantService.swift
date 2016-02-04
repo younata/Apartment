@@ -38,9 +38,9 @@ class FakeHomeAssistantService: HomeAssistantService {
     var calledServiceDomain: String? = nil
     var calledServiceData: [String : AnyObject]? = nil
     var calledServiceCallback: (([State], NSError?) -> (Void))? = nil
-    override func callService(service: String, onDomain domain: String, data: [String : AnyObject]?, callback: ([State], NSError?) -> (Void)) {
+    override func callService(service: String, method: String, data: [String : AnyObject]?, callback: ([State], NSError?) -> (Void)) {
         self.calledService = service
-        self.calledServiceDomain = domain
+        self.calledServiceDomain = method
         self.calledServiceData = data
         self.calledServiceCallback = callback
     }

@@ -4,7 +4,6 @@ import ApartKit
 import PureLayout
 
 public class HomeViewController: UIViewController {
-
     private var states = [State]()
     private var groups = [(String, [State])]()
 
@@ -24,6 +23,16 @@ public class HomeViewController: UIViewController {
         return self.tableViewController.refreshControl
     }
 
+    private class TableViewCell: UITableViewCell {
+        private override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+            super.init(style: .Value1, reuseIdentifier: reuseIdentifier)
+        }
+
+        private required init?(coder aDecoder: NSCoder) {
+            super.init(coder: aDecoder)
+        }
+    }
+
     public override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,7 +46,9 @@ public class HomeViewController: UIViewController {
         self.tableView.delegate = self
         self.tableView.tableFooterView = UIView()
 
-        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        self.title = "Apartment"
+
+        self.tableView.registerClass(TableViewCell.self, forCellReuseIdentifier: "cell")
         self.tableView.registerClass(SwitchTableViewCell.self, forCellReuseIdentifier: "switch")
 
         self.tableViewController.refreshControl = UIRefreshControl()
@@ -62,19 +73,19 @@ public class HomeViewController: UIViewController {
         self.homeRepository.states {states in
             self.states = states
 
-            let groups = states.filter { $0.isGroup }
+            let groups = states.filter { $0.isGroup && $0.groupAutoCreated == false }
             var groupData = Array<(String, [State])>()
             for group in groups {
-                if let entities = group.groupEntities, displayName = group.displayName {
-                    let groupStates = states.filter({ entities.contains($0.entityId) }).sort({$0.entityId < $1.entityId})
+                if let entities = group.groupEntities {
+                    let displayName = group.displayName
+                    let groupStates = states.filter({ entities.contains($0.entityId) }).sort({$0.displayName < $1.displayName})
                     groupData.append((displayName, groupStates))
                 }
             }
 
-            let scenes = states.filter { $0.isScene }
-            groupData.append(("scenes", scenes))
-
             self.groups = groupData.sort { $0.0.lowercaseString < $1.0.lowercaseString }
+            let scenes = states.filter { $0.isScene }
+            self.groups.insert(("scenes", scenes), atIndex: 0)
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
         }
@@ -96,14 +107,22 @@ extension HomeViewController: UITableViewDataSource {
         let state = self.groups[indexPath.section].1[indexPath.row]
         let cellStyle = state.isLight || state.isSwitch ? "switch" : "cell"
         let cell = tableView.dequeueReusableCellWithIdentifier(cellStyle, forIndexPath: indexPath)
-        if let name = state.displayName {
-            cell.textLabel?.text = name
-        }
+
+        cell.textLabel?.text = state.displayName
+
         if let switchCell = cell as? SwitchTableViewCell {
             switchCell.cellSwitch.on = state.switchState ?? false
             switchCell.onSwitchChange = {newState in
                 self.changeState(state, on: newState)
             }
+        } else if !state.isScene {
+            var text = state.state
+            if let unit = state.sensorUnitOfMeasurement {
+                text += " \(unit)"
+            }
+            cell.detailTextLabel?.text = text
+        } else {
+            cell.detailTextLabel?.text = ""
         }
         return cell
     }
@@ -138,9 +157,14 @@ extension HomeViewController: UITableViewDelegate {
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let state = self.groups[indexPath.section].1[indexPath.row]
 
-        if let lightState = state.lightState, domain = state.domain where domain == "scene" {
-            self.changeState(state, on: !lightState)
+        if state.isScene {
+            self.changeState(state, on: true)
+        } else if state.isDeviceTracker {
+            let map = MapViewController()
+            map.configure([state])
+            self.showDetailViewController(map, sender: self)
         }
+
         tableView.deselectRowAtIndexPath(indexPath, animated: false)
     }
 }

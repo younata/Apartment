@@ -53,6 +53,10 @@
 		89B1C7181BBB38DC00BF0870 /* HomeAssistantRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C7161BBB38DC00BF0870 /* HomeAssistantRepository.swift */; };
 		89B1C71C1BBC5CC700BF0870 /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C71B1BBC5CC700BF0870 /* SwitchTableViewCell.swift */; };
 		89E0087F1AD7902E001A54D5 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E0087E1AD7902E001A54D5 /* ColorPicker.swift */; };
+		89E6DB8C1C6335670033709D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E6DB8B1C6335670033709D /* MapViewController.swift */; };
+		89E6DB8F1C633B750033709D /* UIViewController+ApartmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E6DB8E1C633B750033709D /* UIViewController+ApartmentTests.m */; };
+		89E6DB921C633C150033709D /* PCKMethodRedirector.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E6DB911C633C150033709D /* PCKMethodRedirector.m */; };
+		89E6DB951C633DF20033709D /* MapViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E6DB941C633DF20033709D /* MapViewControllerSpec.swift */; };
 		AE2BC2AD1C6285DE00524B6E /* FakeOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892151FD1B8E59EF00CBF7E4 /* FakeOperationQueue.swift */; };
 		AE2BC2AE1C62860F00524B6E /* FakeHomeAssistantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C7111BBB16CC00BF0870 /* FakeHomeAssistantService.swift */; };
 		AE2BC2B01C62861300524B6E /* FakeTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E008851AD977EC001A54D5 /* FakeTouch.swift */; };
@@ -250,6 +254,12 @@
 		89E0087E1AD7902E001A54D5 /* ColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
 		89E008821AD975A3001A54D5 /* ColorPickerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickerSpec.swift; sourceTree = "<group>"; };
 		89E008851AD977EC001A54D5 /* FakeTouch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTouch.swift; sourceTree = "<group>"; };
+		89E6DB8B1C6335670033709D /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		89E6DB8D1C633B750033709D /* UIViewController+ApartmentTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ApartmentTests.h"; sourceTree = "<group>"; };
+		89E6DB8E1C633B750033709D /* UIViewController+ApartmentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ApartmentTests.m"; sourceTree = "<group>"; };
+		89E6DB901C633C150033709D /* PCKMethodRedirector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCKMethodRedirector.h; sourceTree = "<group>"; };
+		89E6DB911C633C150033709D /* PCKMethodRedirector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCKMethodRedirector.m; sourceTree = "<group>"; };
+		89E6DB941C633DF20033709D /* MapViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewControllerSpec.swift; sourceTree = "<group>"; };
 		AE7BF7571C62871500B87382 /* PureLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PureLayout.framework; path = ../Carthage/Build/iOS/PureLayout.framework; sourceTree = "<group>"; };
 		AE7BF75B1C62884E00B87382 /* UIKit_PivotalSpecHelperStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit_PivotalSpecHelperStubs.framework; path = ../Carthage/Build/iOS/UIKit_PivotalSpecHelperStubs.framework; sourceTree = "<group>"; };
 		AE7BF75E1C628B4200B87382 /* FakeHomeRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeHomeRepository.swift; sourceTree = "<group>"; };
@@ -378,6 +388,10 @@
 				89E008851AD977EC001A54D5 /* FakeTouch.swift */,
 				AE85956D1C62D42500706602 /* FakeUserDefaults.swift */,
 				AE7BF75E1C628B4200B87382 /* FakeHomeRepository.swift */,
+				89E6DB8D1C633B750033709D /* UIViewController+ApartmentTests.h */,
+				89E6DB8E1C633B750033709D /* UIViewController+ApartmentTests.m */,
+				89E6DB901C633C150033709D /* PCKMethodRedirector.h */,
+				89E6DB911C633C150033709D /* PCKMethodRedirector.m */,
 				895636171ACFA03600CA60E9 /* Features */,
 				89E008841AD975A6001A54D5 /* Views */,
 				AE85956A1C62C5D100706602 /* UIKit_PivotalSpecHelper.framework */,
@@ -403,6 +417,7 @@
 			children = (
 				AE8595641C62C29E00706602 /* Onboarding */,
 				895636351AD0FB8F00CA60E9 /* Home Screen */,
+				89E6DB8A1C63354F0033709D /* Map Screen */,
 			);
 			name = Features;
 			sourceTree = "<group>";
@@ -412,6 +427,7 @@
 			children = (
 				AE8595671C62C3D800706602 /* Onboarding */,
 				895636361AD0FBA300CA60E9 /* Home Screen */,
+				89E6DB931C633DDD0033709D /* Map Screen */,
 			);
 			name = Features;
 			sourceTree = "<group>";
@@ -518,6 +534,22 @@
 				89E008821AD975A3001A54D5 /* ColorPickerSpec.swift */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		89E6DB8A1C63354F0033709D /* Map Screen */ = {
+			isa = PBXGroup;
+			children = (
+				89E6DB8B1C6335670033709D /* MapViewController.swift */,
+			);
+			name = "Map Screen";
+			sourceTree = "<group>";
+		};
+		89E6DB931C633DDD0033709D /* Map Screen */ = {
+			isa = PBXGroup;
+			children = (
+				89E6DB941C633DF20033709D /* MapViewControllerSpec.swift */,
+			);
+			name = "Map Screen";
 			sourceTree = "<group>";
 		};
 		AE8595641C62C29E00706602 /* Onboarding */ = {
@@ -820,6 +852,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				895636191ACFA4F600CA60E9 /* HomeViewController.swift in Sources */,
+				89E6DB8C1C6335670033709D /* MapViewController.swift in Sources */,
 				89B1C71C1BBC5CC700BF0870 /* SwitchTableViewCell.swift in Sources */,
 				895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */,
 				AE8595661C62C2B400706602 /* LoginViewController.swift in Sources */,
@@ -832,9 +865,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE85956E1C62D42500706602 /* FakeUserDefaults.swift in Sources */,
+				89E6DB8F1C633B750033709D /* UIViewController+ApartmentTests.m in Sources */,
 				AE2BC2B01C62861300524B6E /* FakeTouch.swift in Sources */,
+				89E6DB921C633C150033709D /* PCKMethodRedirector.m in Sources */,
 				AE2BC2B11C62861600524B6E /* AppDelegateSpec.swift in Sources */,
 				AE7BF75F1C628B4200B87382 /* FakeHomeRepository.swift in Sources */,
+				89E6DB951C633DF20033709D /* MapViewControllerSpec.swift in Sources */,
 				AE2BC2B21C62861C00524B6E /* HomeViewControllerSpec.swift in Sources */,
 				AE2BC2B31C62862100524B6E /* ColorPickerSpec.swift in Sources */,
 				AE8595691C62C3E700706602 /* LoginViewControllerSpec.swift in Sources */,
@@ -1204,10 +1240,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/watchOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/watchOS";
 				INFOPLIST_FILE = "WatchApp Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rachelbrindle.Apartment.watchkitapp.watchkitextension;
@@ -1223,10 +1256,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/watchOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/watchOS";
 				INFOPLIST_FILE = "WatchApp Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rachelbrindle.Apartment.watchkitapp.watchkitextension;

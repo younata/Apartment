@@ -30,20 +30,6 @@ class AppDelegateSpec: QuickSpec {
                     subject.window?.hidden = true
                 }
 
-                it("should create a window") {
-                    expect(subject.window).toNot(beNil())
-                    expect(subject.window?.keyWindow).to(beTruthy())
-                }
-
-                it("should assign a rootViewController") {
-                    if let window = subject!.window {
-                        expect(window.rootViewController).to(beAnInstanceOf(UINavigationController.self))
-                        if let nc = window.rootViewController as? UINavigationController {
-                            expect(nc.viewControllers.first).to(beAnInstanceOf(HomeViewController.self))
-                        }
-                    }
-                }
-
                 it("does not set the credentials for the HomeRepository") {
                     expect(homeRepository.backendPassword).to(beNil())
                     expect(homeRepository.backendURL).to(beNil())
@@ -69,9 +55,13 @@ class AppDelegateSpec: QuickSpec {
 
                 it("should assign a rootViewController") {
                     if let window = subject!.window {
-                        expect(window.rootViewController).to(beAnInstanceOf(UINavigationController.self))
-                        if let nc = window.rootViewController as? UINavigationController {
-                            expect(nc.viewControllers.first).to(beAnInstanceOf(HomeViewController.self))
+                        expect(window.rootViewController).to(beAnInstanceOf(UISplitViewController.self))
+                        if let sv = window.rootViewController as? UISplitViewController {
+                            expect(sv.viewControllers.count) == 1
+                            expect(sv.viewControllers.first).to(beAnInstanceOf(UINavigationController.self))
+                            if let nc = sv.viewControllers.first as? UINavigationController {
+                                expect(nc.viewControllers.first).to(beAnInstanceOf(HomeViewController.self))
+                            }
                         }
                     }
                 }

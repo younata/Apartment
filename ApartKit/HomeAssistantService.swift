@@ -128,8 +128,8 @@ class HomeAssistantService {
         }.resume()
     }
 
-    func callService(service: String, onDomain domain: String, data: [String: AnyObject]?, callback: ([State], NSError?) -> (Void)) {
-        let url = self.baseURL.URLByAppendingPathComponent("services", isDirectory: true).URLByAppendingPathComponent("\(domain)/\(service)")
+    func callService(service: String, method: String, data: [String: AnyObject]?, callback: ([State], NSError?) -> (Void)) {
+        let url = self.baseURL.URLByAppendingPathComponent("services", isDirectory: true).URLByAppendingPathComponent("\(service)/\(method)")
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
         if let data = data {

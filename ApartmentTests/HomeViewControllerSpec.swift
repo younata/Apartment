@@ -9,7 +9,6 @@ class HomeViewControllerSpec: QuickSpec {
     override func spec() {
         var subject: HomeViewController!
         var injector: Injector!
-        var navigationController: UINavigationController!
         var homeRepository: FakeHomeRepository!
 
         beforeEach {
@@ -19,7 +18,11 @@ class HomeViewControllerSpec: QuickSpec {
             injector.bind(HomeRepository.self, toInstance: homeRepository)
 
             subject = injector.create(HomeViewController)!
-            navigationController = UINavigationController(rootViewController: subject)
+        }
+
+        it("sets the title to something") {
+            subject.view.layoutIfNeeded()
+            expect(subject.title) == "Apartment"
         }
 
         context("if the home repository has not been configured") {
@@ -95,7 +98,9 @@ class HomeViewControllerSpec: QuickSpec {
                         State(attributes: ["active_requested": 0, "friendly_name": "all_lights_on", "entity_id": [ "light.living_room", "light.bedroom" ]], entityId: "scene.all_lights_on", lastChanged: NSDate(timeIntervalSince1970: 1443601946.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "off"),
                         State(attributes: ["auto": 1, "friendly_name": "all lights", "entity_id": [ "light.hue_lamp", "light.living_room", "light.bedroom" ]], entityId: "group.all_lights", lastChanged: NSDate(timeIntervalSince1970: 1443649080.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "on"),
                         State(attributes: ["auto": 1, "friendly_name": "all switches", "entity_id": [ "switch.internet_switch" ]], entityId: "group.all_switches", lastChanged: NSDate(timeIntervalSince1970: 1443612568.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "off"),
-                        State(attributes: ["unit_of_measurement": "°F", "friendly_name": "Weather Temperature"], entityId: "sensor.weather_temperature", lastChanged: NSDate(timeIntervalSince1970: 1443658172.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "60.6")
+                        State(attributes: ["auto": 0, "friendly_name": "Apartment", "entity_id": [ "switch.internet_switch", "light.living_room", "light.bedroom", "sensor.weather_temperature", "device_tracker.my_phone" ]], entityId: "group.apartment", lastChanged: NSDate(), lastUpdated: NSDate(), state: "off"),
+                        State(attributes: ["unit_of_measurement": "°F", "friendly_name": "Weather Temperature"], entityId: "sensor.weather_temperature", lastChanged: NSDate(timeIntervalSince1970: 1443658172.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "60.6"),
+                        State(attributes: ["battery": 75, "friendly_name": "my phone", "gps_accuracy": 65, "latitude": 37, "longitude": 122], entityId: "device_tracker.my_phone", lastChanged: NSDate(), lastUpdated: NSDate(), state: "home"),
                     ]
 
                     callback(states)
@@ -118,22 +123,84 @@ class HomeViewControllerSpec: QuickSpec {
                         expect(delegate).toNot(beNil())
                     }
 
-                    it("should have a section for each group, plus one for each scene") {
-                        expect(dataSource?.numberOfSectionsInTableView?(subject.tableView)) == 3
+                    it("should have a section for each manually-created group, plus one for each scene") {
+                        expect(dataSource?.numberOfSectionsInTableView?(subject.tableView)) == 2
                     }
 
-                    describe("the first through n-1 section") {
+                    describe("the first section") {
                         let sectionNumber = 0
 
-                        it("should be titled for that group name") {
-                            expect(dataSource?.tableView?(subject.tableView, titleForHeaderInSection: sectionNumber)) == "all lights"
+                        it("should be titled 'scenes'") {
+                            expect(dataSource?.tableView?(subject.tableView, titleForHeaderInSection: sectionNumber)) == "scenes"
                         }
 
-                        it("should have only as many sections as there are items in the group") {
+                        it("should have only as many sections as there are scenes") {
                             expect(dataSource?.tableView(subject.tableView, numberOfRowsInSection: sectionNumber)) == 3
                         }
 
                         describe("a cell") {
+                            var cell: UITableViewCell? = nil
+                            let indexPath = NSIndexPath(forRow: 0, inSection: sectionNumber)
+
+                            beforeEach {
+                                cell = dataSource?.tableView(subject.tableView, cellForRowAtIndexPath: indexPath)
+                                expect(cell).toNot(beNil())
+                                expect(cell).toNot(beAKindOf(SwitchTableViewCell.self))
+                            }
+
+                            it("should have the same title as the displayName") {
+                                expect(cell?.textLabel?.text) == "romantic"
+                            }
+
+                            it("should not have a detail text") {
+                                expect(cell?.detailTextLabel?.text) == ""
+                            }
+
+                            describe("tapping it") {
+                                describe("before the services request has finished") {
+                                    beforeEach {
+                                        delegate?.tableView?(subject.tableView, didSelectRowAtIndexPath: indexPath)
+                                    }
+
+                                    it("should not make any request to change things") {
+                                        expect(homeRepository.updateServiceCallback).to(beNil())
+                                    }
+                                }
+
+                                describe("after the services request has finished") {
+                                    let services = [
+                                        Service(domain: "light", services: ["turn_on", "turn_off"]),
+                                        Service(domain: "scene", services: ["turn_on", "turn_off"]),
+                                        Service(domain: "homeassistant", services: ["turn_on", "stop", "turn_off"])
+                                    ]
+
+                                    beforeEach {
+                                        homeRepository.servicesCallback?(services)
+                                        delegate?.tableView?(subject.tableView, didSelectRowAtIndexPath: indexPath)
+                                    }
+
+                                    it("should make a request to change the light") {
+                                        expect(homeRepository.updateServiceCallback).toNot(beNil())
+                                        expect(homeRepository.updateServiceService) == services[1]
+                                        expect(homeRepository.updateServiceMethod) == "turn_on"
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    describe("the last through n-1 section") {
+                        let sectionNumber = 1
+
+                        it("should be titled for that group name") {
+                            expect(dataSource?.tableView?(subject.tableView, titleForHeaderInSection: sectionNumber)) == "Apartment"
+                        }
+
+                        it("should have only as many sections as there are items in the group") {
+                            expect(dataSource?.tableView(subject.tableView, numberOfRowsInSection: sectionNumber)) == 5
+                        }
+
+                        describe("a cell for a switch/light") {
                             var cell: SwitchTableViewCell? = nil
                             let indexPath = NSIndexPath(forRow: 0, inSection: sectionNumber)
 
@@ -185,114 +252,71 @@ class HomeViewControllerSpec: QuickSpec {
                                 beforeEach {
                                     delegate?.tableView?(subject.tableView, didSelectRowAtIndexPath: indexPath)
                                 }
+
+                                // displays value over time?
                             }
                         }
-                    }
 
-                    describe("the last section") {
-                        let sectionNumber = 2
-
-                        it("should be titled 'scenes'") {
-                            expect(dataSource?.tableView?(subject.tableView, titleForHeaderInSection: sectionNumber)) == "scenes"
-                        }
-
-                        it("should have only as many sections as there are scenes") {
-                            expect(dataSource?.tableView(subject.tableView, numberOfRowsInSection: sectionNumber)) == 3
-                        }
-
-                        describe("a cell") {
+                        describe("a cell for a sensor") {
                             var cell: UITableViewCell? = nil
-                            let indexPath = NSIndexPath(forRow: 0, inSection: sectionNumber)
+                            let indexPath = NSIndexPath(forRow: 2, inSection: sectionNumber)
 
                             beforeEach {
                                 cell = dataSource?.tableView(subject.tableView, cellForRowAtIndexPath: indexPath)
                                 expect(cell).toNot(beNil())
-                                expect(cell).toNot(beAKindOf(SwitchTableViewCell.self))
                             }
 
                             it("should have the same title as the displayName") {
-                                expect(cell?.textLabel?.text) == "romantic"
+                                expect(cell?.textLabel?.text) == "Weather Temperature"
                             }
 
-                            describe("tapping it") {
-                                describe("before the services request has finished") {
-                                    beforeEach {
-                                        delegate?.tableView?(subject.tableView, didSelectRowAtIndexPath: indexPath)
-                                    }
-
-                                    it("should not make any request to change things") {
-                                        expect(homeRepository.updateServiceCallback).to(beNil())
-                                    }
-                                }
-
-                                describe("after the services request has finished") {
-                                    let services = [
-                                        Service(domain: "light", services: ["turn_on", "turn_off"]),
-                                        Service(domain: "scene", services: ["turn_on", "turn_off"]),
-                                        Service(domain: "homeassistant", services: ["turn_on", "stop", "turn_off"])
-                                    ]
-
-                                    beforeEach {
-                                        homeRepository.servicesCallback?(services)
-                                        delegate?.tableView?(subject.tableView, didSelectRowAtIndexPath: indexPath)
-                                    }
-
-                                    it("should make a request to change the light") {
-                                        expect(homeRepository.updateServiceCallback).toNot(beNil())
-                                        expect(homeRepository.updateServiceService) == services[1]
-                                        expect(homeRepository.updateServiceMethod) == "turn_on"
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    sharedExamples("a tableView section") {(sharedContext: SharedExampleContext) in
-                        var sectionNumber: Int = 0
-
-                        beforeEach {
-                            sectionNumber = sharedContext()["section"] as? Int ?? 0
-                        }
-
-                        describe("a cell") {
-                            var cell: SwitchTableViewCell? = nil
-                            var indexPath = NSIndexPath(forRow: 0, inSection: 0)
-
-                            beforeEach {
-                                indexPath = NSIndexPath(forRow: 0, inSection: sectionNumber)
-                                cell = dataSource?.tableView(subject.tableView, cellForRowAtIndexPath: indexPath) as? SwitchTableViewCell
-                                expect(cell).toNot(beNil())
+                            it("should show the state as the detail") {
+                                expect(cell?.detailTextLabel?.text) == "60.6 °F"
                             }
 
-                            it("should have the same title as the name") {
-                                let expectedTitle = sharedContext()["cellTitle"] as? String
-                                expect(cell?.textLabel?.text) == expectedTitle
-                            }
-
-                            describe("tapping it") {
+                            describe("tapping the cell") {
                                 beforeEach {
-                                    expect(delegate?.respondsToSelector("tableView:didSelectRowAtIndexPath:")).to(beTruthy())
                                     delegate?.tableView?(subject.tableView, didSelectRowAtIndexPath: indexPath)
                                 }
 
-                                it("should navigate to the desired detail screen") {
-                                    let expectedDetailScreen: AnyClass? = sharedContext()["cellDetailScreen"] as? AnyClass
-                                    expect(expectedDetailScreen).toNot(beNil())
-                                    if let detailScreen = expectedDetailScreen {
-                                        expect(navigationController.topViewController).to(beAKindOf(detailScreen))
+                                // displays value over time?
+                            }
+                        }
+
+                        describe("a cell for a device tracker") {
+                            var cell: UITableViewCell? = nil
+                            let indexPath = NSIndexPath(forRow: 4, inSection: sectionNumber)
+
+                            beforeEach {
+                                cell = dataSource?.tableView(subject.tableView, cellForRowAtIndexPath: indexPath)
+                                expect(cell).toNot(beNil())
+                            }
+
+                            it("should have the same title as the displayName") {
+                                expect(cell?.textLabel?.text) == "my phone"
+                            }
+
+                            it("should show the state as the detail") {
+                                expect(cell?.detailTextLabel?.text) == "home"
+                            }
+
+                            describe("tapping the cell") {
+                                beforeEach {
+                                    delegate?.tableView?(subject.tableView, didSelectRowAtIndexPath: indexPath)
+                                }
+
+                                it("displays the map view controller") {
+                                    expect(subject.shownDetailViewController).to(beAKindOf(MapViewController.self))
+
+                                    if let mapViewController = subject.shownDetailViewController as? MapViewController {
+                                        expect(mapViewController.devices.count) == 1
+                                        expect(mapViewController.zones.isEmpty) == true
                                     }
-                                }
-
-                                it("resets the switch") {
-                                    expect(cell?.cellSwitch.on).to(beFalsy())
-                                }
-
-                                it("should update the UI to show the not-in-progress state") {
-                                    expect(cell?.contentView.backgroundColor) == UIColor.clearColor()
                                 }
                             }
                         }
                     }
+
                     it("should stop the refresh control") {
                         expect(subject.refreshControl?.refreshing).to(beFalsy())
                     }

@@ -217,7 +217,7 @@ class HomeAssistantServiceSpec: QuickSpec {
                 var receivedStates = Array<State>()
 
                 beforeEach {
-                    subject.callService("turn_on", onDomain: "light", data: nil) {states, error in
+                    subject.callService("light", method: "turn_on", data: nil) {states, error in
                         receivedStates = states
                         receivedError = error
                     }
@@ -233,7 +233,7 @@ class HomeAssistantServiceSpec: QuickSpec {
                 it("should add the data if it's there") {
                     expect(urlSession.lastURLRequest?.HTTPBody).to(beNil())
 
-                    subject.callService("", onDomain: "", data: ["next_rising": "18:00:31 29-10-2013"]) {_ in}
+                    subject.callService("", method: "", data: ["next_rising": "18:00:31 29-10-2013"]) {_ in}
 
                     expect(urlSession.lastURLRequest?.HTTPBody).toNot(beNil())
                     if let receivedData = urlSession.lastURLRequest?.HTTPBody,

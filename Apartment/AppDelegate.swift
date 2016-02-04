@@ -34,7 +34,9 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             let homeViewController = anInjector.create(HomeViewController.self)!
             let navController = UINavigationController(rootViewController: homeViewController)
-            self.window?.rootViewController = navController
+            let splitViewController = UISplitViewController()
+            splitViewController.viewControllers = [navController]
+            self.window?.rootViewController = splitViewController
         }
 
         return true

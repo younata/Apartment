@@ -1,4 +1,5 @@
 import Foundation
+import CoreLocation
 
 public struct State: Equatable {
     public let attributes: [String: AnyObject]
@@ -17,12 +18,16 @@ public struct State: Equatable {
 }
 
 extension State {
-    public var displayName: String? {
-        return self.attributes["friendly_name"] as? String
+    public var displayName: String {
+        return self.attributes["friendly_name"] as? String ?? self.entityId
     }
 
     public var domain: String? {
         return self.entityId.componentsSeparatedByString(".").first
+    }
+
+    public var hidden: Bool {
+        return self.attributes["hidden"] as? Bool == true
     }
 }
 
@@ -146,6 +151,65 @@ extension State {
             return false
         }
         return nil
+    }
+}
+
+// MARK: - Device Tracker
+
+extension State {
+    public var isDeviceTracker: Bool {
+        return self.entityId.hasPrefix("device_tracker")
+    }
+
+    public var trackerLatitude: Double? {
+        return self.attributes["latitude"] as? Double
+    }
+
+    public var trackerLongitude: Double? {
+        return self.attributes["longitude"] as? Double
+    }
+
+    public var trackerBattery: Int? {
+        return self.attributes["battery"] as? Int
+    }
+
+    public var trackerAccuracy: Int? {
+        return self.attributes["gps_accuracy"] as? Int
+    }
+
+    public var trackerCoordinate: CLLocationCoordinate2D? {
+        if let latitude = self.trackerLatitude, longitude = self.trackerLatitude where self.isDeviceTracker {
+            return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        }
+        return nil
+    }
+}
+
+// MARK: - Zone
+
+extension State {
+    public var isZone: Bool {
+        return self.entityId.hasPrefix("zone")
+    }
+
+    public var iconUrl: NSURL? {
+        return nil
+    }
+
+    public var zoneLatitude: Double? {
+        return self.trackerLatitude
+    }
+
+    public var zoneLongitude: Double? {
+        return self.trackerLongitude
+    }
+
+    public var zoneCoordinate: CLLocationCoordinate2D? {
+        return self.trackerCoordinate
+    }
+
+    public var zoneRadius: Int? {
+        return self.attributes["radius"] as? Int
     }
 }
 

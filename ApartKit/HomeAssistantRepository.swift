@@ -136,7 +136,7 @@ class HomeAssistantRepository: HomeRepository {
     }
 
     func updateService(service: Service, method: String, onEntity state: State, callback: ([State], NSError?) -> Void) {
-        self.homeService.callService(service.domain, onDomain: method, data: ["entity_id": state.entityId]) { states, error in
+        self.homeService.callService(service.domain, method: method, data: ["entity_id": state.entityId]) { states, error in
             callback(states, error)
             if error == nil {
                 self.forceUpdateStates{ _ in }
