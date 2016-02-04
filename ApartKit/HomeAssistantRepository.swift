@@ -17,7 +17,7 @@ public protocol HomeRepository {
 
 public extension HomeRepository {
     var configured: Bool {
-        return self.backendPassword != nil && self.backendURL != nil
+        return self.backendPassword?.isEmpty == false && self.backendURL?.absoluteString.isEmpty == false
     }
 }
 
@@ -53,7 +53,6 @@ class HomeAssistantRepository: HomeRepository {
             self.homeService.baseURL = newValue.URLByAppendingPathComponent("api", isDirectory: true)
             if self.configured {
                 self.breakCache()
-                _ = try? self.watchSession?.updateApplicationContext(["backendURL": newValue, "backendPassword": self.backendPassword])
             }
         }
     }
@@ -70,7 +69,6 @@ class HomeAssistantRepository: HomeRepository {
 
             if self.configured {
                 self.breakCache()
-                _ = try? self.watchSession?.updateApplicationContext(["backendURL": self.backendURL, "backendPassword": newValue])
             }
         }
     }
@@ -92,8 +90,9 @@ class HomeAssistantRepository: HomeRepository {
 
     init(homeService: HomeAssistantService) {
         self.homeService = homeService
-        self.watchDelegate.didUpdateStates = {
+        self.watchDelegate.didUpdateData = {
             self.updateStates($0)
+            self._services = $1
         }
         self.watchSession?.delegate = self.watchDelegate
         self.watchDelegate.homeRepository = self
@@ -177,23 +176,29 @@ class HomeAssistantRepository: HomeRepository {
 }
 
 private class WatchConnectivityDelegate: NSObject, WCSessionDelegate {
-    var didUpdateStates: (([State]) -> (Void))?
+    var didUpdateData: (([State], [Service]) -> Void)?
     var homeRepository: HomeRepository?
 
-    @objc private func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
-        if let statesJson = message["states"] as? [[String: AnyObject]] {
-            let states = statesJson.reduce(Array<State>()) {
+    @objc private func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
+        let states: [State]
+        let services: [Service]
+        if let statesJson = applicationContext["states"] as? [[String: AnyObject]] {
+            states = statesJson.reduce(Array<State>()) {
                 if let state = State.NewFromJSON($1) {
                     return $0 + [state]
                 }
                 return $0
             }
-            self.didUpdateStates?(states)
-        }
-    }
-
-    @objc private func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
-        self.homeRepository?.backendURL = applicationContext["backendURL"] as? NSURL
-        self.homeRepository?.backendPassword = applicationContext["backendPassword"] as? String
+        } else { states = [] }
+        if let servicesJson = applicationContext["services"] as? [[String: AnyObject]] {
+            services = servicesJson.reduce(Array<Service>()) {
+                if let name = $1["domain"] as? String,
+                    services = $1["services"] as? [String: AnyObject] {
+                        return $0 + [Service(domain: name, services: Array(services.keys))]
+                }
+                return $0
+            }
+        } else { services = [] }
+        self.didUpdateData?(states, services)
     }
 }

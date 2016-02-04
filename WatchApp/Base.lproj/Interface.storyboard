@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="8187.4" systemVersion="14E46" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="9532" systemVersion="15B42" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8151.3"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="8092"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="9515"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
@@ -10,56 +10,66 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="WatchApp" customModuleProvider="target">
                     <items>
-                        <table alignment="left" id="Qiu-Go-Xhf">
+                        <label alignment="center" verticalAlignment="center" text="Loading..." textAlignment="center" id="fvw-9b-kfl"/>
+                    </items>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="164" y="217"/>
+        </scene>
+        <!--groupController-->
+        <scene sceneID="aHE-kD-Suu">
+            <objects>
+                <controller identifier="groupController" id="cXR-ea-Ik5" customClass="GroupInterfaceController" customModule="WatchApp_Extension">
+                    <items>
+                        <table alignment="left" id="EL8-SM-6zu">
                             <items>
-                                <tableRow identifier="bulb" id="Ii7-us-NwS" customClass="InterfaceTableController" customModule="WatchApp_Extension">
-                                    <group key="rootItem" width="1" alignment="left" id="vj8-lT-fqV">
+                                <tableRow identifier="switchRow" selectable="NO" id="BXT-zP-Iy1" customClass="SwitchTableRowController" customModule="WatchApp_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="v89-5q-2QJ">
                                         <items>
-                                            <label alignment="center" verticalAlignment="center" text="Light" id="M0K-rD-4in"/>
+                                            <switch alignment="center" verticalAlignment="center" id="ols-Zj-vOc">
+                                                <connections>
+                                                    <action selector="switchWasToggled:" destination="BXT-zP-Iy1" id="x7w-uP-oCq"/>
+                                                </connections>
+                                            </switch>
                                         </items>
                                     </group>
                                     <connections>
-                                        <outlet property="label" destination="M0K-rD-4in" id="Csy-qu-g7D"/>
+                                        <outlet property="interfaceSwitch" destination="ols-Zj-vOc" id="Ore-Qe-VYq"/>
                                     </connections>
                                 </tableRow>
-                                <tableRow identifier="lock" id="IsA-8B-AOD" customClass="InterfaceTableController" customModule="WatchApp_Extension">
-                                    <group key="rootItem" width="1" alignment="left" id="xwT-R5-jk0">
+                                <tableRow identifier="buttonRow" id="gh4-mP-j3R" customClass="ButtonTableRowController" customModule="WatchApp_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="SeT-8d-Mao">
                                         <items>
-                                            <label alignment="center" verticalAlignment="center" text="Lock" id="xJ0-50-T5Z"/>
+                                            <label alignment="left" verticalAlignment="center" textAlignment="left" numberOfLines="0" id="VjA-bI-Jll"/>
                                         </items>
                                     </group>
                                     <connections>
-                                        <outlet property="label" destination="xJ0-50-T5Z" id="jVL-eK-Den"/>
+                                        <outlet property="label" destination="VjA-bI-Jll" id="dNf-ch-qNf"/>
                                     </connections>
                                 </tableRow>
                             </items>
                         </table>
                     </items>
-                    <menu key="menu" id="nY3-Ml-uOf">
-                        <items>
-                            <menuItem title="Turn lights off" icon="accept" id="bVo-P1-pxx">
-                                <connections>
-                                    <action selector="didTapTurnLightsOff" destination="AgC-eL-Hgc" id="ea5-Kc-hS0"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Turn lights on" icon="accept" id="zQ8-Rx-56s">
-                                <connections>
-                                    <action selector="didTapTurnLightsOn" destination="AgC-eL-Hgc" id="Ujo-jY-pEI"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Lock all locks" icon="accept" id="hLI-re-9xY">
-                                <connections>
-                                    <action selector="didTapLockAllLocks" destination="AgC-eL-Hgc" id="uDJ-cO-7vL"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
                     <connections>
-                        <outlet property="table" destination="Qiu-Go-Xhf" id="7Eh-hy-QMS"/>
+                        <outlet property="table" destination="EL8-SM-6zu" id="wcl-FX-RKW"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="164" y="217"/>
+            <point key="canvasLocation" x="363" y="217"/>
+        </scene>
+        <!--mapController-->
+        <scene sceneID="WhQ-RQ-wSG">
+            <objects>
+                <controller identifier="mapController" id="nQA-mS-f6l" customClass="MapInterfaceController" customModule="WatchApp_Extension">
+                    <items>
+                        <map width="1" height="1" alignment="left" id="eIe-LI-35F"/>
+                    </items>
+                    <connections>
+                        <outlet property="map" destination="eIe-LI-35F" id="oc0-cv-3BN"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="590" y="217"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="rjY-Ar-IMT">
@@ -67,26 +77,9 @@
                 <glanceController spacing="0.0" id="Sv0-Ai-Zie" customClass="GlanceController" customModule="WatchApp" customModuleProvider="target">
                     <items>
                         <group alignment="left" id="gv7-I2-MZq"/>
-                        <group alignment="left" layout="vertical" id="eew-Gs-W6Y">
-                            <items>
-                                <group width="1" alignment="left" id="XEN-6k-2bV">
-                                    <items>
-                                        <label alignment="left" text="Locks" id="jzD-ag-fjN"/>
-                                    </items>
-                                </group>
-                                <group width="1" alignment="left" id="jie-2F-fot">
-                                    <items>
-                                        <label alignment="left" text="Lights" id="e9T-kC-qQV"/>
-                                    </items>
-                                </group>
-                            </items>
-                        </group>
+                        <group alignment="left" layout="vertical" id="eew-Gs-W6Y"/>
                     </items>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
-                    <connections>
-                        <outlet property="bulbsLabel" destination="e9T-kC-qQV" id="ISb-2l-xul"/>
-                        <outlet property="locksLabel" destination="jzD-ag-fjN" id="9oW-nb-XKx"/>
-                    </connections>
                 </glanceController>
             </objects>
             <point key="canvasLocation" x="164" y="514"/>

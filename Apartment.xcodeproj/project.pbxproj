@@ -52,6 +52,8 @@
 		89B1C7171BBB38DC00BF0870 /* HomeAssistantRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C7161BBB38DC00BF0870 /* HomeAssistantRepository.swift */; };
 		89B1C7181BBB38DC00BF0870 /* HomeAssistantRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C7161BBB38DC00BF0870 /* HomeAssistantRepository.swift */; };
 		89B1C71C1BBC5CC700BF0870 /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1C71B1BBC5CC700BF0870 /* SwitchTableViewCell.swift */; };
+		89D826D71C63F0A6001DDC46 /* MapInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D826D61C63F0A6001DDC46 /* MapInterfaceController.swift */; };
+		89D826D91C6403AC001DDC46 /* GroupInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D826D81C6403AC001DDC46 /* GroupInterfaceController.swift */; };
 		89E0087F1AD7902E001A54D5 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E0087E1AD7902E001A54D5 /* ColorPicker.swift */; };
 		89E6DB8C1C6335670033709D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E6DB8B1C6335670033709D /* MapViewController.swift */; };
 		89E6DB8F1C633B750033709D /* UIViewController+ApartmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E6DB8E1C633B750033709D /* UIViewController+ApartmentTests.m */; };
@@ -254,6 +256,8 @@
 		89B1C7161BBB38DC00BF0870 /* HomeAssistantRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeAssistantRepository.swift; sourceTree = "<group>"; };
 		89B1C71B1BBC5CC700BF0870 /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
 		89B1C71D1BBC6CC700BF0870 /* HomeAssistantRepositorySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeAssistantRepositorySpec.swift; sourceTree = "<group>"; };
+		89D826D61C63F0A6001DDC46 /* MapInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapInterfaceController.swift; sourceTree = "<group>"; };
+		89D826D81C6403AC001DDC46 /* GroupInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupInterfaceController.swift; sourceTree = "<group>"; };
 		89E0087E1AD7902E001A54D5 /* ColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
 		89E008821AD975A3001A54D5 /* ColorPickerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickerSpec.swift; sourceTree = "<group>"; };
 		89E008851AD977EC001A54D5 /* FakeTouch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTouch.swift; sourceTree = "<group>"; };
@@ -508,6 +512,8 @@
 			isa = PBXGroup;
 			children = (
 				89A5A1FB1B5E9BD500FC3FE3 /* InterfaceController.swift */,
+				89D826D81C6403AC001DDC46 /* GroupInterfaceController.swift */,
+				89D826D61C63F0A6001DDC46 /* MapInterfaceController.swift */,
 				89A5A1FD1B5E9BD500FC3FE3 /* ExtensionDelegate.swift */,
 				89A5A1FF1B5E9BD500FC3FE3 /* GlanceController.swift */,
 				89A5A2011B5E9BD500FC3FE3 /* ComplicationController.swift */,
@@ -918,6 +924,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				89A5A1FE1B5E9BD500FC3FE3 /* ExtensionDelegate.swift in Sources */,
+				89D826D91C6403AC001DDC46 /* GroupInterfaceController.swift in Sources */,
+				89D826D71C63F0A6001DDC46 /* MapInterfaceController.swift in Sources */,
 				89A5A2021B5E9BD500FC3FE3 /* ComplicationController.swift in Sources */,
 				89A5A1FC1B5E9BD500FC3FE3 /* InterfaceController.swift in Sources */,
 				89A5A2001B5E9BD500FC3FE3 /* GlanceController.swift in Sources */,
