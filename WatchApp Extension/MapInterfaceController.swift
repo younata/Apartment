@@ -23,6 +23,8 @@ class MapInterfaceController: WKInterfaceController {
         self.setTitle(self.entity?.displayName)
         if let coordinate = self.entity?.trackerCoordinate {
             self.map.addAnnotation(coordinate, withPinColor: .Red)
+            let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+            self.map.setRegion(MKCoordinateRegion(center: coordinate, span: span))
         }
     }
 }

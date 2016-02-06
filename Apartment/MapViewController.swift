@@ -29,6 +29,8 @@ public class MapViewController: UIViewController {
     public let map = MKMapView(forAutoLayout: ())
 
     public func configure(states: [State]) {
+        self.map.removeAnnotations(self.map.annotations)
+
         let states = states.filter { $0.isDeviceTracker || $0.isZone }
         self.devices = states.filter { $0.isDeviceTracker }
         self.zones = states.filter { $0.isZone }
