@@ -10,7 +10,7 @@ class MapViewControllerSpec: QuickSpec {
     override func spec() {
         var subject: MapViewController!
 
-        let tracker = State(attributes: ["battery": 75, "friendly_name": "my phone", "gps_accuracy": 65, "latitude": 37, "longitude": 122], entityId: "device_tracker.my_phone", lastChanged: NSDate(), lastUpdated: NSDate(), state: "home")
+        let tracker = State(attributes: ["battery": 75, "friendly_name": "my phone", "gps_accuracy": 65, "latitude": 37, "longitude": 122], entityId: "device_tracker.my_phone", lastChanged: NSDate(), lastUpdated: NSDate(), state: "not_home")
         let zone = State(attributes: [
             "friendly_name": "Home",
             "icon": "mdi:home",
@@ -35,11 +35,12 @@ class MapViewControllerSpec: QuickSpec {
             }
 
             it("shows a pin annotation for that device") {
+                expect(subject.map.overlays.count) == 0
                 expect(subject.map.annotations.count) == 1
                 expect(subject.map.annotations.first is MKPointAnnotation) == true
                 if let pin = subject.map.annotations.first as? MKPointAnnotation {
                     expect(pin.title) == "my phone"
-                    expect(pin.subtitle) == "home"
+                    expect(pin.subtitle) == "Not home"
                 }
             }
         }
@@ -54,7 +55,8 @@ class MapViewControllerSpec: QuickSpec {
             }
 
             it("shows some other kind of annotation for that device") {
-                expect(subject.map.annotations.count) == 1
+                expect(subject.map.overlays.count) == 1
+                expect(subject.map.annotations.count) == 0
             }
         }
 
@@ -67,8 +69,17 @@ class MapViewControllerSpec: QuickSpec {
                 expect(subject.title) == "Map"
             }
 
-            it("zooms out to show all of the annotations") {
-                expect(subject.map.annotations.count) == 2
+            it("zooms out to show all of the annotations/overlays") {
+                expect(subject.map.annotations.count) == 1
+                expect(subject.map.overlays.count) == 1
+            }
+        }
+
+        describe("the map's delegate") {
+            it("returns the right overlay for a circle overlay") {
+                let circle = MKCircle()
+                let renderer = subject.map.delegate?.mapView?(subject.map, rendererForOverlay: circle)
+                expect(renderer).to(beAnInstanceOf(MKCircleRenderer.self))
             }
         }
     }
