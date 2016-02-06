@@ -19,7 +19,7 @@ public struct State: Equatable {
 
 extension State {
     public var displayName: String {
-        return self.attributes["friendly_name"] as? String ?? self.entityId
+        return self.attributes["friendly_name"] as? String ?? self.entityId.desnake
     }
 
     public var domain: String? {
@@ -33,7 +33,7 @@ extension State {
 
 extension State: CustomStringConvertible {
     public var description: String {
-        return "<State: entityId: \(self.entityId), state: \(self.state)>"
+        return "<State: name: \(self.displayName), state: \(self.state)>"
     }
 }
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		894142D11C6662E80070962A /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894142D01C6662E80070962A /* Group.swift */; };
+		894142D21C6662E80070962A /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894142D01C6662E80070962A /* Group.swift */; };
 		895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895634E21ACA5DA200CA60E9 /* AppDelegate.swift */; };
 		895634EA1ACA5DA300CA60E9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895634E91ACA5DA300CA60E9 /* Images.xcassets */; };
 		895634ED1ACA5DA300CA60E9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 895634EB1ACA5DA300CA60E9 /* LaunchScreen.xib */; };
@@ -212,6 +214,7 @@
 
 /* Begin PBXFileReference section */
 		892151FD1B8E59EF00CBF7E4 /* FakeOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeOperationQueue.swift; sourceTree = "<group>"; };
+		894142D01C6662E80070962A /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		895634DD1ACA5DA200CA60E9 /* Apartment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Apartment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		895634E11ACA5DA200CA60E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		895634E21ACA5DA200CA60E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -466,6 +469,7 @@
 				89E6DB961C63E4F60033709D /* StringExtensions.swift */,
 				89B1C7011BB9CA3700BF0870 /* HomeAssistantService.swift */,
 				89B1C7161BBB38DC00BF0870 /* HomeAssistantRepository.swift */,
+				894142D01C6662E80070962A /* Group.swift */,
 				89B1C7061BB9EB4100BF0870 /* State.swift */,
 				89B1C7091BBA04EB00BF0870 /* Event.swift */,
 				89B1C70C1BBA0B5D00BF0870 /* Service.swift */,
@@ -894,6 +898,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				894142D11C6662E80070962A /* Group.swift in Sources */,
 				89E6DB971C63E4F60033709D /* StringExtensions.swift in Sources */,
 				89B1C70A1BBA04EB00BF0870 /* Event.swift in Sources */,
 				AED985461C62AD1F00A20780 /* ApartKitModule.swift in Sources */,
@@ -936,6 +941,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				894142D21C6662E80070962A /* Group.swift in Sources */,
 				89E6DB981C63E4F60033709D /* StringExtensions.swift in Sources */,
 				89B1C70B1BBA04EB00BF0870 /* Event.swift in Sources */,
 				AE8595631C62B4AC00706602 /* ApartWatchKitModule.swift in Sources */,

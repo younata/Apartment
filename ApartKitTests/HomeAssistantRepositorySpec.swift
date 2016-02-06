@@ -215,8 +215,14 @@ class HomeAssistantRepositorySpec: QuickSpec {
             }
 
             context("when the request suceeds") {
-                let service1 = Service(domain: "home_assistant", services: ["turn_on", "turn_off"])
-                let service2 = Service(domain: "lights", services: ["turn_on", "turn_off"])
+                let service1 = Service(domain: "home_assistant", methods: [
+                    Service.Method(id: "turn_on", description: "", fields: [:]),
+                    Service.Method(id: "turn_off", description: "", fields: [:])
+                ])
+                let service2 = Service(domain: "lights", methods: [
+                    Service.Method(id: "turn_on", description: "", fields: [:]),
+                    Service.Method(id: "turn_off", description: "", fields: [:])
+                ])
 
                 let services = [service1, service2]
 
@@ -249,7 +255,10 @@ class HomeAssistantRepositorySpec: QuickSpec {
         }
 
         describe("updating a service") {
-            let service = Service(domain: "home_assistant", services: ["turn_on", "turn_on"])
+            let service = Service(domain: "home_assistant", methods: [
+                Service.Method(id: "turn_on", description: "", fields: [:]),
+                Service.Method(id: "turn_off", description: "", fields: [:])
+            ])
             let state = State(attributes: ["entity_id": "lights"], entityId: "group.lights", lastChanged: NSDate(), lastUpdated: NSDate(), state: "off")
 
             var receivedStates: [State]?

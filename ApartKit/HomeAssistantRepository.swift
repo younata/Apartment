@@ -19,6 +19,27 @@ public extension HomeRepository {
     var configured: Bool {
         return self.backendPassword?.isEmpty == false && self.backendURL?.absoluteString.isEmpty == false
     }
+
+    func groups(includeScenes includeScenes: Bool, callback: ([State], [Group]) -> Void) {
+        self.states { states in
+            let groups = states.filter { $0.isGroup && $0.groupAutoCreated == false }
+            var groupData = [(State, [State])]()
+            for group in groups {
+                if let entities = group.groupEntities {
+                    let groupStates = states.filter({ entities.contains($0.entityId) && !$0.hidden }).sort({$0.displayName.lowercaseString < $1.displayName.lowercaseString})
+                    groupData.append((group, groupStates))
+                }
+            }
+
+            if includeScenes {
+                let scenes = states.filter({ $0.isScene && !$0.hidden }).sort({ $0.displayName.lowercaseString < $1.displayName.lowercaseString })
+                let sceneGroup = State(attributes: ["friendly_name": "Scenes"], entityId: "group.scenes", lastChanged: NSDate(), lastUpdated: NSDate(), state: "")
+                groupData.insert((sceneGroup, scenes), atIndex: 0)
+            }
+
+            callback(states, groupData.map { Group(data: $0) } )
+        }
+    }
 }
 
 public protocol HomeRepositorySubscriber: NSObjectProtocol {
@@ -173,7 +194,7 @@ class HomeAssistantRepository: HomeRepository {
 
     private func updateWatchSession() {
         let states = self._states.map { $0.jsonObject }
-        let services = self._services.map { ["domain": $0.domain, "services": $0.services] }
+        let services = self._services.map { ["domain": $0.domain, "methods": $0.methods.map { method in method.jsonObject } ] }
         let message = ["states": states, "services": services]
         self.watchSession?.transferUserInfo(message)
     }
@@ -213,7 +234,7 @@ private class WatchConnectivityDelegate: NSObject, WCSessionDelegate {
         let states: [State]
         let services: [Service]
         if let statesJson = userInfo["states"] as? [[String: AnyObject]] {
-            states = statesJson.reduce(Array<State>()) {
+            states = statesJson.reduce([State]()) {
                 if let state = State.NewFromJSON($1) {
                     return $0 + [state]
                 }
@@ -221,10 +242,9 @@ private class WatchConnectivityDelegate: NSObject, WCSessionDelegate {
             }
         } else { states = [] }
         if let servicesJson = userInfo["services"] as? [[String: AnyObject]] {
-            services = servicesJson.reduce(Array<Service>()) {
-                if let name = $1["domain"] as? String,
-                    services = $1["services"] as? [String] {
-                        return $0 + [Service(domain: name, services: services)]
+            services = servicesJson.reduce([Service]()) {
+                if let service = Service(jsonObject: $1) {
+                    return $0 + [service]
                 }
                 return $0
             }

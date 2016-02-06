@@ -4,6 +4,7 @@ import UIKit
 import Ra
 import Apartment
 import ApartKit
+import UIKit_PivotalSpecHelperStubs
 
 class HomeViewControllerSpec: QuickSpec {
     override func spec() {
@@ -92,14 +93,14 @@ class HomeViewControllerSpec: QuickSpec {
                         State(attributes: ["friendly_name": "internet switch"], entityId: "switch.internet_switch", lastChanged: NSDate(timeIntervalSince1970: 1443612568.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "off"),
                         State(attributes: ["xy_color": [ "0.4499", "0.408" ], "brightness": 254, "friendly_name": "Bedroom"], entityId: "light.bedroom", lastChanged: NSDate(timeIntervalSince1970: 1443649080.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "on"),
                         State(attributes: ["friendly_name": "Hue Lamp"], entityId: "light.hue_lamp", lastChanged: NSDate(timeIntervalSince1970: 1443601958.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "off"),
-                        State(attributes: ["supported_media_commands": 63, "friendly_name": "osmc"], entityId: "media_player.osmc", lastChanged: NSDate(timeIntervalSince1970: 1443601945.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "idle"),
+                        State(attributes: ["supported_media_commands": 63, "friendly_name": "X kodi"], entityId: "media_player.osmc", lastChanged: NSDate(timeIntervalSince1970: 1443601945.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "idle"),
                         State(attributes: ["next_setting": "01:53:48 01-10-2015", "next_rising": "14:04:56 01-10-2015", "friendly_name": "Sun"], entityId: "sun.sun", lastChanged: NSDate(timeIntervalSince1970: 1443647044.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "above_horizon"),
                         State(attributes: ["friendly_name": "Weather Summary"], entityId: "sensor.weather_summary", lastChanged: NSDate(timeIntervalSince1970: 1443658172.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "Light Rain"),
                         State(attributes: ["hidden": 1, "active_requested": 0, "friendly_name": "all_lights_off", "entity_id": [ "light.living_room", "light.bedroom" ]], entityId: "scene.all_lights_off", lastChanged: NSDate(timeIntervalSince1970: 1443649080.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "off"),
                         State(attributes: ["active_requested": 0, "friendly_name": "all_lights_on", "entity_id": [ "light.living_room", "light.bedroom" ]], entityId: "scene.all_lights_on", lastChanged: NSDate(timeIntervalSince1970: 1443601946.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "off"),
                         State(attributes: ["auto": 1, "friendly_name": "all lights", "entity_id": [ "light.hue_lamp", "light.living_room", "light.bedroom" ]], entityId: "group.all_lights", lastChanged: NSDate(timeIntervalSince1970: 1443649080.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "on"),
                         State(attributes: ["auto": 1, "friendly_name": "all switches", "entity_id": [ "switch.internet_switch" ]], entityId: "group.all_switches", lastChanged: NSDate(timeIntervalSince1970: 1443612568.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "off"),
-                        State(attributes: ["auto": 0, "friendly_name": "Apartment", "entity_id": [ "switch.internet_switch", "light.living_room", "light.bedroom", "sensor.weather_temperature", "device_tracker.my_phone" ]], entityId: "group.apartment", lastChanged: NSDate(), lastUpdated: NSDate(), state: "off"),
+                        State(attributes: ["auto": 0, "friendly_name": "Apartment", "entity_id": [ "switch.internet_switch", "light.living_room", "light.bedroom", "sensor.weather_temperature", "device_tracker.my_phone", "media_player.osmc" ]], entityId: "group.apartment", lastChanged: NSDate(), lastUpdated: NSDate(), state: "off"),
                         State(attributes: ["unit_of_measurement": "°F", "friendly_name": "Weather Temperature"], entityId: "sensor.weather_temperature", lastChanged: NSDate(timeIntervalSince1970: 1443658172.0), lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0), state: "60.6"),
                         State(attributes: ["battery": 75, "friendly_name": "my phone", "gps_accuracy": 65, "latitude": 37, "longitude": 122], entityId: "device_tracker.my_phone", lastChanged: NSDate(), lastUpdated: NSDate(), state: "not_home"),
                         State(attributes: ["friendly_name": "work", "hidden": true, "latitude": 37, "longitude": 122.2, "radius": 100], entityId: "zone.work", lastChanged: NSDate(), lastUpdated: NSDate(), state: "zoning"),
@@ -157,7 +158,7 @@ class HomeViewControllerSpec: QuickSpec {
                         let sectionNumber = 0
 
                         it("should be titled 'scenes'") {
-                            expect(dataSource?.tableView?(subject.tableView, titleForHeaderInSection: sectionNumber)) == "scenes"
+                            expect(dataSource?.tableView?(subject.tableView, titleForHeaderInSection: sectionNumber)) == "Scenes"
                         }
 
                         it("should have only as many rows as there are unhidden scenes") {
@@ -175,7 +176,7 @@ class HomeViewControllerSpec: QuickSpec {
                             }
 
                             it("should have the same title as the displayName") {
-                                expect(cell?.textLabel?.text) == "romantic"
+                                expect(cell?.textLabel?.text) == "all_lights_on"
                             }
 
                             it("should not have a detail text") {
@@ -195,9 +196,9 @@ class HomeViewControllerSpec: QuickSpec {
 
                                 describe("after the services request has finished") {
                                     let services = [
-                                        Service(domain: "light", services: ["turn_on", "turn_off"]),
-                                        Service(domain: "scene", services: ["turn_on", "turn_off"]),
-                                        Service(domain: "homeassistant", services: ["turn_on", "stop", "turn_off"])
+                                        Service(domain: "light", methods: ["turn_on", "turn_off"]),
+                                        Service(domain: "scene", methods: ["turn_on", "turn_off"]),
+                                        Service(domain: "homeassistant", methods: ["turn_on", "stop", "turn_off"])
                                     ]
 
                                     beforeEach {
@@ -223,7 +224,7 @@ class HomeViewControllerSpec: QuickSpec {
                         }
 
                         it("should have only as many sections as there are items in the group") {
-                            expect(dataSource?.tableView(subject.tableView, numberOfRowsInSection: sectionNumber)) == 5
+                            expect(dataSource?.tableView(subject.tableView, numberOfRowsInSection: sectionNumber)) == 6
                         }
 
                         describe("a cell for a switch/light") {
@@ -254,9 +255,9 @@ class HomeViewControllerSpec: QuickSpec {
 
                                 describe("after the services request has finished") {
                                     let services = [
-                                        Service(domain: "light", services: ["turn_on", "turn_off"]),
-                                        Service(domain: "scene", services: ["turn_on", "turn_off"]),
-                                        Service(domain: "homeassistant", services: ["turn_on", "stop", "turn_off"])
+                                        Service(domain: "light", methods: ["turn_on", "turn_off"]),
+                                        Service(domain: "scene", methods: ["turn_on", "turn_off"]),
+                                        Service(domain: "homeassistant", methods: ["turn_on", "stop", "turn_off"])
                                     ]
 
                                     beforeEach {
@@ -283,35 +284,9 @@ class HomeViewControllerSpec: QuickSpec {
                             }
                         }
 
-                        describe("a cell for a sensor") {
-                            var cell: UITableViewCell? = nil
-                            let indexPath = NSIndexPath(forRow: 2, inSection: sectionNumber)
-
-                            beforeEach {
-                                cell = dataSource?.tableView(subject.tableView, cellForRowAtIndexPath: indexPath)
-                                expect(cell).toNot(beNil())
-                            }
-
-                            it("should have the same title as the displayName") {
-                                expect(cell?.textLabel?.text) == "Weather Temperature"
-                            }
-
-                            it("should show the state as the detail") {
-                                expect(cell?.detailTextLabel?.text) == "60.6 °F"
-                            }
-
-                            describe("tapping the cell") {
-                                beforeEach {
-                                    delegate?.tableView?(subject.tableView, didSelectRowAtIndexPath: indexPath)
-                                }
-
-                                // displays value over time?
-                            }
-                        }
-
                         describe("a cell for a device tracker") {
                             var cell: UITableViewCell? = nil
-                            let indexPath = NSIndexPath(forRow: 4, inSection: sectionNumber)
+                            let indexPath = NSIndexPath(forRow: 3, inSection: sectionNumber)
 
                             beforeEach {
                                 cell = dataSource?.tableView(subject.tableView, cellForRowAtIndexPath: indexPath)
@@ -337,6 +312,102 @@ class HomeViewControllerSpec: QuickSpec {
                                     if let mapViewController = subject.shownDetailViewController as? MapViewController {
                                         expect(mapViewController.devices.count) == 1
                                         expect(mapViewController.zones.isEmpty) == true
+                                    }
+                                }
+                            }
+                        }
+
+                        describe("a cell for a sensor") {
+                            var cell: UITableViewCell? = nil
+                            let indexPath = NSIndexPath(forRow: 4, inSection: sectionNumber)
+
+                            beforeEach {
+                                cell = dataSource?.tableView(subject.tableView, cellForRowAtIndexPath: indexPath)
+                                expect(cell).toNot(beNil())
+                            }
+
+                            it("should have the same title as the displayName") {
+                                expect(cell?.textLabel?.text) == "Weather Temperature"
+                            }
+
+                            it("should show the state as the detail") {
+                                expect(cell?.detailTextLabel?.text) == "60.6 °F"
+                            }
+
+                            describe("tapping the cell") {
+                                beforeEach {
+                                    delegate?.tableView?(subject.tableView, didSelectRowAtIndexPath: indexPath)
+                                }
+                            }
+                        }
+
+                        describe("a cell for an entity with multiple service methods attached to it") {
+                            var cell: UITableViewCell? = nil
+                            let indexPath = NSIndexPath(forRow: 5, inSection: sectionNumber)
+
+                            beforeEach {
+                                cell = dataSource?.tableView(subject.tableView, cellForRowAtIndexPath: indexPath)
+                                expect(cell).toNot(beNil())
+                            }
+
+                            it("should have the same title as the displayName") {
+                                expect(cell?.textLabel?.text) == "X kodi"
+                            }
+
+                            it("should show the state as the detail") {
+                                expect(cell?.detailTextLabel?.text) == "Idle"
+                            }
+
+                            describe("tapping the cell") {
+                                let mediaPlayerService = Service(domain: "media_player", methods: ["start_epic_sax", "turn_off", "volume_set",
+                                    "start_fireplace", "play_media", "media_previous_track", "media_play", "turn_on",
+                                    "media_pause", "volume_mute", "media_next_track", "media_play_pause", "volume_up",
+                                    "media_seek", "play_youtube_video", "volume_down"])
+                                let services = [
+                                    Service(domain: "light", methods: ["turn_on", "turn_off"]),
+                                    Service(domain: "scene", methods: ["turn_on", "turn_off"]),
+                                    mediaPlayerService,
+                                    Service(domain: "homeassistant", methods: ["turn_on", "stop", "turn_off"])
+                                ]
+
+                                beforeEach {
+                                    homeRepository.servicesCallback?(services)
+                                    delegate?.tableView?(subject.tableView, didSelectRowAtIndexPath: indexPath)
+                                }
+
+                                it("displays an actionsheet for each method in the service") {
+                                    expect(subject.presentedViewController).to(beAKindOf(UIAlertController.self))
+
+                                    if let actionSheet = subject.presentedViewController as? UIAlertController {
+                                        expect(actionSheet.preferredStyle) == UIAlertControllerStyle.ActionSheet
+
+                                        expect(actionSheet.actions.count) == mediaPlayerService.methods.count
+                                        for (idx, method) in mediaPlayerService.methods.enumerate() {
+                                            expect(actionSheet.actions[idx].title) == method.desnake
+                                        }
+                                    }
+                                }
+
+                                for (idx, method) in mediaPlayerService.methods.enumerate() {
+                                    it("tries to call the service with that method when the \(idx)'th action is tapped") {
+                                        expect(subject.presentedViewController).to(beAKindOf(UIAlertController.self))
+
+                                        if let actionSheet = subject.presentedViewController as? UIAlertController {
+                                            let action = actionSheet.actions[idx]
+                                            action.handler()(action)
+
+                                            expect(homeRepository.updateServiceService) == mediaPlayerService
+                                            expect(homeRepository.updateServiceMethod) == method
+                                            let entity = State(attributes: [
+                                                "supported_media_commands": 63,
+                                                "friendly_name": "X kodi"],
+                                                entityId: "media_player.osmc",
+                                                lastChanged: NSDate(timeIntervalSince1970: 1443601945.0),
+                                                lastUpdated: NSDate(timeIntervalSince1970: 1443658230.0),
+                                                state: "idle")
+                                            expect(homeRepository.updateServiceEntity) == entity
+                                            expect(homeRepository.updateServiceCallback).toNot(beNil())
+                                        }
                                     }
                                 }
                             }

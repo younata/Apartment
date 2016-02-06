@@ -5,7 +5,7 @@ import PureLayout
 
 public class HomeViewController: UIViewController {
     private var states = [State]()
-    private var groups = [(String, [State])]()
+    private var groups = [Group]()
 
     private var services = [Service]()
 
@@ -76,22 +76,10 @@ public class HomeViewController: UIViewController {
     // MARK: Private
 
     @objc private func refresh() {
-        self.homeRepository.states {states in
+        self.homeRepository.groups(includeScenes: true) {states, groups in
             self.states = states
+            self.groups = groups
 
-            let groups = states.filter { $0.isGroup && $0.groupAutoCreated == false }
-            var groupData = Array<(String, [State])>()
-            for group in groups {
-                if let entities = group.groupEntities {
-                    let displayName = group.displayName
-                    let groupStates = states.filter({ entities.contains($0.entityId) && !$0.hidden }).sort({$0.displayName < $1.displayName})
-                    groupData.append((displayName, groupStates))
-                }
-            }
-
-            self.groups = groupData.sort { $0.0.lowercaseString < $1.0.lowercaseString }
-            let scenes = states.filter { $0.isScene && !$0.hidden }
-            self.groups.insert(("scenes", scenes), atIndex: 0)
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
 
@@ -109,6 +97,10 @@ public class HomeViewController: UIViewController {
         self.mapViewController.configure(self.states)
         self.showDetailViewController(self.mapViewController, sender: self)
     }
+
+    private func entityAtIndexPath(indexPath: NSIndexPath) -> State {
+        return self.groups[indexPath.section].entities[indexPath.row]
+    }
 }
 
 extension HomeViewController: UITableViewDataSource {
@@ -117,24 +109,25 @@ extension HomeViewController: UITableViewDataSource {
     }
 
     public func tableView(tableView: UITableView, numberOfRowsInSection sectionNumber: Int) -> Int {
-        return self.groups[sectionNumber].1.count
+        return self.groups[sectionNumber].entities.count
     }
 
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let state = self.groups[indexPath.section].1[indexPath.row]
-        let cellStyle = state.isLight || state.isSwitch ? "switch" : "cell"
+        let entity = self.entityAtIndexPath(indexPath)
+
+        let cellStyle = entity.isLight || entity.isSwitch ? "switch" : "cell"
         let cell = tableView.dequeueReusableCellWithIdentifier(cellStyle, forIndexPath: indexPath)
 
-        cell.textLabel?.text = state.displayName
+        cell.textLabel?.text = entity.displayName
 
         if let switchCell = cell as? SwitchTableViewCell {
-            switchCell.cellSwitch.on = state.switchState ?? false
+            switchCell.cellSwitch.on = entity.switchState ?? false
             switchCell.onSwitchChange = {newState in
-                self.changeState(state, on: newState)
+                self.changeState(entity, on: newState)
             }
-        } else if !state.isScene {
-            var text = state.state
-            if let unit = state.sensorUnitOfMeasurement {
+        } else if !entity.isScene {
+            var text = entity.state
+            if let unit = entity.sensorUnitOfMeasurement {
                 text += " \(unit)"
             }
             cell.detailTextLabel?.text = text.desnake
@@ -145,40 +138,61 @@ extension HomeViewController: UITableViewDataSource {
     }
 
     public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.groups[section].0
+        return self.groups[section].groupEntity.displayName
     }
 
-    private func changeState(state: State, on: Bool) {
-        let serviceForDomain: String -> Service? = { domain in
-            if let service = self.services.filter({
-                $0.domain == domain
-            }).first {
-                return service
-            }
-            return self.services.filter {
-                $0.domain == "homeassistant"
-            }.first
-        }
-
-        if let service = serviceForDomain(state.domain ?? "") {
+    private func changeState(entity: State, on: Bool) {
+        if let service = serviceForDomain(entity.domain ?? "") {
             let method = on ? "turn_on" : "turn_off"
-            self.homeRepository.updateService(service, method: method, onEntity: state) {states, error in
-                self.refreshControl?.beginRefreshing()
-                self.refresh()
+            self.refreshControl?.beginRefreshing()
+            self.homeRepository.updateService(service, method: method, onEntity: entity) {states, error in
+                if let _ = error {
+                    self.refreshControl?.endRefreshing()
+                } else {
+                    self.refresh()
+                }
             }
         }
+    }
+
+    private func serviceForDomain(domain: String) -> Service? {
+        if let service = self.services.filter({
+            $0.domain == domain
+        }).first {
+            return service
+        }
+        return self.services.filter {
+            $0.domain == "homeassistant"
+        }.first
     }
 }
 
 extension HomeViewController: UITableViewDelegate {
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let state = self.groups[indexPath.section].1[indexPath.row]
+        let entity = self.entityAtIndexPath(indexPath)
 
-        if state.isScene {
-            self.changeState(state, on: true)
-        } else if state.isDeviceTracker {
-            self.mapViewController.configure([state])
+        if entity.isScene {
+            self.changeState(entity, on: true)
+        } else if entity.isDeviceTracker {
+            self.mapViewController.configure([entity])
             self.showDetailViewController(self.mapViewController, sender: self)
+        } else if let domain = entity.domain, service = self.serviceForDomain(domain) where service.domain != "homeassistant" {
+            let actionSheet = UIAlertController(title: entity.displayName, message: nil, preferredStyle: .ActionSheet)
+            for method in service.methods {
+                let action = UIAlertAction(title: method.desnake, style: .Default) { _ in
+                    self.refreshControl?.beginRefreshing()
+                    self.homeRepository.updateService(service, method: method, onEntity: entity) { _, error in
+                        if let _ = error {
+                            self.refreshControl?.endRefreshing()
+                        } else {
+                            self.refresh()
+                        }
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                    }
+                }
+                actionSheet.addAction(action)
+            }
+            self.presentViewController(actionSheet, animated: true, completion: nil)
         }
 
         tableView.deselectRowAtIndexPath(indexPath, animated: false)

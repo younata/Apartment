@@ -52,17 +52,17 @@ class ButtonTableRowController: NSObject {
 }
 
 class GroupControllerContext {
-    let group: (State, [State])
+    let group: Group
     let homeRepository: HomeRepository
 
-    init(group: (State, [State]), homeRepository: HomeRepository) {
+    init(group: Group, homeRepository: HomeRepository) {
         self.group = group
         self.homeRepository = homeRepository
     }
 }
 
 class GroupInterfaceController: WKInterfaceController {
-    var group: (State, [State])?
+    var group: Group?
     var homeRepository: HomeRepository?
 
     @IBOutlet var table: WKInterfaceTable!
@@ -81,13 +81,13 @@ class GroupInterfaceController: WKInterfaceController {
         self.homeRepository = context?.homeRepository
 
         if let group = self.group {
-            self.setTitle(group.0.displayName)
+            self.setTitle(group.groupEntity.displayName)
 
             self.table.setRowTypes([RowType.Switch.rawValue, RowType.Label.rawValue])
 
             self.table.setNumberOfRows(0, withRowType: "")
 
-            for (idx, entity) in group.1.enumerate() {
+            for (idx, entity) in group.entities.enumerate() {
                 let rowType = entity.isSwitch || entity.isLight ? RowType.Switch.rawValue : RowType.Label.rawValue
                 self.table.insertRowsAtIndexes(NSIndexSet(index: idx), withRowType: rowType)
                 let rowController = self.table.rowControllerAtIndex(idx)
@@ -102,7 +102,7 @@ class GroupInterfaceController: WKInterfaceController {
     }
 
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
-        if let entity = self.group?.1[rowIndex] where entity.isDeviceTracker || entity.isZone {
+        if let entity = self.group?.entities[rowIndex] where entity.isDeviceTracker || entity.isZone {
             let context = MapControllerContext(entity: entity)
             self.presentControllerWithName("mapController", context: context)
         }
