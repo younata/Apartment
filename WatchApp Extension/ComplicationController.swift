@@ -34,11 +34,9 @@ class ComplicationController: NSObject, CLKComplicationDataSource, HomeRepositor
     
     func getCurrentTimelineEntryForComplication(complication: CLKComplication, withHandler handler: ((CLKComplicationTimelineEntry?) -> Void)) {
         // Call the handler with the current timeline entry
-        self.homeRepository.states {states in
-            self.lights = states.filter { $0.isLight }
-            let lightsOn = self.lights.filter { $0.lightState == true }.count
-            let longText: String = "\(lightsOn) lights on"
-            let shortText: String = "\(lightsOn) / \(self.lights.count)"
+        self.homeRepository.states { _ in
+            let longText: String = "Not Implemented"
+            let shortText: String = "N/A"
 
             let template : CLKComplicationTemplate?
 

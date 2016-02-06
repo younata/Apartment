@@ -7,17 +7,27 @@ class InterfaceController: WKInterfaceController {
     private var states = [State]()
     private var groups = [(State, [State])]()
 
+    private var homeRepository: HomeRepository!
+
+    private var timer: NSTimer?
+
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
 
-        let homeRepository = (WKExtension.sharedExtension().delegate as! ExtensionDelegate).homeRepository
-        homeRepository.apiAvailable {
+        self.homeRepository = (WKExtension.sharedExtension().delegate as! ExtensionDelegate).homeRepository
+        self.checkIfLoggedIn()
+    }
+
+    @objc private func checkIfLoggedIn() {
+        self.homeRepository.apiAvailable {
             guard $0 else {
-                print("api not available! probably not logged in ):")
+                self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("checkIfLoggedIn"), userInfo: nil, repeats: false)
                 return
             }
-            homeRepository.services { _ in } // refresh the cache
-            homeRepository.states { states in
+            self.timer?.invalidate()
+            self.timer = nil
+            self.homeRepository.services { _ in } // refresh the cache
+            self.homeRepository.states { states in
                 self.states = states
                 let groups = states.filter { $0.isGroup && $0.groupAutoCreated == false }
                 var groupData = Array<(State, [State])>()
@@ -30,7 +40,7 @@ class InterfaceController: WKInterfaceController {
 
                 self.groups = groupData.sort { $0.0.displayName.lowercaseString < $1.0.displayName.lowercaseString }
 
-                let contexts = self.groups.map { GroupControllerContext(group: $0, homeRepository: homeRepository) }
+                let contexts = self.groups.map { GroupControllerContext(group: $0, homeRepository: self.homeRepository) }
                 let names: [String] = contexts.map { _ in "groupController" }
                 WKInterfaceController.reloadRootControllersWithNames(names, contexts: contexts)
             }
