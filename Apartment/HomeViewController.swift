@@ -179,9 +179,9 @@ extension HomeViewController: UITableViewDelegate {
         } else if let domain = entity.domain, service = self.serviceForDomain(domain) where service.domain != "homeassistant" {
             let actionSheet = UIAlertController(title: entity.displayName, message: nil, preferredStyle: .ActionSheet)
             for method in service.methods {
-                let action = UIAlertAction(title: method.desnake, style: .Default) { _ in
+                let action = UIAlertAction(title: method.id.desnake, style: .Default) { _ in
                     self.refreshControl?.beginRefreshing()
-                    self.homeRepository.updateService(service, method: method, onEntity: entity) { _, error in
+                    self.homeRepository.updateService(service, method: method.id, onEntity: entity) { _, error in
                         if let _ = error {
                             self.refreshControl?.endRefreshing()
                         } else {
@@ -192,6 +192,9 @@ extension HomeViewController: UITableViewDelegate {
                 }
                 actionSheet.addAction(action)
             }
+            actionSheet.addAction(UIAlertAction(title: "Dismiss", style: .Cancel) { _ in
+                self.dismissViewControllerAnimated(true, completion: nil)
+            })
             self.presentViewController(actionSheet, animated: true, completion: nil)
         }
 

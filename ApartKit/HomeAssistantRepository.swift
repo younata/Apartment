@@ -40,6 +40,17 @@ public extension HomeRepository {
             callback(states, groupData.map { Group(data: $0) } )
         }
     }
+
+    func serviceForEntity(entity: State, includeHomeAssistantService includeHomeAssisstant: Bool, callback: Service? -> Void) {
+        self.services { services in
+            if let service = services.filter({ $0.domain == entity.domain }).first {
+                callback(service)
+            }
+            if includeHomeAssisstant {
+                callback(services.filter({ $0.domain == "homeassistant" }).first)
+            }
+        }
+    }
 }
 
 public protocol HomeRepositorySubscriber: NSObjectProtocol {

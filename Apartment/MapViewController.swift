@@ -42,7 +42,8 @@ public class MapViewController: UIViewController, MKMapViewDelegate {
             self.title = "Map"
         }
 
-        self.map.showAnnotations(self.map.annotations, animated: true)
+        let coordinates = self.map.annotations.map({ $0.coordinate }) + self.map.overlays.map({ $0.coordinate })
+        self.zoomToCoordinates(coordinates)
     }
 
     public override func viewDidLoad() {
@@ -62,5 +63,26 @@ public class MapViewController: UIViewController, MKMapViewDelegate {
             return renderer
         }
         return MKOverlayRenderer(overlay: overlay)
+    }
+
+    private func zoomToCoordinates(coordinates: [CLLocationCoordinate2D]) {
+        let amount = Double(coordinates.count)
+        let summed = coordinates.reduce((0.0, 0.0)) {
+            return ($0.0 + $1.latitude, $0.1 + $1.longitude)
+        }
+        let center = CLLocationCoordinate2D(latitude: summed.0 / amount, longitude: summed.1 / amount)
+
+        var latitudeDelta: CLLocationDegrees = 0
+        var longitudeDelta: CLLocationDegrees = 0
+
+        for coordinate in coordinates {
+            latitudeDelta = max(fabs(center.latitude - coordinate.latitude), latitudeDelta)
+            longitudeDelta = max(fabs(center.longitude - coordinate.longitude), longitudeDelta)
+        }
+
+        latitudeDelta = max(latitudeDelta * 1.75, 1e-3)
+        longitudeDelta = max(longitudeDelta * 1.75, 1e-3)
+
+        self.map.setRegion(MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)), animated: true)
     }
 }

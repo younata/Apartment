@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		894142D11C6662E80070962A /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894142D01C6662E80070962A /* Group.swift */; };
 		894142D21C6662E80070962A /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894142D01C6662E80070962A /* Group.swift */; };
+		894142D41C66BDEC0070962A /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894142D31C66BDEC0070962A /* TestUtils.swift */; };
+		894142D51C66BDEC0070962A /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894142D31C66BDEC0070962A /* TestUtils.swift */; };
 		895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895634E21ACA5DA200CA60E9 /* AppDelegate.swift */; };
 		895634EA1ACA5DA300CA60E9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895634E91ACA5DA300CA60E9 /* Images.xcassets */; };
 		895634ED1ACA5DA300CA60E9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 895634EB1ACA5DA300CA60E9 /* LaunchScreen.xib */; };
@@ -215,6 +217,7 @@
 /* Begin PBXFileReference section */
 		892151FD1B8E59EF00CBF7E4 /* FakeOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeOperationQueue.swift; sourceTree = "<group>"; };
 		894142D01C6662E80070962A /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		894142D31C66BDEC0070962A /* TestUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
 		895634DD1ACA5DA200CA60E9 /* Apartment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Apartment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		895634E11ACA5DA200CA60E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		895634E21ACA5DA200CA60E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -589,6 +592,7 @@
 			isa = PBXGroup;
 			children = (
 				AE8595701C62E62C00706602 /* Services.json */,
+				894142D31C66BDEC0070962A /* TestUtils.swift */,
 			);
 			name = Fixtures;
 			sourceTree = "<group>";
@@ -883,6 +887,7 @@
 			files = (
 				AE85956E1C62D42500706602 /* FakeUserDefaults.swift in Sources */,
 				89E6DB8F1C633B750033709D /* UIViewController+ApartmentTests.m in Sources */,
+				894142D41C66BDEC0070962A /* TestUtils.swift in Sources */,
 				AE2BC2B01C62861300524B6E /* FakeTouch.swift in Sources */,
 				89E6DB921C633C150033709D /* PCKMethodRedirector.m in Sources */,
 				AE2BC2B11C62861600524B6E /* AppDelegateSpec.swift in Sources */,
@@ -917,6 +922,7 @@
 				89A5A1DB1B5E16D800FC3FE3 /* FakeURLSession.swift in Sources */,
 				89E6DB9A1C63E6F30033709D /* StringExtensionsSpec.swift in Sources */,
 				89A5A22F1B5F332A00FC3FE3 /* (null) in Sources */,
+				894142D51C66BDEC0070962A /* TestUtils.swift in Sources */,
 				AE7BF7601C62947F00B87382 /* HomeAssistantRepositorySpec.swift in Sources */,
 				AE2BC2B41C62863400524B6E /* HomeAssistantServiceSpec.swift in Sources */,
 				AE2BC2AD1C6285DE00524B6E /* FakeOperationQueue.swift in Sources */,

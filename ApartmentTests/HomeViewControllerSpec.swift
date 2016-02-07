@@ -196,9 +196,9 @@ class HomeViewControllerSpec: QuickSpec {
 
                                 describe("after the services request has finished") {
                                     let services = [
-                                        Service(domain: "light", methods: ["turn_on", "turn_off"]),
-                                        Service(domain: "scene", methods: ["turn_on", "turn_off"]),
-                                        Service(domain: "homeassistant", methods: ["turn_on", "stop", "turn_off"])
+                                        TestUtils.lightService,
+                                        TestUtils.sceneService,
+                                        TestUtils.homeAssistantService,
                                     ]
 
                                     beforeEach {
@@ -255,9 +255,9 @@ class HomeViewControllerSpec: QuickSpec {
 
                                 describe("after the services request has finished") {
                                     let services = [
-                                        Service(domain: "light", methods: ["turn_on", "turn_off"]),
-                                        Service(domain: "scene", methods: ["turn_on", "turn_off"]),
-                                        Service(domain: "homeassistant", methods: ["turn_on", "stop", "turn_off"])
+                                        TestUtils.lightService,
+                                        TestUtils.sceneService,
+                                        TestUtils.homeAssistantService,
                                     ]
 
                                     beforeEach {
@@ -280,6 +280,9 @@ class HomeViewControllerSpec: QuickSpec {
                                     delegate?.tableView?(subject.tableView, didSelectRowAtIndexPath: indexPath)
                                 }
 
+                                it("does a thing") {
+                                    fail("implement me")
+                                }
                                 // displays value over time?
                             }
                         }
@@ -359,15 +362,13 @@ class HomeViewControllerSpec: QuickSpec {
                             }
 
                             describe("tapping the cell") {
-                                let mediaPlayerService = Service(domain: "media_player", methods: ["start_epic_sax", "turn_off", "volume_set",
-                                    "start_fireplace", "play_media", "media_previous_track", "media_play", "turn_on",
-                                    "media_pause", "volume_mute", "media_next_track", "media_play_pause", "volume_up",
-                                    "media_seek", "play_youtube_video", "volume_down"])
+                                let mediaPlayerService = TestUtils.mediaPlayerService
+
                                 let services = [
-                                    Service(domain: "light", methods: ["turn_on", "turn_off"]),
-                                    Service(domain: "scene", methods: ["turn_on", "turn_off"]),
+                                    TestUtils.lightService,
+                                    TestUtils.sceneService,
+                                    TestUtils.homeAssistantService,
                                     mediaPlayerService,
-                                    Service(domain: "homeassistant", methods: ["turn_on", "stop", "turn_off"])
                                 ]
 
                                 beforeEach {
@@ -381,10 +382,11 @@ class HomeViewControllerSpec: QuickSpec {
                                     if let actionSheet = subject.presentedViewController as? UIAlertController {
                                         expect(actionSheet.preferredStyle) == UIAlertControllerStyle.ActionSheet
 
-                                        expect(actionSheet.actions.count) == mediaPlayerService.methods.count
+                                        expect(actionSheet.actions.count) == mediaPlayerService.methods.count + 1
                                         for (idx, method) in mediaPlayerService.methods.enumerate() {
-                                            expect(actionSheet.actions[idx].title) == method.desnake
+                                            expect(actionSheet.actions[idx].title) == method.id.desnake
                                         }
+                                        expect(actionSheet.actions.last?.title) == "Dismiss"
                                     }
                                 }
 
@@ -397,7 +399,7 @@ class HomeViewControllerSpec: QuickSpec {
                                             action.handler()(action)
 
                                             expect(homeRepository.updateServiceService) == mediaPlayerService
-                                            expect(homeRepository.updateServiceMethod) == method
+                                            expect(homeRepository.updateServiceMethod) == method.id
                                             let entity = State(attributes: [
                                                 "supported_media_commands": 63,
                                                 "friendly_name": "X kodi"],
@@ -407,7 +409,24 @@ class HomeViewControllerSpec: QuickSpec {
                                                 state: "idle")
                                             expect(homeRepository.updateServiceEntity) == entity
                                             expect(homeRepository.updateServiceCallback).toNot(beNil())
+
+                                            homeRepository.updateServiceCallback?([], nil)
+                                            expect(subject.presentedViewController).to(beNil())
                                         }
+                                    }
+                                }
+
+                                it("dismisses the actionSheet if you tap the last (dismiss) action") {
+                                    expect(subject.presentedViewController).to(beAKindOf(UIAlertController.self))
+
+                                    if let actionSheet = subject.presentedViewController as? UIAlertController {
+                                        let action = actionSheet.actions.last!
+                                        action.handler()(action)
+
+                                        expect(subject.presentedViewController).to(beNil())
+
+                                        expect(homeRepository.updateServiceService).to(beNil())
+                                        expect(homeRepository.updateServiceMethod).to(beNil())
                                     }
                                 }
                             }

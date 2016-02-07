@@ -17,7 +17,7 @@ public struct Service: Equatable {
             return Array(fields.keys)
         }
 
-        init(id: String, description: String, fields: [String: AnyObject]) {
+        public init(id: String, description: String, fields: [String: AnyObject]) {
             self.id = id
             self.descriptionString = description
             self.fields = fields
