@@ -1,6 +1,7 @@
 import Quick
 import Nimble
 import WatchConnectivity
+import CoreLocation
 @testable import ApartKit
 
 private class FakeHomeRepositorySubscriber: NSObject, HomeRepositorySubscriber {
@@ -130,7 +131,188 @@ class HomeAssistantRepositorySpec: QuickSpec {
             }
         }
 
-        describe("updating states") {
+        describe("getting the home configuration") {
+            var receivedConfiguration: HomeConfiguration?
+            var didGetCalledBack = false
+
+            beforeEach {
+                receivedConfiguration = nil
+                didGetCalledBack = false
+
+                subject.configuration {
+                    receivedConfiguration = $0
+                    didGetCalledBack = true
+                }
+            }
+
+            it("should not immediately return") {
+                expect(receivedConfiguration).to(beNil())
+                expect(didGetCalledBack) == false
+            }
+
+            it("kick off a request to the homeService") {
+                expect(homeService.configurationCallback).toNot(beNil())
+            }
+
+            context("when the request succeeds") {
+                let configuration = HomeConfiguration(components: ["a"],
+                    coordinate: CLLocationCoordinate2D(latitude: 37, longitude: -122),
+                    name: "hi",
+                    temperatureUnit: "C",
+                    timeZone: NSTimeZone(name: "America/Los_Angeles")!,
+                    version: "hi")
+                beforeEach {
+                    homeService.configurationCallback?(configuration, nil)
+                }
+
+                it("calls back with the configuration") {
+                    expect(receivedConfiguration) == configuration
+                    expect(didGetCalledBack) == true
+                }
+
+                it("caches the result for the next one") {
+                    receivedConfiguration = nil
+                    subject.configuration {
+                        receivedConfiguration = $0
+                    }
+
+                    expect(receivedConfiguration) == configuration
+                }
+            }
+
+            context("when the request fails") {
+                beforeEach {
+                    let error = NSError(domain: "", code: 0, userInfo: [:])
+                    homeService.configurationCallback?(nil, error)
+                }
+
+                it("calls back with nil") {
+                    expect(receivedConfiguration).to(beNil())
+                    expect(didGetCalledBack) == true
+                }
+            }
+        }
+
+        describe("getting the history") {
+            var receivedStates: [State]? = nil
+            beforeEach {
+                receivedStates = nil
+            }
+
+            describe("of everything") { // part one, though.
+                beforeEach {
+                    subject.history(nil) { states in
+                        receivedStates = states
+                    }
+                }
+
+                it("should not immediately return") {
+                    expect(receivedStates).to(beNil())
+                }
+
+                it("kicks off a request to the homeService") {
+                    expect(homeService.historyDay).toNot(beNil())
+                    expect(homeService.historyState).to(beNil())
+                    expect(homeService.historyCallback).toNot(beNil())
+                }
+
+                context("when the request succeeds") {
+                    let states = [
+                        State(attributes: ["brightness": 254, "friendly_name": "Bedroom", "xy_color": [0.4499, 0.408]], entityId: "light.bedroom", lastChanged: NSDate(), lastUpdated: NSDate(), state: "on"),
+                        State(attributes: ["auto": true, "entity_id": ["light.bedroom", "light.hue_lamp", "light.living_room"], "friendly_name": "all_lights"], entityId: "group.all_lights", lastChanged: NSDate(), lastUpdated: NSDate(), state: "on"),
+                        State(attributes: ["friendly_name": "internet switch"], entityId: "switch.internet_switch", lastChanged: NSDate(), lastUpdated: NSDate(), state: "off")
+                    ]
+
+                    beforeEach {
+                        homeService.historyCallback?(states, nil)
+                    }
+
+                    it("returns the states") {
+                        expect(receivedStates) == states
+                    }
+
+                    it("does not cache the results") {
+                        receivedStates = nil
+
+                        subject.history(nil) { states in
+                            receivedStates = states
+                        }
+
+                        expect(receivedStates).to(beNil())
+                    }
+                }
+
+                context("when the request fails") {
+                    let error = NSError(domain: "", code: 0, userInfo: [:])
+                    beforeEach {
+                        homeService.historyCallback?([], error)
+                    }
+
+                    it("returns an empty array") {
+                        expect(receivedStates) == []
+                    }
+                }
+            }
+
+            describe("of a single entity") {
+                let entity = State(attributes: [:], entityId: "test.state", lastChanged: NSDate(), lastUpdated: NSDate(), state: "testing")
+
+                beforeEach {
+                    subject.history(entity) {states in
+                        receivedStates = states
+                    }
+                }
+
+                it("should not immediately return") {
+                    expect(receivedStates).to(beNil())
+                }
+
+                it("sends kick off a request to the homeService") {
+                    expect(homeService.historyDay).toNot(beNil())
+                    expect(homeService.historyState) == entity
+                    expect(homeService.historyCallback).toNot(beNil())
+                }
+
+                context("when the request succeeds") {
+                    let states = [
+                        State(attributes: ["brightness": 254, "friendly_name": "Bedroom", "xy_color": [0.4499, 0.408]], entityId: "light.bedroom", lastChanged: NSDate(), lastUpdated: NSDate(), state: "on"),
+                        State(attributes: ["auto": true, "entity_id": ["light.bedroom", "light.hue_lamp", "light.living_room"], "friendly_name": "all_lights"], entityId: "group.all_lights", lastChanged: NSDate(), lastUpdated: NSDate(), state: "on"),
+                        State(attributes: ["friendly_name": "internet switch"], entityId: "switch.internet_switch", lastChanged: NSDate(), lastUpdated: NSDate(), state: "off")
+                    ]
+
+                    beforeEach {
+                        homeService.historyCallback?(states, nil)
+                    }
+
+                    it("returns the states") {
+                        expect(receivedStates) == states
+                    }
+
+                    it("does not cache the results") {
+                        receivedStates = nil
+
+                        subject.history(nil) { states in
+                            receivedStates = states
+                        }
+
+                        expect(receivedStates).to(beNil())
+                    }
+                }
+
+                context("when the request fails") {
+                    let error = NSError(domain: "", code: 0, userInfo: [:])
+                    beforeEach {
+                        homeService.historyCallback?([], error)
+                    }
+
+                    it("returns an empty array") {
+                        expect(receivedStates) == []
+                    }
+                }
+            }
+        }
+
+        describe("getting states") {
             var receivedStates: [State]? = nil
             beforeEach {
                 subject.states {newStates in

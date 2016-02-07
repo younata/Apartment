@@ -11,6 +11,9 @@
 		894142D21C6662E80070962A /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894142D01C6662E80070962A /* Group.swift */; };
 		894142D41C66BDEC0070962A /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894142D31C66BDEC0070962A /* TestUtils.swift */; };
 		894142D51C66BDEC0070962A /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894142D31C66BDEC0070962A /* TestUtils.swift */; };
+		894142D71C66CB570070962A /* HomeConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894142D61C66CB570070962A /* HomeConfiguration.swift */; };
+		894142D91C66CDAF0070962A /* HomeConfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 894142D81C66CDAF0070962A /* HomeConfiguration.json */; };
+		894142DA1C6701520070962A /* HomeConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894142D61C66CB570070962A /* HomeConfiguration.swift */; };
 		895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895634E21ACA5DA200CA60E9 /* AppDelegate.swift */; };
 		895634EA1ACA5DA300CA60E9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895634E91ACA5DA300CA60E9 /* Images.xcassets */; };
 		895634ED1ACA5DA300CA60E9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 895634EB1ACA5DA300CA60E9 /* LaunchScreen.xib */; };
@@ -218,6 +221,8 @@
 		892151FD1B8E59EF00CBF7E4 /* FakeOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeOperationQueue.swift; sourceTree = "<group>"; };
 		894142D01C6662E80070962A /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		894142D31C66BDEC0070962A /* TestUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
+		894142D61C66CB570070962A /* HomeConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeConfiguration.swift; sourceTree = "<group>"; };
+		894142D81C66CDAF0070962A /* HomeConfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = HomeConfiguration.json; sourceTree = "<group>"; };
 		895634DD1ACA5DA200CA60E9 /* Apartment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Apartment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		895634E11ACA5DA200CA60E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		895634E21ACA5DA200CA60E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -473,6 +478,7 @@
 				89B1C7011BB9CA3700BF0870 /* HomeAssistantService.swift */,
 				89B1C7161BBB38DC00BF0870 /* HomeAssistantRepository.swift */,
 				894142D01C6662E80070962A /* Group.swift */,
+				894142D61C66CB570070962A /* HomeConfiguration.swift */,
 				89B1C7061BB9EB4100BF0870 /* State.swift */,
 				89B1C7091BBA04EB00BF0870 /* Event.swift */,
 				89B1C70C1BBA0B5D00BF0870 /* Service.swift */,
@@ -592,6 +598,7 @@
 			isa = PBXGroup;
 			children = (
 				AE8595701C62E62C00706602 /* Services.json */,
+				894142D81C66CDAF0070962A /* HomeConfiguration.json */,
 				894142D31C66BDEC0070962A /* TestUtils.swift */,
 			);
 			name = Fixtures;
@@ -838,6 +845,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE8595711C62E62C00706602 /* Services.json in Resources */,
+				894142D91C66CDAF0070962A /* HomeConfiguration.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -909,6 +917,7 @@
 				AED985461C62AD1F00A20780 /* ApartKitModule.swift in Sources */,
 				89B1C7021BB9CA3700BF0870 /* HomeAssistantService.swift in Sources */,
 				89B1C70D1BBA0B5D00BF0870 /* Service.swift in Sources */,
+				894142D71C66CB570070962A /* HomeConfiguration.swift in Sources */,
 				89B1C7171BBB38DC00BF0870 /* HomeAssistantRepository.swift in Sources */,
 				89A5A1E11B5E18B500FC3FE3 /* UIColor+Apartment.swift in Sources */,
 				89B1C7071BB9EB4100BF0870 /* State.swift in Sources */,
@@ -956,6 +965,7 @@
 				89B1C7181BBB38DC00BF0870 /* HomeAssistantRepository.swift in Sources */,
 				89B1C70E1BBA0B5D00BF0870 /* Service.swift in Sources */,
 				89B1C7081BB9EB4100BF0870 /* State.swift in Sources */,
+				894142DA1C6701520070962A /* HomeConfiguration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

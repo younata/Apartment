@@ -9,6 +9,9 @@ public protocol HomeRepository {
 
     func apiAvailable(callback: Bool -> Void)
 
+    func configuration(callback: HomeConfiguration? -> Void)
+    func history(entity: State?, callback: [State] -> Void)
+
     func states(callback: [State] -> Void)
     func services(callback: [Service] -> Void)
 
@@ -109,6 +112,7 @@ class HomeAssistantRepository: HomeRepository {
 
     private var _states = [State]()
     private var _services = [Service]()
+    private var _configuration: HomeConfiguration?
 
     let watchSession: WCSession? = {
         if WCSession.isSupported() {
@@ -145,6 +149,22 @@ class HomeAssistantRepository: HomeRepository {
             callback(false)
         } else {
             self.homeService.apiAvailable(callback)
+        }
+    }
+
+    func configuration(callback: HomeConfiguration? -> Void) {
+        if let configuration = self._configuration {
+            callback(configuration)
+        }
+        self.homeService.configuration { configuration, error in
+            self._configuration = configuration
+            callback(configuration)
+        }
+    }
+
+    func history(entity: State?, callback: [State] -> Void) {
+        self.homeService.history(NSDate(), state: entity) { states, error in
+            callback(states ?? [])
         }
     }
 

@@ -15,6 +15,20 @@ class FakeHomeAssistantService: HomeAssistantService {
         apiAvailableCallback = callback
     }
 
+    var configurationCallback: ((HomeConfiguration?, NSError?) -> Void)?
+    override func configuration(callback: (HomeConfiguration?, NSError?) -> Void) {
+        configurationCallback = callback
+    }
+
+    var historyDay: NSDate?
+    var historyState: State?
+    var historyCallback: (([State], NSError?) -> Void)?
+    override func history(day: NSDate, state: State?, callback: ([State], NSError?) -> Void) {
+        historyDay = day
+        historyState = state
+        historyCallback = callback
+    }
+
     var eventsCallback: (([Event], NSError?) -> (Void))? = nil
     override func events(callback: ([Event], NSError?) -> (Void)) {
         self.eventsCallback = callback

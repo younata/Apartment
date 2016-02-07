@@ -1,5 +1,6 @@
 import Quick
 import Nimble
+import CoreLocation
 @testable import ApartKit
 
 class HomeAssistantServiceSpec: QuickSpec {
@@ -98,6 +99,135 @@ class HomeAssistantServiceSpec: QuickSpec {
             }
         }
 
+        describe("configuration") {
+            var receivedConfiguration: HomeConfiguration?
+
+            beforeEach {
+                receivedConfiguration = nil
+                subject.configuration {config, error in
+                    receivedConfiguration = config
+                    receivedError = error
+                }
+            }
+
+            itBehavesLike("a properly configured request") {
+                ["url": "http://localhost.com/api/config"]
+            }
+
+            it("returns all the events on success") {
+                let url = NSBundle(forClass: self.classForCoder).URLForResource("HomeConfiguration", withExtension: "json")!
+                let data = NSData(contentsOfURL: url)!
+                urlSession.lastCompletionHandler(data, nil, nil)
+                mainQueue.runNextOperation()
+
+                let config = HomeConfiguration(components: [
+                    "recorder",
+                    "media_player.kodi",
+                    "media_player",
+                    "http",
+                    "zone",
+                    "mqtt",
+                    "device_tracker",
+                    "discovery",
+                    "logbook",
+                    "api",
+                    "frontend",
+                    "history",
+                    "sensor.forecast",
+                    "sensor",
+                    "light.hue",
+                    "light",
+                    "sun",
+                    "group",
+                    "scene",
+                    "automation",
+                    "switch",
+                    "light.hue",
+                    "switch.wemo"
+                    ],
+                    coordinate: CLLocationCoordinate2D(latitude: 37.5, longitude: -122.75),
+                    name: "Apartment",
+                    temperatureUnit: "°F",
+                    timeZone: NSTimeZone(name: "America/Los_Angeles")!,
+                    version: "0.10.1")
+                expect(receivedConfiguration).to(equal(config))
+                expect(receivedError).to(beNil())
+            }
+        }
+
+        describe("history") {
+            var receivedStates = [State]()
+            let date = NSDate(timeIntervalSince1970: 1454803000)
+
+            beforeEach {
+                receivedStates = []
+            }
+
+            context("not filtering") {
+                beforeEach {
+                    subject.history(date, state: nil) { states, error in
+                        receivedStates = states
+                        receivedError = error
+                    }
+                }
+
+                itBehavesLike("a properly configured request") {
+                    ["url": "http://localhost.com/api/history/period/2016-02-06"]
+                }
+
+                it("returns a list of states on success") {
+                    let data = NSString(string: "[{\"attributes\":{\"brightness\":254,\"friendly_name\":\"Bedroom\",\"xy_color\":[0.4499,0.408]},\"entity_id\":\"light.bedroom\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"auto\":true,\"entity_id\":[\"light.bedroom\",\"light.hue_lamp\",\"light.living_room\"],\"friendly_name\":\"all lights\"},\"entity_id\":\"group.all_lights\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"friendly_name\":\"internet switch\"},\"entity_id\":\"switch.internet_switch\",\"last_changed\":\"17:29:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"off\"}]").dataUsingEncoding(NSUTF8StringEncoding)
+                    urlSession.lastCompletionHandler(data, nil, nil)
+                    mainQueue.runNextOperation()
+
+                    let df = NSDateFormatter()
+                    df.dateFormat = "HH:mm:ss dd-MM-yyyy"
+
+                    let states = [
+                        State(attributes: ["brightness": 254, "friendly_name": "Bedroom", "xy_color": [0.4499, 0.408]], entityId: "light.bedroom", lastChanged: df.dateFromString("17:31:56 28-09-2015")!, lastUpdated: df.dateFromString("19:18:51 28-09-2015")!, state: "on"),
+                        State(attributes: ["auto": true, "entity_id": ["light.bedroom", "light.hue_lamp", "light.living_room"], "friendly_name": "all_lights"], entityId: "group.all_lights", lastChanged: df.dateFromString("17:31:56 28-09-2015")!, lastUpdated: df.dateFromString("17:31:56 28-09-2015")!, state: "on"),
+                        State(attributes: ["friendly_name": "internet switch"], entityId: "switch.internet_switch", lastChanged: df.dateFromString("17:29:56 28-09-2015")!, lastUpdated: df.dateFromString("19:18:51 28-09-2015")!, state: "off")
+                    ]
+
+                    expect(receivedStates).to(equal(states))
+                    expect(receivedError).to(beNil())
+                }
+            }
+
+            context("Filtering by state") {
+                let state = State(attributes: [:], entityId: "test.state", lastChanged: NSDate(), lastUpdated: NSDate(), state: "state")
+
+                beforeEach {
+                    subject.history(NSDate(), state: state) { states, error in
+                        receivedStates = states
+                        receivedError = error
+                    }
+                }
+
+                itBehavesLike("a properly configured request") {
+                    ["url": "http://localhost.com/api/history/period/2016-02-06?filter_entity_id=test.state"]
+                }
+
+                it("returns a list of states on success") {
+                    let data = NSString(string: "[{\"attributes\":{\"brightness\":254,\"friendly_name\":\"Bedroom\",\"xy_color\":[0.4499,0.408]},\"entity_id\":\"light.bedroom\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"auto\":true,\"entity_id\":[\"light.bedroom\",\"light.hue_lamp\",\"light.living_room\"],\"friendly_name\":\"all lights\"},\"entity_id\":\"group.all_lights\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"friendly_name\":\"internet switch\"},\"entity_id\":\"switch.internet_switch\",\"last_changed\":\"17:29:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"off\"}]").dataUsingEncoding(NSUTF8StringEncoding)
+                    urlSession.lastCompletionHandler(data, nil, nil)
+                    mainQueue.runNextOperation()
+
+                    let df = NSDateFormatter()
+                    df.dateFormat = "HH:mm:ss dd-MM-yyyy"
+
+                    let states = [
+                        State(attributes: ["brightness": 254, "friendly_name": "Bedroom", "xy_color": [0.4499, 0.408]], entityId: "light.bedroom", lastChanged: df.dateFromString("17:31:56 28-09-2015")!, lastUpdated: df.dateFromString("19:18:51 28-09-2015")!, state: "on"),
+                        State(attributes: ["auto": true, "entity_id": ["light.bedroom", "light.hue_lamp", "light.living_room"], "friendly_name": "all_lights"], entityId: "group.all_lights", lastChanged: df.dateFromString("17:31:56 28-09-2015")!, lastUpdated: df.dateFromString("17:31:56 28-09-2015")!, state: "on"),
+                        State(attributes: ["friendly_name": "internet switch"], entityId: "switch.internet_switch", lastChanged: df.dateFromString("17:29:56 28-09-2015")!, lastUpdated: df.dateFromString("19:18:51 28-09-2015")!, state: "off")
+                    ]
+
+                    expect(receivedStates).to(equal(states))
+                    expect(receivedError).to(beNil())
+                }
+            }
+        }
+
         describe("events") {
             describe("Getting all the events") {
                 var receivedEvents = Array<Event>()
@@ -117,9 +247,6 @@ class HomeAssistantServiceSpec: QuickSpec {
                     let data = NSString(string: "[{\"event\":\"time_changed\",\"listener_count\":4},{\"event\":\"homeassistant_stop\",\"listener_count\":3},{\"event\":\"*\",\"listener_count\":1}]").dataUsingEncoding(NSUTF8StringEncoding)
                     urlSession.lastCompletionHandler(data, nil, nil)
                     mainQueue.runNextOperation()
-
-                    let df = NSDateFormatter()
-                    df.dateFormat = "HH:mm:ss dd-MM-yyyy"
 
                     let events = [
                         Event(name: "time_changed", listenerCount: 4),

@@ -1,4 +1,5 @@
 import Foundation
+import CoreLocation
 
 class HomeAssistantService {
     var baseURL: NSURL!
@@ -30,6 +31,79 @@ class HomeAssistantService {
             } else  {
                 self.mainQueue.addOperationWithBlock {
                     callback(false)
+                }
+            }
+        }.resume()
+    }
+
+    func configuration(callback: (HomeConfiguration?, NSError?) -> Void) {
+        let url = self.baseURL.URLByAppendingPathComponent("config")
+        let request = NSMutableURLRequest(URL: url)
+        request.addValue(self.apiKey ?? "", forHTTPHeaderField: "x-ha-access")
+        self.urlSession.dataTaskWithRequest(request) {data, response, error in
+            if let _ = error {
+                self.mainQueue.addOperationWithBlock {
+                    callback(nil, error)
+                }
+            } else if let data = data, objects = try? NSJSONSerialization.JSONObjectWithData(data, options: []), dictionary = objects as? [String: AnyObject] {
+                let config: HomeConfiguration?
+                if let components = dictionary["components"] as? [String], latitude = dictionary["latitude"] as? Double,
+                    longitude = dictionary["longitude"] as? Double, name = dictionary["location_name"] as? String,
+                    temperatureUnit = dictionary["temperature_unit"] as? String, version = dictionary["version"] as? String,
+                    timeZoneString = dictionary["time_zone"] as? String, timeZone = NSTimeZone(name: timeZoneString) {
+                        config = HomeConfiguration(components: components,
+                            coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
+                            name: name, temperatureUnit: temperatureUnit, timeZone: timeZone, version: version)
+                } else {
+                    config = nil
+                }
+
+                self.mainQueue.addOperationWithBlock {
+                    callback(config, nil)
+                }
+            } else  {
+                let error = NSError(domain: "", code: 0, userInfo: nil)
+                self.mainQueue.addOperationWithBlock {
+                    callback(nil, error)
+                }
+            }
+        }.resume()
+    }
+
+    private let historyDateFormatter: NSDateFormatter = {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "YYYY-MM-dd"
+        return formatter
+    }()
+    func history(day: NSDate, state: State?, callback: ([State], NSError?) -> Void) {
+        let url: NSURL
+        let base = self.baseURL.URLByAppendingPathComponent("history/period/\(self.historyDateFormatter.stringFromDate(day))")
+        if let entity = state {
+            url = NSURL(string: "?filter_entity_id=\(entity.entityId)", relativeToURL: base)!.absoluteURL
+        } else {
+            url = base
+        }
+        let request = NSMutableURLRequest(URL: url)
+        request.addValue(self.apiKey ?? "", forHTTPHeaderField: "x-ha-access")
+        self.urlSession.dataTaskWithRequest(request) {data, response, error in
+            if let _ = error {
+                self.mainQueue.addOperationWithBlock {
+                    callback([], error)
+                }
+            } else if let data = data, objects = try? NSJSONSerialization.JSONObjectWithData(data, options: []), dictionaries = objects as? [[String: AnyObject]] {
+                var ret = Array<State>()
+                for dictionary in dictionaries {
+                    if let state = self.parseState(dictionary) {
+                        ret.append(state)
+                    }
+                }
+                self.mainQueue.addOperationWithBlock {
+                    callback(ret, nil)
+                }
+            } else  {
+                let error = NSError(domain: "", code: 0, userInfo: nil)
+                self.mainQueue.addOperationWithBlock {
+                    callback([], error)
                 }
             }
         }.resume()

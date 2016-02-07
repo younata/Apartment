@@ -16,6 +16,18 @@ class FakeHomeRepository: HomeRepository {
         subscribers.append(subscriber)
     }
 
+    var configurationCallback: (HomeConfiguration? -> Void)?
+    func configuration(callback: HomeConfiguration? -> Void) {
+        configurationCallback = callback
+    }
+
+    var historyState: State?
+    var historyCallback: ([State] -> Void)?
+    func history(entity: State?, callback: [State] -> Void) {
+        historyState = entity
+        historyCallback = callback
+    }
+
     var statesCallback: ([State] -> Void)?
     func states(callback: [State] -> Void) {
         statesCallback = callback

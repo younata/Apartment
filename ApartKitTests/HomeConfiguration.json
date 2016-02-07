@@ -1,0 +1,33 @@
+{
+    "components": [
+        "recorder",
+        "media_player.kodi",
+        "media_player",
+        "http",
+        "zone",
+        "mqtt",
+        "device_tracker",
+        "discovery",
+        "logbook",
+        "api",
+        "frontend",
+        "history",
+        "sensor.forecast",
+        "sensor",
+        "light.hue",
+        "light",
+        "sun",
+        "group",
+        "scene",
+        "automation",
+        "switch",
+        "light.hue",
+        "switch.wemo"
+    ],
+    "latitude": 37.5,
+    "location_name": "Apartment",
+    "longitude": -122.75,
+    "temperature_unit": "\u00b0F",
+    "time_zone": "America/Los_Angeles",
+    "version": "0.10.1"
+}
