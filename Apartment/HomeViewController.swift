@@ -37,6 +37,10 @@ public class HomeViewController: UIViewController {
         return self.injector!.create(MapViewController)!
     }()
 
+    private lazy var graphViewController: GraphViewController = {
+        return self.injector!.create(GraphViewController)!
+    }()
+
     public override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -61,19 +65,27 @@ public class HomeViewController: UIViewController {
 
     public override func viewWillAppear(animated: Bool) {
         if self.homeRepository.configured {
-            self.refreshControl?.beginRefreshing()
-            self.refresh()
+            self.onLogin()
         } else {
             let loginViewController = self.injector!.create(LoginViewController)!
             loginViewController.onLogin = {
-                self.refreshControl?.beginRefreshing()
-                self.refresh()
+                self.onLogin()
             }
             self.presentViewController(loginViewController, animated: true, completion: nil)
         }
     }
 
     // MARK: Private
+
+    private func onLogin() {
+        self.refreshControl?.beginRefreshing()
+        self.refresh()
+        self.homeRepository.configuration { configuration in
+            if let configuration = configuration {
+                self.title = configuration.name
+            }
+        }
+    }
 
     @objc private func refresh() {
         self.homeRepository.groups(includeScenes: true) {states, groups in
@@ -165,6 +177,11 @@ extension HomeViewController: UITableViewDataSource {
             $0.domain == "homeassistant"
         }.first
     }
+
+    private func showGraph(entity entity: State) {
+        self.graphViewController.entity = entity
+        self.showDetailViewController(self.graphViewController, sender: self)
+    }
 }
 
 extension HomeViewController: UITableViewDelegate {
@@ -176,7 +193,7 @@ extension HomeViewController: UITableViewDelegate {
         } else if entity.isDeviceTracker {
             self.mapViewController.configure([entity])
             self.showDetailViewController(self.mapViewController, sender: self)
-        } else if let domain = entity.domain, service = self.serviceForDomain(domain) where service.domain != "homeassistant" {
+        } else if !(entity.isSwitch || entity.isLight), let domain = entity.domain, service = self.serviceForDomain(domain) where service.domain != "homeassistant" {
             let actionSheet = UIAlertController(title: entity.displayName, message: nil, preferredStyle: .ActionSheet)
             for method in service.methods {
                 let action = UIAlertAction(title: method.id.desnake, style: .Default) { _ in
@@ -192,10 +209,16 @@ extension HomeViewController: UITableViewDelegate {
                 }
                 actionSheet.addAction(action)
             }
+            actionSheet.addAction(UIAlertAction(title: "View History", style: .Default) { _ in
+                self.dismissViewControllerAnimated(true, completion: nil)
+                self.showGraph(entity: entity)
+            })
             actionSheet.addAction(UIAlertAction(title: "Dismiss", style: .Cancel) { _ in
                 self.dismissViewControllerAnimated(true, completion: nil)
             })
             self.presentViewController(actionSheet, animated: true, completion: nil)
+        } else {
+            self.showGraph(entity: entity)
         }
 
         tableView.deselectRowAtIndexPath(indexPath, animated: false)

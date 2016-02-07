@@ -14,6 +14,7 @@
 		894142D71C66CB570070962A /* HomeConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894142D61C66CB570070962A /* HomeConfiguration.swift */; };
 		894142D91C66CDAF0070962A /* HomeConfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 894142D81C66CDAF0070962A /* HomeConfiguration.json */; };
 		894142DA1C6701520070962A /* HomeConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894142D61C66CB570070962A /* HomeConfiguration.swift */; };
+		894142DD1C671A3F0070962A /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894142DC1C671A3F0070962A /* GraphViewController.swift */; };
 		895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895634E21ACA5DA200CA60E9 /* AppDelegate.swift */; };
 		895634EA1ACA5DA300CA60E9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895634E91ACA5DA300CA60E9 /* Images.xcassets */; };
 		895634ED1ACA5DA300CA60E9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 895634EB1ACA5DA300CA60E9 /* LaunchScreen.xib */; };
@@ -223,6 +224,7 @@
 		894142D31C66BDEC0070962A /* TestUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
 		894142D61C66CB570070962A /* HomeConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeConfiguration.swift; sourceTree = "<group>"; };
 		894142D81C66CDAF0070962A /* HomeConfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = HomeConfiguration.json; sourceTree = "<group>"; };
+		894142DC1C671A3F0070962A /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		895634DD1ACA5DA200CA60E9 /* Apartment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Apartment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		895634E11ACA5DA200CA60E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		895634E21ACA5DA200CA60E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -350,6 +352,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		894142DB1C671A210070962A /* Graphing */ = {
+			isa = PBXGroup;
+			children = (
+				894142DC1C671A3F0070962A /* GraphViewController.swift */,
+			);
+			name = Graphing;
+			sourceTree = "<group>";
+		};
 		895634D41ACA5DA100CA60E9 = {
 			isa = PBXGroup;
 			children = (
@@ -438,6 +448,7 @@
 				AE8595641C62C29E00706602 /* Onboarding */,
 				895636351AD0FB8F00CA60E9 /* Home Screen */,
 				89E6DB8A1C63354F0033709D /* Map Screen */,
+				894142DB1C671A210070962A /* Graphing */,
 			);
 			name = Features;
 			sourceTree = "<group>";
@@ -882,6 +893,7 @@
 			files = (
 				895636191ACFA4F600CA60E9 /* HomeViewController.swift in Sources */,
 				89E6DB8C1C6335670033709D /* MapViewController.swift in Sources */,
+				894142DD1C671A3F0070962A /* GraphViewController.swift in Sources */,
 				89B1C71C1BBC5CC700BF0870 /* SwitchTableViewCell.swift in Sources */,
 				895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */,
 				AE8595661C62C2B400706602 /* LoginViewController.swift in Sources */,

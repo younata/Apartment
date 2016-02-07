@@ -11,6 +11,15 @@ public struct HomeConfiguration: Equatable, CustomStringConvertible {
     public var description: String {
         return "<HomeConfiguration name: \(self.name), coordinate: \(self.coordinate), temperatureUnit: \(self.temperatureUnit), timeZone: \(self.timeZone), version: \(self.version), components: \(self.components)>"
     }
+
+    public init(components: [String], coordinate: CLLocationCoordinate2D, name: String, temperatureUnit: String, timeZone: NSTimeZone, version: String) {
+        self.components = components
+        self.coordinate = coordinate
+        self.name = name
+        self.temperatureUnit = temperatureUnit
+        self.timeZone = timeZone
+        self.version = version
+    }
 }
 
 public func ==(a: HomeConfiguration, b: HomeConfiguration) -> Bool {

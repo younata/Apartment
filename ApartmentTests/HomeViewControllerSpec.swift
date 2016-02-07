@@ -4,6 +4,7 @@ import UIKit
 import Ra
 import Apartment
 import ApartKit
+import CoreLocation
 import UIKit_PivotalSpecHelperStubs
 
 class HomeViewControllerSpec: QuickSpec {
@@ -21,10 +22,6 @@ class HomeViewControllerSpec: QuickSpec {
             subject = injector.create(HomeViewController)!
 
             subject.view.layoutIfNeeded()
-        }
-
-        it("sets the title to something") {
-            expect(subject.title) == "Apartment"
         }
 
         context("if the home repository has not been configured") {
@@ -54,6 +51,10 @@ class HomeViewControllerSpec: QuickSpec {
                     expect(homeRepository.servicesCallback).toNot(beNil())
                 }
 
+                it("kicks off a request for the configuration") {
+                    expect(homeRepository.configurationCallback).toNot(beNil())
+                }
+
                 it("should start off the refresh control") {
                     expect(subject.refreshControl?.refreshing).to(beTruthy())
                 }
@@ -76,8 +77,29 @@ class HomeViewControllerSpec: QuickSpec {
                 expect(homeRepository.servicesCallback).toNot(beNil())
             }
 
+            it("kicks off a request for the configuration") {
+                expect(homeRepository.configurationCallback).toNot(beNil())
+            }
+
             it("should start off the refresh control") {
                 expect(subject.refreshControl?.refreshing).to(beTruthy())
+            }
+
+            describe("when the configuration call comes back") {
+                let configuration = HomeConfiguration(components: [],
+                    coordinate: CLLocationCoordinate2D(),
+                    name: "home",
+                    temperatureUnit: "K",
+                    timeZone: NSTimeZone(name: "America/Los_Angeles")!,
+                    version: "2.0")
+
+                beforeEach {
+                    homeRepository.configurationCallback?(configuration)
+                }
+
+                it("sets the title to the config's name") {
+                    expect(subject.title) == "home"
+                }
             }
 
             describe("when the home service comes back successfully") {
@@ -280,10 +302,12 @@ class HomeViewControllerSpec: QuickSpec {
                                     delegate?.tableView?(subject.tableView, didSelectRowAtIndexPath: indexPath)
                                 }
 
-                                it("does a thing") {
-                                    fail("implement me")
+                                it("displays a GraphViewController") {
+                                    expect(subject.shownDetailViewController).to(beAKindOf(GraphViewController.self))
+                                    if let graphViewController = subject.shownDetailViewController as? GraphViewController {
+                                        expect(graphViewController.entity).toNot(beNil())
+                                    }
                                 }
-                                // displays value over time?
                             }
                         }
 
@@ -376,16 +400,17 @@ class HomeViewControllerSpec: QuickSpec {
                                     delegate?.tableView?(subject.tableView, didSelectRowAtIndexPath: indexPath)
                                 }
 
-                                it("displays an actionsheet for each method in the service") {
+                                it("displays an actionsheet for each method in the service + a way to view the history of it") {
                                     expect(subject.presentedViewController).to(beAKindOf(UIAlertController.self))
 
                                     if let actionSheet = subject.presentedViewController as? UIAlertController {
                                         expect(actionSheet.preferredStyle) == UIAlertControllerStyle.ActionSheet
 
-                                        expect(actionSheet.actions.count) == mediaPlayerService.methods.count + 1
+                                        expect(actionSheet.actions.count) == mediaPlayerService.methods.count + 2
                                         for (idx, method) in mediaPlayerService.methods.enumerate() {
                                             expect(actionSheet.actions[idx].title) == method.id.desnake
                                         }
+                                        expect(actionSheet.actions[mediaPlayerService.methods.count].title) == "View History"
                                         expect(actionSheet.actions.last?.title) == "Dismiss"
                                     }
                                 }
@@ -412,6 +437,21 @@ class HomeViewControllerSpec: QuickSpec {
 
                                             homeRepository.updateServiceCallback?([], nil)
                                             expect(subject.presentedViewController).to(beNil())
+                                        }
+                                    }
+                                }
+
+                                it("shows the history if you tap the second to last action") {
+                                    expect(subject.presentedViewController).to(beAKindOf(UIAlertController.self))
+
+                                    if let actionSheet = subject.presentedViewController as? UIAlertController {
+                                        let action = actionSheet.actions[mediaPlayerService.methods.count]
+                                        action.handler()(action)
+
+                                        expect(subject.presentedViewController).to(beNil())
+                                        expect(subject.shownDetailViewController).to(beAKindOf(GraphViewController.self))
+                                        if let graphViewController = subject.shownDetailViewController as? GraphViewController {
+                                            expect(graphViewController.entity).toNot(beNil())
                                         }
                                     }
                                 }
