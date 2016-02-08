@@ -15,6 +15,7 @@
 		894142D91C66CDAF0070962A /* HomeConfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 894142D81C66CDAF0070962A /* HomeConfiguration.json */; };
 		894142DA1C6701520070962A /* HomeConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894142D61C66CB570070962A /* HomeConfiguration.swift */; };
 		894142DD1C671A3F0070962A /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894142DC1C671A3F0070962A /* GraphViewController.swift */; };
+		894142E01C67B4C40070962A /* GraphViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894142DF1C67B4C40070962A /* GraphViewControllerSpec.swift */; };
 		895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895634E21ACA5DA200CA60E9 /* AppDelegate.swift */; };
 		895634EA1ACA5DA300CA60E9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895634E91ACA5DA300CA60E9 /* Images.xcassets */; };
 		895634ED1ACA5DA300CA60E9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 895634EB1ACA5DA300CA60E9 /* LaunchScreen.xib */; };
@@ -225,6 +226,7 @@
 		894142D61C66CB570070962A /* HomeConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeConfiguration.swift; sourceTree = "<group>"; };
 		894142D81C66CDAF0070962A /* HomeConfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = HomeConfiguration.json; sourceTree = "<group>"; };
 		894142DC1C671A3F0070962A /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
+		894142DF1C67B4C40070962A /* GraphViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewControllerSpec.swift; sourceTree = "<group>"; };
 		895634DD1ACA5DA200CA60E9 /* Apartment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Apartment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		895634E11ACA5DA200CA60E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		895634E21ACA5DA200CA60E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -360,6 +362,14 @@
 			name = Graphing;
 			sourceTree = "<group>";
 		};
+		894142DE1C67B4AF0070962A /* Graphing */ = {
+			isa = PBXGroup;
+			children = (
+				894142DF1C67B4C40070962A /* GraphViewControllerSpec.swift */,
+			);
+			name = Graphing;
+			sourceTree = "<group>";
+		};
 		895634D41ACA5DA100CA60E9 = {
 			isa = PBXGroup;
 			children = (
@@ -459,6 +469,7 @@
 				AE8595671C62C3D800706602 /* Onboarding */,
 				895636361AD0FBA300CA60E9 /* Home Screen */,
 				89E6DB931C633DDD0033709D /* Map Screen */,
+				894142DE1C67B4AF0070962A /* Graphing */,
 			);
 			name = Features;
 			sourceTree = "<group>";
@@ -905,6 +916,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				894142E01C67B4C40070962A /* GraphViewControllerSpec.swift in Sources */,
 				AE85956E1C62D42500706602 /* FakeUserDefaults.swift in Sources */,
 				89E6DB8F1C633B750033709D /* UIViewController+ApartmentTests.m in Sources */,
 				894142D41C66BDEC0070962A /* TestUtils.swift in Sources */,

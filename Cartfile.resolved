@@ -1,5 +1,6 @@
 github "smileyborg/PureLayout" "v3.0.1"
 github "younata/Ra" "v0.5.0"
+github "i-schuetz/SwiftCharts" "0.3"
 github "quick/nimble" "v3.1.0"
 github "pivotal/pivotalcorekit" "2d2f04fbded6b9703bd076debd742bb02cfec7ce"
 github "quick/quick" "v0.9.0"
