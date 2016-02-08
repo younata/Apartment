@@ -39,7 +39,7 @@ extension State: CustomStringConvertible {
 
 // MARK: - Serializable
 
-extension State {
+extension State: Serializable {
     public var jsonObject: [String: AnyObject] {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "HH:mm:ss dd-MM-yyyy"
@@ -52,7 +52,7 @@ extension State {
         ]
     }
 
-    public static func NewFromJSON(jsonObject: [String: AnyObject]) -> State? {
+    public init?(jsonObject: [String : AnyObject]) {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "HH:mm:ss dd-MM-yyyy"
         if let attributes = jsonObject["attributes"] as? [String: AnyObject],
@@ -62,9 +62,10 @@ extension State {
             lastUpdatedStr = jsonObject["last_updated"] as? String,
             lastUpdated = dateFormatter.dateFromString(lastUpdatedStr),
             state = jsonObject["state"] as? String {
-                return State(attributes: attributes, entityId: entityId, lastChanged: lastChanged, lastUpdated: lastUpdated, state: state)
+                self.init(attributes: attributes, entityId: entityId, lastChanged: lastChanged, lastUpdated: lastUpdated, state: state)
+        } else {
+            return nil
         }
-        return nil
     }
 }
 

@@ -95,6 +95,10 @@
 		AE8595731C6907F100706602 /* SwiftCharts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE8595721C6907F100706602 /* SwiftCharts.framework */; };
 		AE8595741C6907FD00706602 /* SwiftCharts.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AE8595721C6907F100706602 /* SwiftCharts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AE8595751C69080600706602 /* SwiftCharts.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AE8595721C6907F100706602 /* SwiftCharts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AE85957A1C69436200706602 /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8595791C69436200706602 /* Serializable.swift */; };
+		AE85957B1C69436200706602 /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8595791C69436200706602 /* Serializable.swift */; };
+		AE85957E1C69458300706602 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE85957D1C69458300706602 /* SettingsViewController.swift */; };
+		AE8595811C6947AF00706602 /* SettingsViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8595801C6947AF00706602 /* SettingsViewControllerSpec.swift */; };
 		AED985461C62AD1F00A20780 /* ApartKitModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED985451C62AD1F00A20780 /* ApartKitModule.swift */; };
 		AED9854B1C62B20900A20780 /* Ra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; };
 		AED9854C1C62B21200A20780 /* Ra.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -299,6 +303,9 @@
 		AE85956D1C62D42500706602 /* FakeUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeUserDefaults.swift; sourceTree = "<group>"; };
 		AE8595701C62E62C00706602 /* Services.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Services.json; sourceTree = "<group>"; };
 		AE8595721C6907F100706602 /* SwiftCharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCharts.framework; path = ../Carthage/Build/iOS/SwiftCharts.framework; sourceTree = "<group>"; };
+		AE8595791C69436200706602 /* Serializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Serializable.swift; sourceTree = "<group>"; };
+		AE85957D1C69458300706602 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		AE8595801C6947AF00706602 /* SettingsViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewControllerSpec.swift; sourceTree = "<group>"; };
 		AED985451C62AD1F00A20780 /* ApartKitModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApartKitModule.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -467,6 +474,7 @@
 				895636351AD0FB8F00CA60E9 /* Home Screen */,
 				89E6DB8A1C63354F0033709D /* Map Screen */,
 				894142DB1C671A210070962A /* Graphing */,
+				AE85957C1C69456900706602 /* Settings */,
 			);
 			name = Features;
 			sourceTree = "<group>";
@@ -478,6 +486,7 @@
 				895636361AD0FBA300CA60E9 /* Home Screen */,
 				89E6DB931C633DDD0033709D /* Map Screen */,
 				894142DE1C67B4AF0070962A /* Graphing */,
+				AE85957F1C69479800706602 /* Settings */,
 			);
 			name = Features;
 			sourceTree = "<group>";
@@ -507,8 +516,9 @@
 				89E6DB961C63E4F60033709D /* StringExtensions.swift */,
 				89B1C7011BB9CA3700BF0870 /* HomeAssistantService.swift */,
 				89B1C7161BBB38DC00BF0870 /* HomeAssistantRepository.swift */,
-				894142D01C6662E80070962A /* Group.swift */,
 				894142D61C66CB570070962A /* HomeConfiguration.swift */,
+				AE8595791C69436200706602 /* Serializable.swift */,
+				894142D01C6662E80070962A /* Group.swift */,
 				89B1C7061BB9EB4100BF0870 /* State.swift */,
 				89B1C7091BBA04EB00BF0870 /* Event.swift */,
 				89B1C70C1BBA0B5D00BF0870 /* Service.swift */,
@@ -632,6 +642,22 @@
 				894142D31C66BDEC0070962A /* TestUtils.swift */,
 			);
 			name = Fixtures;
+			sourceTree = "<group>";
+		};
+		AE85957C1C69456900706602 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				AE85957D1C69458300706602 /* SettingsViewController.swift */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		AE85957F1C69479800706602 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				AE8595801C6947AF00706602 /* SettingsViewControllerSpec.swift */,
+			);
+			name = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -917,6 +943,7 @@
 				895634E31ACA5DA200CA60E9 /* AppDelegate.swift in Sources */,
 				AE8595661C62C2B400706602 /* LoginViewController.swift in Sources */,
 				89E0087F1AD7902E001A54D5 /* ColorPicker.swift in Sources */,
+				AE85957E1C69458300706602 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -925,6 +952,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				894142E01C67B4C40070962A /* GraphViewControllerSpec.swift in Sources */,
+				AE8595811C6947AF00706602 /* SettingsViewControllerSpec.swift in Sources */,
 				AE85956E1C62D42500706602 /* FakeUserDefaults.swift in Sources */,
 				89E6DB8F1C633B750033709D /* UIViewController+ApartmentTests.m in Sources */,
 				894142D41C66BDEC0070962A /* TestUtils.swift in Sources */,
@@ -949,6 +977,7 @@
 				AED985461C62AD1F00A20780 /* ApartKitModule.swift in Sources */,
 				89B1C7021BB9CA3700BF0870 /* HomeAssistantService.swift in Sources */,
 				89B1C70D1BBA0B5D00BF0870 /* Service.swift in Sources */,
+				AE85957A1C69436200706602 /* Serializable.swift in Sources */,
 				894142D71C66CB570070962A /* HomeConfiguration.swift in Sources */,
 				89B1C7171BBB38DC00BF0870 /* HomeAssistantRepository.swift in Sources */,
 				89A5A1E11B5E18B500FC3FE3 /* UIColor+Apartment.swift in Sources */,
@@ -994,6 +1023,7 @@
 				AE8595631C62B4AC00706602 /* ApartWatchKitModule.swift in Sources */,
 				89A5A2231B5EE09300FC3FE3 /* UIColor+Apartment.swift in Sources */,
 				89B1C7031BB9CA3700BF0870 /* HomeAssistantService.swift in Sources */,
+				AE85957B1C69436200706602 /* Serializable.swift in Sources */,
 				89B1C7181BBB38DC00BF0870 /* HomeAssistantRepository.swift in Sources */,
 				89B1C70E1BBA0B5D00BF0870 /* Service.swift in Sources */,
 				89B1C7081BB9EB4100BF0870 /* State.swift in Sources */,

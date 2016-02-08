@@ -266,7 +266,7 @@ private class WatchConnectivityDelegate: NSObject, WCSessionDelegate {
         let services: [Service]
         if let statesJson = userInfo["states"] as? [[String: AnyObject]] {
             states = statesJson.reduce([State]()) {
-                if let state = State.NewFromJSON($1) {
+                if let state = State(jsonObject: $1) {
                     return $0 + [state]
                 }
                 return $0

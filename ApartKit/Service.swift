@@ -38,7 +38,7 @@ extension Service: CustomStringConvertible {
 
 // MARK: - Serializable
 
-extension Service {
+extension Service: Serializable {
     public var jsonObject: [String: AnyObject] {
         return [
             "domain": self.domain,
