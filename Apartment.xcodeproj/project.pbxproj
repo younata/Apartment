@@ -92,6 +92,9 @@
 		AE85956C1C62C5F700706602 /* UIKit_PivotalSpecHelper.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AE85956A1C62C5D100706602 /* UIKit_PivotalSpecHelper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AE85956E1C62D42500706602 /* FakeUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE85956D1C62D42500706602 /* FakeUserDefaults.swift */; };
 		AE8595711C62E62C00706602 /* Services.json in Resources */ = {isa = PBXBuildFile; fileRef = AE8595701C62E62C00706602 /* Services.json */; };
+		AE8595731C6907F100706602 /* SwiftCharts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE8595721C6907F100706602 /* SwiftCharts.framework */; };
+		AE8595741C6907FD00706602 /* SwiftCharts.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AE8595721C6907F100706602 /* SwiftCharts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AE8595751C69080600706602 /* SwiftCharts.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AE8595721C6907F100706602 /* SwiftCharts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AED985461C62AD1F00A20780 /* ApartKitModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED985451C62AD1F00A20780 /* ApartKitModule.swift */; };
 		AED9854B1C62B20900A20780 /* Ra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; };
 		AED9854C1C62B21200A20780 /* Ra.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -152,6 +155,7 @@
 				89A5A1CE1B5E165E00FC3FE3 /* ApartKit.framework in Copy Frameworks */,
 				8956351A1ACA6EC800CA60E9 /* Ra.framework in Copy Frameworks */,
 				AE7BF7591C62872400B87382 /* PureLayout.framework in Copy Frameworks */,
+				AE8595741C6907FD00706602 /* SwiftCharts.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -167,6 +171,7 @@
 				AE7BF75A1C62872D00B87382 /* PureLayout.framework in Copy Frameworks */,
 				AE85956C1C62C5F700706602 /* UIKit_PivotalSpecHelper.framework in Copy Frameworks */,
 				AE7BF75D1C62885700B87382 /* UIKit_PivotalSpecHelperStubs.framework in Copy Frameworks */,
+				AE8595751C69080600706602 /* SwiftCharts.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,6 +298,7 @@
 		AE85956A1C62C5D100706602 /* UIKit_PivotalSpecHelper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit_PivotalSpecHelper.framework; path = Carthage/Build/iOS/UIKit_PivotalSpecHelper.framework; sourceTree = SOURCE_ROOT; };
 		AE85956D1C62D42500706602 /* FakeUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeUserDefaults.swift; sourceTree = "<group>"; };
 		AE8595701C62E62C00706602 /* Services.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Services.json; sourceTree = "<group>"; };
+		AE8595721C6907F100706602 /* SwiftCharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCharts.framework; path = ../Carthage/Build/iOS/SwiftCharts.framework; sourceTree = "<group>"; };
 		AED985451C62AD1F00A20780 /* ApartKitModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApartKitModule.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -304,6 +310,7 @@
 				89A5A1CD1B5E165E00FC3FE3 /* ApartKit.framework in Frameworks */,
 				895635191ACA6EBA00CA60E9 /* Ra.framework in Frameworks */,
 				AE7BF7581C62872000B87382 /* PureLayout.framework in Frameworks */,
+				AE8595731C6907F100706602 /* SwiftCharts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,6 +413,7 @@
 				89E008811AD8E4BC001A54D5 /* Views */,
 				895634E91ACA5DA300CA60E9 /* Images.xcassets */,
 				895634EB1ACA5DA300CA60E9 /* LaunchScreen.xib */,
+				AE8595721C6907F100706602 /* SwiftCharts.framework */,
 				AE7BF7571C62871500B87382 /* PureLayout.framework */,
 				895635181ACA6EBA00CA60E9 /* Ra.framework */,
 				895634E01ACA5DA200CA60E9 /* Supporting Files */,

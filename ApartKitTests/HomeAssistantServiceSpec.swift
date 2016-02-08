@@ -176,7 +176,7 @@ class HomeAssistantServiceSpec: QuickSpec {
                 }
 
                 it("returns a list of states on success") {
-                    let data = NSString(string: "[{\"attributes\":{\"brightness\":254,\"friendly_name\":\"Bedroom\",\"xy_color\":[0.4499,0.408]},\"entity_id\":\"light.bedroom\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"auto\":true,\"entity_id\":[\"light.bedroom\",\"light.hue_lamp\",\"light.living_room\"],\"friendly_name\":\"all lights\"},\"entity_id\":\"group.all_lights\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"friendly_name\":\"internet switch\"},\"entity_id\":\"switch.internet_switch\",\"last_changed\":\"17:29:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"off\"}]").dataUsingEncoding(NSUTF8StringEncoding)
+                    let data = NSString(string: "[[{\"attributes\":{\"brightness\":254,\"friendly_name\":\"Bedroom\",\"xy_color\":[0.4499,0.408]},\"entity_id\":\"light.bedroom\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"auto\":true,\"entity_id\":[\"light.bedroom\",\"light.hue_lamp\",\"light.living_room\"],\"friendly_name\":\"all lights\"},\"entity_id\":\"group.all_lights\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"friendly_name\":\"internet switch\"},\"entity_id\":\"switch.internet_switch\",\"last_changed\":\"17:29:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"off\"}]]").dataUsingEncoding(NSUTF8StringEncoding)
                     urlSession.lastCompletionHandler(data, nil, nil)
                     mainQueue.runNextOperation()
 
@@ -198,7 +198,7 @@ class HomeAssistantServiceSpec: QuickSpec {
                 let state = State(attributes: [:], entityId: "test.state", lastChanged: NSDate(), lastUpdated: NSDate(), state: "state")
 
                 beforeEach {
-                    subject.history(NSDate(), state: state) { states, error in
+                    subject.history(date, state: state) { states, error in
                         receivedStates = states
                         receivedError = error
                     }
@@ -209,7 +209,7 @@ class HomeAssistantServiceSpec: QuickSpec {
                 }
 
                 it("returns a list of states on success") {
-                    let data = NSString(string: "[{\"attributes\":{\"brightness\":254,\"friendly_name\":\"Bedroom\",\"xy_color\":[0.4499,0.408]},\"entity_id\":\"light.bedroom\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"auto\":true,\"entity_id\":[\"light.bedroom\",\"light.hue_lamp\",\"light.living_room\"],\"friendly_name\":\"all lights\"},\"entity_id\":\"group.all_lights\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"friendly_name\":\"internet switch\"},\"entity_id\":\"switch.internet_switch\",\"last_changed\":\"17:29:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"off\"}]").dataUsingEncoding(NSUTF8StringEncoding)
+                    let data = NSString(string: "[[{\"attributes\":{\"brightness\":254,\"friendly_name\":\"Bedroom\",\"xy_color\":[0.4499,0.408]},\"entity_id\":\"light.bedroom\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"auto\":true,\"entity_id\":[\"light.bedroom\",\"light.hue_lamp\",\"light.living_room\"],\"friendly_name\":\"all lights\"},\"entity_id\":\"group.all_lights\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"friendly_name\":\"internet switch\"},\"entity_id\":\"switch.internet_switch\",\"last_changed\":\"17:29:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"off\"}]]").dataUsingEncoding(NSUTF8StringEncoding)
                     urlSession.lastCompletionHandler(data, nil, nil)
                     mainQueue.runNextOperation()
 

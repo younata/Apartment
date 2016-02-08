@@ -70,6 +70,8 @@ extension State {
 
 // MARK: - Sensor
 
+private let stateSensorNumberFormatter = NSNumberFormatter()
+
 extension State {
     public var isSensor: Bool {
         return self.entityId.hasPrefix("sensor")
@@ -80,7 +82,7 @@ extension State {
     }
 
     public var sensorState: Double? {
-        let number = NSNumberFormatter().numberFromString(self.state)
+        let number = stateSensorNumberFormatter.numberFromString(self.state)
         return number?.doubleValue
     }
 }

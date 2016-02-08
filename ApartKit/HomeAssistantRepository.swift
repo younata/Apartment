@@ -25,7 +25,7 @@ public extension HomeRepository {
 
     func groups(includeScenes includeScenes: Bool, callback: ([State], [Group]) -> Void) {
         self.states { states in
-            let groups = states.filter { $0.isGroup && $0.groupAutoCreated == false }
+            let groups = states.filter { $0.isGroup && $0.groupAutoCreated != true }
             var groupData = [(State, [State])]()
             for group in groups {
                 if let entities = group.groupEntities {

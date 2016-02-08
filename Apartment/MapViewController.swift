@@ -8,8 +8,9 @@ public class MapViewController: UIViewController, MKMapViewDelegate {
     public private(set) var devices = [State]() {
         didSet {
             for device in devices {
+                guard let coordinate = device.trackerCoordinate else { continue }
                 let pin = MKPointAnnotation()
-                pin.coordinate = device.trackerCoordinate!
+                pin.coordinate = coordinate
                 pin.title = device.displayName
                 pin.subtitle = device.state.desnake
                 self.map.addAnnotation(pin)
@@ -19,7 +20,8 @@ public class MapViewController: UIViewController, MKMapViewDelegate {
     public private(set) var zones = [State]() {
         didSet {
             for zone in zones {
-                let circle = MKCircle(centerCoordinate: zone.zoneCoordinate!, radius: Double(zone.zoneRadius ?? 100))
+                guard let coordinate = zone.zoneCoordinate else { continue }
+                let circle = MKCircle(centerCoordinate: coordinate, radius: Double(zone.zoneRadius ?? 100))
                 circle.title = zone.displayName
                 self.map.addOverlay(circle)
             }

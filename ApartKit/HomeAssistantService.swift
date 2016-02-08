@@ -90,7 +90,7 @@ class HomeAssistantService {
                 self.mainQueue.addOperationWithBlock {
                     callback([], error)
                 }
-            } else if let data = data, objects = try? NSJSONSerialization.JSONObjectWithData(data, options: []), dictionaries = objects as? [[String: AnyObject]] {
+            } else if let data = data, objects = try? NSJSONSerialization.JSONObjectWithData(data, options: []), dictionaries = (objects as? [[[String: AnyObject]]])?.first {
                 var ret = Array<State>()
                 for dictionary in dictionaries {
                     if let state = self.parseState(dictionary) {

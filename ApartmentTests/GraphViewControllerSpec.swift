@@ -3,6 +3,7 @@ import Nimble
 import ApartKit
 import Apartment
 import Ra
+import SwiftCharts
 
 class GraphViewControllerSpec: QuickSpec {
     override func spec() {
@@ -54,7 +55,9 @@ class GraphViewControllerSpec: QuickSpec {
                     homeRepository.historyCallback?(states)
                 }
 
-                // displays a graph
+                it("displays a line chart of the data") {
+                    expect(subject.chart is LineChart) == true
+                }
             }
 
             context("with other kinds of sensor data") {
@@ -69,7 +72,9 @@ class GraphViewControllerSpec: QuickSpec {
                     homeRepository.historyCallback?(states)
                 }
 
-                // displays something else?
+                it("displays a histogram of the data") {
+                    expect(subject.chart is BarsChart) == true
+                }
             }
         }
 
