@@ -8,10 +8,11 @@ class ComplicationController: NSObject, CLKComplicationDataSource, HomeRepositor
         return repo
     }()
 
-    var lights = Array<State>()
-
-    func didUpdateStates(states: [State]) {
-        self.lights = states.filter { $0.isLight }
+    func didChangeLogoutStatus(loggedIn: Bool) {
+        let complicationServer = CLKComplicationServer.sharedInstance()
+        for complication in complicationServer.activeComplications {
+            complicationServer.reloadTimelineForComplication(complication)
+        }
     }
 
     func getSupportedTimeTravelDirectionsForComplication(complication: CLKComplication, withHandler handler: (CLKComplicationTimeTravelDirections) -> Void) {
@@ -34,9 +35,9 @@ class ComplicationController: NSObject, CLKComplicationDataSource, HomeRepositor
     
     func getCurrentTimelineEntryForComplication(complication: CLKComplication, withHandler handler: ((CLKComplicationTimelineEntry?) -> Void)) {
         // Call the handler with the current timeline entry
-        self.homeRepository.states { _ in
-            let longText: String = "Not Implemented"
-            let shortText: String = "N/A"
+        self.homeRepository.watchComplicationEntity { entity in
+            let longText: String = entity?.displayName ?? "N/A"
+            let shortText: String = entity?.state.desnake ?? "N/A"
 
             let template : CLKComplicationTemplate?
 

@@ -22,6 +22,18 @@ public class SettingsViewController: UIViewController {
         return stackView
     }()
 
+    private let complicationView: SettingsWatchEntityView = {
+        let view = SettingsWatchEntityView(frame: CGRectZero)
+        view.titleLabel.text = "Watch Complication Entity"
+        return view
+    }()
+
+    private let glanceView: SettingsWatchEntityView = {
+        let view = SettingsWatchEntityView(frame: CGRectZero)
+        view.titleLabel.text = "Watch Glance Entity"
+        return view
+    }()
+
     public override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -32,8 +44,8 @@ public class SettingsViewController: UIViewController {
         self.stackView.autoPinEdgeToSuperviewMargin(.Trailing)
         self.view.addConstraint(NSLayoutConstraint(item: self.stackView, attribute: .Top, relatedBy: .Equal, toItem: self.topLayoutGuide, attribute: .Bottom, multiplier: 1.0, constant: 0))
 
-        self.stackView.addArrangedSubview(UIView())
-        self.stackView.addArrangedSubview(UIView())
+        self.stackView.addArrangedSubview(self.complicationView)
+        self.stackView.addArrangedSubview(self.glanceView)
 
         let button = UIButton(type: .System)
         button.setTitle("Logout", forState: .Normal)

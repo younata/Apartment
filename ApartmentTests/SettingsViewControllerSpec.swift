@@ -49,13 +49,55 @@ class SettingsViewControllerSpec: QuickSpec {
             }
 
             describe("the first subview") {
+                var settingsView: SettingsWatchEntityView!
                 beforeEach {
+                    settingsView = subject.stackView.arrangedSubviews.first as? SettingsWatchEntityView
+                }
 
+                it("has the title label 'Watch Complication Entity'") {
+                    expect(settingsView.titleLabel.text) == "Watch Complication Entity"
+                }
+
+                it("has the detail label 'Not Set' if the complication entity is not set") {
+                    expect(settingsView.detailLabel.text) == "Not Set"
+                }
+
+                it("shows a WatchEntitySettingsController on tap") {
+                    settingsView.gestureRecognizers?.first?.recognize()
+
+                    expect(subject.shownViewController).to(beAKindOf(SettingsEntityTableViewController.self))
+
+                    if let setvc = subject.shownViewController as? SettingsEntityTableViewController {
+                        setvc.onFinish?(nil)
+                        expect(homeRepository.watchComplicationEntityId).to(beNil())
+                    }
                 }
             }
 
             describe("the middle subview") {
+                var settingsView: SettingsWatchEntityView!
+                beforeEach {
+                    settingsView = subject.stackView.arrangedSubviews[1] as? SettingsWatchEntityView
+                }
 
+                it("has the title label 'Watch Glance Entity'") {
+                    expect(settingsView.titleLabel.text) == "Watch Glance Entity"
+                }
+
+                it("has the detail label 'Not Set' if the complication entity is not set") {
+                    expect(settingsView.detailLabel.text) == "Not Set"
+                }
+
+                it("shows a WatchEntitySettingsController on tap") {
+                    settingsView.gestureRecognizers?.first?.recognize()
+
+                    expect(subject.shownViewController).to(beAKindOf(SettingsEntityTableViewController.self))
+
+                    if let setvc = subject.shownViewController as? SettingsEntityTableViewController {
+                        setvc.onFinish?(nil)
+                        expect(homeRepository.watchGlanceEntityId).to(beNil())
+                    }
+                }
             }
 
             describe("the last subview") {
