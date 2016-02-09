@@ -151,7 +151,7 @@ public class GraphViewController: UIViewController {
 
         return LineChart(frame: frame,
             chartConfig: chartConfig,
-            xTitle: "Time (Hours)",
+            xTitle: "Time (Hours since midnight)",
             yTitle: self.entity?.sensorUnitOfMeasurement ?? "Unit",
             line: (chartPoints: pointData, color: UIColor.blueColor()))
     }
