@@ -8,9 +8,19 @@ public class SettingsViewController: UIViewController {
         return self.injector!.create(HomeRepository)!
     }()
 
-    public let versionLabel: UILabel = {
+    public let backendVersionLabel: UILabel = {
         let label = UILabel(forAutoLayout: ())
         label.textAlignment = .Center
+        label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleFootnote)
+        return label
+    }()
+
+    public let appVersionLabel: UILabel = {
+        let label = UILabel(forAutoLayout: ())
+        label.textAlignment = .Center
+        label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleFootnote)
+        let versionNumber = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as! String
+        label.text = "App Version \(versionNumber)"
         return label
     }()
 
@@ -46,7 +56,7 @@ public class SettingsViewController: UIViewController {
         self.view.addSubview(self.stackView)
         self.stackView.autoPinEdgeToSuperviewMargin(.Leading)
         self.stackView.autoPinEdgeToSuperviewMargin(.Trailing)
-        self.view.addConstraint(NSLayoutConstraint(item: self.stackView, attribute: .Top, relatedBy: .Equal, toItem: self.topLayoutGuide, attribute: .Bottom, multiplier: 1.0, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: self.stackView, attribute: .Top, relatedBy: .Equal, toItem: self.topLayoutGuide, attribute: .Bottom, multiplier: 1.0, constant: 60))
 
         self.stackView.addArrangedSubview(self.complicationView)
         self.stackView.addArrangedSubview(self.glanceView)
@@ -67,18 +77,27 @@ public class SettingsViewController: UIViewController {
         button.addTarget(self, action: Selector("didTapLogout"), forControlEvents: .TouchUpInside)
         self.stackView.addArrangedSubview(button)
 
-        self.view.addSubview(self.versionLabel)
+        let versionStackView = UIStackView(arrangedSubviews: [self.appVersionLabel, self.backendVersionLabel])
+        versionStackView.translatesAutoresizingMaskIntoConstraints = false
+        versionStackView.axis = .Vertical
+        versionStackView.alignment = .Center
 
-        self.stackView.autoPinEdge(.Bottom, toEdge: .Top, ofView: self.versionLabel, withOffset: 8, relation: .LessThanOrEqual)
-        self.view.addConstraint(NSLayoutConstraint(item: self.versionLabel, attribute: .Bottom, relatedBy: .Equal, toItem: self.bottomLayoutGuide, attribute: .Top, multiplier: 1.0, constant: 0))
-        self.versionLabel.autoPinEdgeToSuperviewMargin(.Leading)
-        self.versionLabel.autoPinEdgeToSuperviewMargin(.Trailing)
+        self.view.addSubview(versionStackView)
+
+        self.stackView.autoPinEdge(.Bottom, toEdge: .Top, ofView: versionStackView, withOffset: 8, relation: .LessThanOrEqual)
+        self.view.addConstraint(NSLayoutConstraint(item: versionStackView, attribute: .Bottom, relatedBy: .Equal, toItem: self.bottomLayoutGuide, attribute: .Top, multiplier: 1.0, constant: -20))
+        versionStackView.autoPinEdgeToSuperviewMargin(.Leading)
+        versionStackView.autoPinEdgeToSuperviewMargin(.Trailing)
 
         self.homeRepository.configuration { config in
             if let config = config {
-                self.versionLabel.text = "version \(config.version)"
+                self.backendVersionLabel.text = "Home Assistant Version \(config.version)"
             }
         }
+    }
+
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
 
         self.homeRepository.watchComplicationEntity {
             self.complicationView.entity = $0

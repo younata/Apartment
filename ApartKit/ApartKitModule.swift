@@ -7,7 +7,7 @@ public struct ApartKitModule: InjectorModule {
             delegateQueue: nil)
         let homeService = HomeAssistantService(urlSession: session,
             mainQueue: NSOperationQueue.mainQueue())
-        let repository = HomeAssistantRepository(homeService: homeService)
+        let repository = HomeAssistantRepository(homeService: homeService, userDefaults: NSUserDefaults.standardUserDefaults())
 
         injector.bind(NSURLSession.self, toInstance: session)
         injector.bind(HomeRepository.self, toInstance: repository)

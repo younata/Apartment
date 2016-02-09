@@ -24,6 +24,7 @@ class SettingsViewControllerSpec: QuickSpec {
             subject = injector.create(SettingsViewController)!
 
             subject.view.layoutIfNeeded()
+            subject.viewWillAppear(false)
         }
 
         it("makes a request to the homeRepository for the configuration") {
@@ -36,6 +37,11 @@ class SettingsViewControllerSpec: QuickSpec {
 
         it("is titled 'Settings'") {
             expect(subject.title) == "Settings"
+        }
+
+        it("sets the app version label text to the app's version") {
+            let versionNumber = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as! String
+            expect(subject.appVersionLabel.text) == "App Version \(versionNumber)"
         }
 
         it("has a left navigation item that dismisses it") {
@@ -65,8 +71,8 @@ class SettingsViewControllerSpec: QuickSpec {
                 homeRepository.configurationCallback?(configuration)
             }
 
-            it("sets the version label text to that configuration's version") {
-                expect(subject.versionLabel.text) == "version 0.13.0"
+            it("sets the backend version label text to that configuration's version") {
+                expect(subject.backendVersionLabel.text) == "Home Assistant Version 0.13.0"
             }
         }
 

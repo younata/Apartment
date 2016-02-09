@@ -13,18 +13,45 @@ private class FakeHomeRepositorySubscriber: NSObject, HomeRepositorySubscriber {
 
 class HomeAssistantRepositorySpec: QuickSpec {
     override func spec() {
-        var subject: HomeAssistantRepository! = nil
-        var homeService: FakeHomeAssistantService! = nil
-        var subscriber: FakeHomeRepositorySubscriber! = nil
+        var subject: HomeAssistantRepository!
+        var homeService: FakeHomeAssistantService!
+        var subscriber: FakeHomeRepositorySubscriber!
+        var userDefaults: FakeUserDefaults!
 
         beforeEach {
             homeService = FakeHomeAssistantService()
 
             subscriber = FakeHomeRepositorySubscriber()
 
-            subject = HomeAssistantRepository(homeService: homeService)
+            userDefaults = FakeUserDefaults()
+
+            subject = HomeAssistantRepository(homeService: homeService, userDefaults: userDefaults)
 
             subject.addSubscriber(subscriber)
+        }
+
+        it("reflects the userDefaults key 'WatchGlanceID' for watchGlanceEntityId") {
+            expect(subject.watchGlanceEntityId).to(beNil())
+
+            userDefaults.setValue("test.state", forKey: "WatchGlanceID")
+
+            expect(subject.watchGlanceEntityId) == "test.state"
+
+            subject.watchGlanceEntityId = "testing.state"
+
+            expect(userDefaults.stringForKey("WatchGlanceID")) == "testing.state"
+        }
+
+        it("reflects the userDefaults key 'WatchComplicationID' for watchComplicationEntityId") {
+            expect(subject.watchComplicationEntityId).to(beNil())
+
+            userDefaults.setValue("test.state", forKey: "WatchComplicationID")
+
+            expect(subject.watchComplicationEntityId) == "test.state"
+
+            subject.watchComplicationEntityId = "testing.state"
+
+            expect(userDefaults.stringForKey("WatchComplicationID")) == "testing.state"
         }
 
         it("returns nil as the backendURL until it is set") {

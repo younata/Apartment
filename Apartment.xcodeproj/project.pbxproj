@@ -105,6 +105,7 @@
 		AED985461C62AD1F00A20780 /* ApartKitModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED985451C62AD1F00A20780 /* ApartKitModule.swift */; };
 		AED9854B1C62B20900A20780 /* Ra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; };
 		AED9854C1C62B21200A20780 /* Ra.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AEF7E65B1C6A81B1006D2FF8 /* FakeUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE85956D1C62D42500706602 /* FakeUserDefaults.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -700,6 +701,7 @@
 				895634DB1ACA5DA200CA60E9 /* Resources */,
 				895635061ACA60C800CA60E9 /* Copy Frameworks */,
 				89A5A2101B5E9BD500FC3FE3 /* Embed Watch Content */,
+				AEF7E65A1C6A7E83006D2FF8 /* Update Version */,
 			);
 			buildRules = (
 			);
@@ -940,6 +942,24 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		AEF7E65A1C6A7E83006D2FF8 /* Update Version */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Update Version";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rake build:update_version";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		895634D91ACA5DA200CA60E9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1008,6 +1028,7 @@
 				AE7BF7601C62947F00B87382 /* HomeAssistantRepositorySpec.swift in Sources */,
 				AE2BC2B41C62863400524B6E /* HomeAssistantServiceSpec.swift in Sources */,
 				AE2BC2AD1C6285DE00524B6E /* FakeOperationQueue.swift in Sources */,
+				AEF7E65B1C6A81B1006D2FF8 /* FakeUserDefaults.swift in Sources */,
 				AE2BC2AE1C62860F00524B6E /* FakeHomeAssistantService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

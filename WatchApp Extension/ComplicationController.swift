@@ -2,11 +2,14 @@ import ClockKit
 import ApartWatchKit
 
 class ComplicationController: NSObject, CLKComplicationDataSource, HomeRepositorySubscriber {
-    lazy var homeRepository: HomeRepository = {
-        let repo = (WKExtension.sharedExtension().delegate as! ExtensionDelegate).homeRepository
-        repo.addSubscriber(self)
-        return repo
-    }()
+    var homeRepository: HomeRepository?
+
+    override init() {
+        super.init()
+
+        self.homeRepository = (WKExtension.sharedExtension().delegate as! ExtensionDelegate).homeRepository
+        self.homeRepository?.addSubscriber(self)
+    }
 
     func didChangeLoginStatus(loggedIn: Bool) {
         let complicationServer = CLKComplicationServer.sharedInstance()
@@ -34,8 +37,11 @@ class ComplicationController: NSObject, CLKComplicationDataSource, HomeRepositor
     // MARK: - Timeline Population
     
     func getCurrentTimelineEntryForComplication(complication: CLKComplication, withHandler handler: ((CLKComplicationTimelineEntry?) -> Void)) {
-        // Call the handler with the current timeline entry
-        self.homeRepository.watchComplicationEntity { entity in
+        guard let homeRepository = self.homeRepository else {
+            handler(nil)
+            return
+        }
+        homeRepository.watchComplicationEntity { entity in
             let longText: String = entity?.displayName ?? "N/A"
             let shortText: String = entity?.state.desnake ?? "N/A"
 
@@ -48,8 +54,8 @@ class ComplicationController: NSObject, CLKComplicationDataSource, HomeRepositor
                 template = textTemplate
             case .ModularLarge:
                 let textTemplate = CLKComplicationTemplateModularLargeStandardBody()
-                textTemplate.headerTextProvider = CLKSimpleTextProvider(text: "Apartment")
-                textTemplate.body1TextProvider = CLKSimpleTextProvider(text: longText)
+                textTemplate.headerTextProvider = CLKSimpleTextProvider(text: longText)
+                textTemplate.body1TextProvider = CLKSimpleTextProvider(text: shortText)
                 template = textTemplate
             case .UtilitarianSmall:
                 let textTemplate = CLKComplicationTemplateUtilitarianSmallRingText()

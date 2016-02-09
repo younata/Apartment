@@ -10,7 +10,7 @@ public struct ApartWatchKitModule {
     private static let homeAssistantRepository: HomeAssistantRepository = {
         let homeService = HomeAssistantService(urlSession: urlSession,
             mainQueue: NSOperationQueue.mainQueue())
-        return HomeAssistantRepository(homeService: homeService)
+        return HomeAssistantRepository(homeService: homeService, userDefaults: NSUserDefaults.standardUserDefaults())
     }()
 
     public static func homeRepository() -> HomeRepository {

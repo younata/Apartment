@@ -4,17 +4,19 @@ import ApartWatchKit
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
-    var homeRepository: HomeRepository! = nil
-
-    func applicationDidFinishLaunching() {
-        self.homeRepository = ApartWatchKitModule.homeRepository()
+    private(set) lazy var homeRepository: HomeRepository = {
+        var homeRepository = ApartWatchKitModule.homeRepository()
         let userDefaults = NSUserDefaults.standardUserDefaults()
         if let url = userDefaults.URLForKey("backendURL") where !url.absoluteString.isEmpty {
-            self.homeRepository.backendURL = url
+            homeRepository.backendURL = url
         }
         if let password = userDefaults.stringForKey("backendPassword") where !password.isEmpty {
-            self.homeRepository.backendPassword = password
+            homeRepository.backendPassword = password
         }
+        return homeRepository
+    }()
+
+    func applicationDidFinishLaunching() {
     }
 
     func applicationDidBecomeActive() {

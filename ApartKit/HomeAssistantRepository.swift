@@ -157,8 +157,23 @@ class HomeAssistantRepository: HomeRepository {
         }
     }
 
-    var watchGlanceEntityId: String?
-    var watchComplicationEntityId: String?
+    var watchGlanceEntityId: String? {
+        get {
+            return self.userDefaults.stringForKey("WatchGlanceID")
+        }
+        set {
+            self.userDefaults.setValue(newValue, forKey: "WatchGlanceID")
+        }
+    }
+
+    var watchComplicationEntityId: String? {
+        get {
+            return self.userDefaults.stringForKey("WatchComplicationID")
+        }
+        set {
+            self.userDefaults.setValue(newValue, forKey: "WatchComplicationID")
+        }
+    }
 
     private var _states = [State]()
     private var _services = [Service]()
@@ -172,10 +187,12 @@ class HomeAssistantRepository: HomeRepository {
     }()
     private let watchDelegate = WatchConnectivityDelegate()
 
-    let homeService: HomeAssistantService
+    private let homeService: HomeAssistantService
+    private let userDefaults: NSUserDefaults
 
-    init(homeService: HomeAssistantService) {
+    init(homeService: HomeAssistantService, userDefaults: NSUserDefaults) {
         self.homeService = homeService
+        self.userDefaults = userDefaults
         self.watchDelegate.didUpdateData = {
             self.updateStates($0)
             self._services = $1
