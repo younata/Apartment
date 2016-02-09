@@ -82,8 +82,10 @@ public class MapViewController: UIViewController, MKMapViewDelegate {
             longitudeDelta = max(fabs(center.longitude - coordinate.longitude), longitudeDelta)
         }
 
-        latitudeDelta = max(latitudeDelta * 1.75, 1e-3)
-        longitudeDelta = max(longitudeDelta * 1.75, 1e-3)
+        latitudeDelta = max(latitudeDelta * 2.25, 1e-3)
+        longitudeDelta = max(longitudeDelta * 2.25, 1e-3)
+
+        // TODO: correctly compute the minimum bounding rectangle for these points, then use that, inset a little bit.
 
         self.map.setRegion(MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)), animated: true)
     }
