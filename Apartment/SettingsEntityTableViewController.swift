@@ -22,6 +22,8 @@ public class SettingsEntityTableViewController: UITableViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.title = "Select a Group"
+
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
     }
 
@@ -39,7 +41,7 @@ public class SettingsEntityTableViewController: UITableViewController {
         }
     }
 
-    override public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    public override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath)
 
         switch (indexPath.section) {
@@ -51,12 +53,17 @@ public class SettingsEntityTableViewController: UITableViewController {
         return cell
     }
 
+    public override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 1 { return "Groups" }
+        return nil
+    }
+
     public override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0 {
             self.onFinish?(nil)
         } else {
             self.onFinish?(self.entities[indexPath.row])
         }
-        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.popViewControllerAnimated(true)
     }
 }

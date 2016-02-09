@@ -39,6 +39,10 @@ public class SettingsViewController: UIViewController {
 
         self.view.backgroundColor = UIColor.whiteColor()
 
+        self.title = "Settings"
+
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Done", style: .Plain, target: self, action: Selector("dismiss"))
+
         self.view.addSubview(self.stackView)
         self.stackView.autoPinEdgeToSuperviewMargin(.Leading)
         self.stackView.autoPinEdgeToSuperviewMargin(.Trailing)
@@ -46,6 +50,11 @@ public class SettingsViewController: UIViewController {
 
         self.stackView.addArrangedSubview(self.complicationView)
         self.stackView.addArrangedSubview(self.glanceView)
+
+        for view in [self.complicationView, self.glanceView] {
+            view.autoPinEdgeToSuperviewMargin(.Leading)
+            view.autoPinEdgeToSuperviewMargin(.Trailing)
+        }
 
         let complicationTap = UITapGestureRecognizer(target: self, action: Selector("didTapComplicationView"))
         self.complicationView.addGestureRecognizer(complicationTap)
@@ -60,7 +69,7 @@ public class SettingsViewController: UIViewController {
 
         self.view.addSubview(self.versionLabel)
 
-        self.stackView.autoPinEdge(.Bottom, toEdge: .Top, ofView: self.versionLabel, withOffset: 8)
+        self.stackView.autoPinEdge(.Bottom, toEdge: .Top, ofView: self.versionLabel, withOffset: 8, relation: .LessThanOrEqual)
         self.view.addConstraint(NSLayoutConstraint(item: self.versionLabel, attribute: .Bottom, relatedBy: .Equal, toItem: self.bottomLayoutGuide, attribute: .Top, multiplier: 1.0, constant: 0))
         self.versionLabel.autoPinEdgeToSuperviewMargin(.Leading)
         self.versionLabel.autoPinEdgeToSuperviewMargin(.Trailing)
@@ -85,7 +94,7 @@ public class SettingsViewController: UIViewController {
         settingsEntityTableViewController.onFinish = { state in
             self.homeRepository.watchComplicationEntityId = state?.entityId
         }
-        self.presentViewController(settingsEntityTableViewController, animated: true, completion: nil)
+        self.showViewController(settingsEntityTableViewController, sender: self)
     }
 
     @objc private func didTapGlanceView() {
@@ -94,10 +103,14 @@ public class SettingsViewController: UIViewController {
         settingsEntityTableViewController.onFinish = { state in
             self.homeRepository.watchGlanceEntityId = state?.entityId
         }
-        self.presentViewController(settingsEntityTableViewController, animated: true, completion: nil)
+        self.showViewController(settingsEntityTableViewController, sender: self)
     }
 
     @objc private func didTapLogout() {
         self.homeRepository.logout()
+    }
+
+    @objc private func dismiss() {
+        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
 }

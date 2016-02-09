@@ -56,6 +56,8 @@ public class HomeViewController: UIViewController {
 
         self.title = "Apartment"
 
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Settings", style: .Plain, target: self, action: Selector("didTapSettings"))
+
         self.tableView.registerClass(TableViewCell.self, forCellReuseIdentifier: "cell")
         self.tableView.registerClass(SwitchTableViewCell.self, forCellReuseIdentifier: "switch")
 
@@ -71,6 +73,11 @@ public class HomeViewController: UIViewController {
                 self.title = configuration.name
             }
         }
+    }
+
+    @objc private func didTapSettings() {
+        let navController = UINavigationController(rootViewController: self.injector!.create(SettingsViewController)!)
+        self.presentViewController(navController, animated: true, completion: nil)
     }
 
     @objc private func refresh() {

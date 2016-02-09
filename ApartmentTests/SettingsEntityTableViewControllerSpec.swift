@@ -8,7 +8,7 @@ class SettingsEntityTableViewControllerSpec: QuickSpec {
         var subject: SettingsEntityTableViewController!
         var homeRepository: FakeHomeRepository!
 
-        var presentingController: UIViewController!
+        var presentingController: UINavigationController!
 
         var receivedState: State? = nil
         var didCallOnFinish = false
@@ -31,8 +31,12 @@ class SettingsEntityTableViewControllerSpec: QuickSpec {
 
             subject.view.layoutIfNeeded()
 
-            presentingController = UIViewController()
-            presentingController.presentViewController(subject, animated: false, completion: nil)
+            presentingController = UINavigationController(rootViewController: UIViewController())
+            presentingController.pushViewController(subject, animated: true)
+        }
+
+        it("is titled 'Select a Group'") {
+            expect(subject.title) == "Select a Group"
         }
 
         it("makes a call for all the groups") {
@@ -56,13 +60,17 @@ class SettingsEntityTableViewControllerSpec: QuickSpec {
                     cell?.tap()
                     expect(receivedState).to(beNil())
                     expect(didCallOnFinish) == true
-                    expect(presentingController.presentedViewController).to(beNil())
+                    expect(presentingController.topViewController) != subject
                 }
             }
 
             describe("the second section") {
                 it("is initially empty") {
                     expect(subject.tableView.numberOfRowsInSection(1)) == 0
+                }
+
+                it("is titled 'Groups'") {
+                    expect(subject.tableView.dataSource?.tableView?(subject.tableView, titleForHeaderInSection: 1)) == "Groups"
                 }
 
                 context("when the groups callback comes back") {
@@ -93,7 +101,7 @@ class SettingsEntityTableViewControllerSpec: QuickSpec {
 
                         expect(receivedState) == groupState
                         expect(didCallOnFinish) == true
-                        expect(presentingController.presentedViewController).to(beNil())
+                        expect(presentingController.topViewController) != subject
                     }
                 }
             }

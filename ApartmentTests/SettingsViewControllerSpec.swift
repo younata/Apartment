@@ -34,6 +34,25 @@ class SettingsViewControllerSpec: QuickSpec {
             expect(homeRepository.statesCallback).toNot(beNil())
         }
 
+        it("is titled 'Settings'") {
+            expect(subject.title) == "Settings"
+        }
+
+        it("has a left navigation item that dismisses it") {
+            let presentingViewController = UIViewController()
+
+            presentingViewController.presentViewController(subject, animated: false, completion: nil)
+
+            expect(subject.navigationItem.leftBarButtonItem).toNot(beNil())
+
+            let lefty = subject.navigationItem.leftBarButtonItem
+            expect(lefty?.title) == "Done"
+
+            lefty?.tap()
+
+            expect(presentingViewController.presentedViewController).to(beNil())
+        }
+
         context("when the request succeeds") {
             let configuration = HomeConfiguration(components: [],
                 coordinate: CLLocationCoordinate2D(),
@@ -89,8 +108,8 @@ class SettingsViewControllerSpec: QuickSpec {
                     }
 
                     it("shows a WatchEntitySettingsController") {
-                        expect(subject.presentedViewController).to(beAKindOf(SettingsEntityTableViewController.self))
-                        if let setvc = subject.presentedViewController as? SettingsEntityTableViewController {
+                        expect(subject.shownViewController).to(beAKindOf(SettingsEntityTableViewController.self))
+                        if let setvc = subject.shownViewController as? SettingsEntityTableViewController {
                             expect(setvc.homeRepository as? FakeHomeRepository === homeRepository) == true
                         }
                     }
@@ -98,7 +117,7 @@ class SettingsViewControllerSpec: QuickSpec {
                     context("when an entity is selected") {
                         it("sets the homeRepository's watchComplicationEntityId to that entity's id") {
                             let entity = State(attributes: [:], entityId: "test.state", lastChanged: NSDate(), lastUpdated: NSDate(), state: "")
-                            if let setvc = subject.presentedViewController as? SettingsEntityTableViewController {
+                            if let setvc = subject.shownViewController as? SettingsEntityTableViewController {
                                 setvc.onFinish?(entity)
                                 expect(homeRepository.watchComplicationEntityId) == entity.entityId
                             } else { fail("precondition failed") }
@@ -107,7 +126,7 @@ class SettingsViewControllerSpec: QuickSpec {
 
                     context("when nothing is selected") {
                         it("sets the homeRepository's watchComplicationEntityId to nil") {
-                            if let setvc = subject.presentedViewController as? SettingsEntityTableViewController {
+                            if let setvc = subject.shownViewController as? SettingsEntityTableViewController {
                                 setvc.onFinish?(nil)
                                 expect(homeRepository.watchComplicationEntityId).to(beNil())
                             } else { fail("precondition failed") }
@@ -149,8 +168,8 @@ class SettingsViewControllerSpec: QuickSpec {
                     }
 
                     it("shows a WatchEntitySettingsController") {
-                        expect(subject.presentedViewController).to(beAKindOf(SettingsEntityTableViewController.self))
-                        if let setvc = subject.presentedViewController as? SettingsEntityTableViewController {
+                        expect(subject.shownViewController).to(beAKindOf(SettingsEntityTableViewController.self))
+                        if let setvc = subject.shownViewController as? SettingsEntityTableViewController {
                             expect(setvc.homeRepository as? FakeHomeRepository === homeRepository) == true
                         }
                     }
@@ -158,7 +177,7 @@ class SettingsViewControllerSpec: QuickSpec {
                     context("when an entity is selected") {
                         it("sets the homeRepository's watchGlanceEntityId to that entity's id") {
                             let entity = State(attributes: [:], entityId: "test.state", lastChanged: NSDate(), lastUpdated: NSDate(), state: "")
-                            if let setvc = subject.presentedViewController as? SettingsEntityTableViewController {
+                            if let setvc = subject.shownViewController as? SettingsEntityTableViewController {
                                 setvc.onFinish?(entity)
                                 expect(homeRepository.watchGlanceEntityId) == entity.entityId
                             } else { fail("precondition failed") }
@@ -167,7 +186,7 @@ class SettingsViewControllerSpec: QuickSpec {
 
                     context("when nothing is selected") {
                         it("sets the homeRepository's watchGlanceEntityId to nil") {
-                            if let setvc = subject.presentedViewController as? SettingsEntityTableViewController {
+                            if let setvc = subject.shownViewController as? SettingsEntityTableViewController {
                                 setvc.onFinish?(nil)
                                 expect(homeRepository.watchGlanceEntityId).to(beNil())
                             } else { fail("precondition failed") }

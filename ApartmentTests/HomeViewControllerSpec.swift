@@ -92,7 +92,7 @@ class HomeViewControllerSpec: QuickSpec {
             }
 
             describe("the toolbar") {
-                it("a single toolbar item, titled map, centered in the middle") {
+                it("has a single toolbar item, titled map, centered in the middle") {
                     let items = subject.toolbarItems
                     expect(items).toNot(beNil())
                     expect(items?.count) == 3
@@ -112,6 +112,21 @@ class HomeViewControllerSpec: QuickSpec {
                             expect(mapViewController.zones.count) == 1
                         }
                     }
+                }
+            }
+
+            describe("the navigation item") {
+                it("the left action is named 'Settings' and presents the settings view controller") {
+                    expect(subject.navigationItem.leftBarButtonItem).toNot(beNil())
+
+                    let lefty = subject.navigationItem.leftBarButtonItem
+                    expect(lefty?.title) == "Settings"
+
+                    lefty?.tap()
+
+                    expect(subject.presentedViewController).to(beAKindOf(UINavigationController.self))
+                    guard let nc = subject.presentedViewController as? UINavigationController else { return }
+                    expect(nc.viewControllers.last).to(beAKindOf(SettingsViewController.self))
                 }
             }
 
