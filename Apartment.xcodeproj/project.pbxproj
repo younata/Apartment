@@ -101,6 +101,7 @@
 		AE85957B1C69436200706602 /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8595791C69436200706602 /* Serializable.swift */; };
 		AE85957E1C69458300706602 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE85957D1C69458300706602 /* SettingsViewController.swift */; };
 		AE8595811C6947AF00706602 /* SettingsViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8595801C6947AF00706602 /* SettingsViewControllerSpec.swift */; };
+		AE8595831C6A5DB200706602 /* SettingsEntityTableViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8595821C6A5DB200706602 /* SettingsEntityTableViewControllerSpec.swift */; };
 		AED985461C62AD1F00A20780 /* ApartKitModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED985451C62AD1F00A20780 /* ApartKitModule.swift */; };
 		AED9854B1C62B20900A20780 /* Ra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; };
 		AED9854C1C62B21200A20780 /* Ra.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 895635181ACA6EBA00CA60E9 /* Ra.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -310,6 +311,7 @@
 		AE8595791C69436200706602 /* Serializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Serializable.swift; sourceTree = "<group>"; };
 		AE85957D1C69458300706602 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		AE8595801C6947AF00706602 /* SettingsViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewControllerSpec.swift; sourceTree = "<group>"; };
+		AE8595821C6A5DB200706602 /* SettingsEntityTableViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsEntityTableViewControllerSpec.swift; sourceTree = "<group>"; };
 		AED985451C62AD1F00A20780 /* ApartKitModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApartKitModule.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -662,6 +664,7 @@
 			isa = PBXGroup;
 			children = (
 				AE8595801C6947AF00706602 /* SettingsViewControllerSpec.swift */,
+				AE8595821C6A5DB200706602 /* SettingsEntityTableViewControllerSpec.swift */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -971,6 +974,7 @@
 				89E6DB951C633DF20033709D /* MapViewControllerSpec.swift in Sources */,
 				AE2BC2B21C62861C00524B6E /* HomeViewControllerSpec.swift in Sources */,
 				AE2BC2B31C62862100524B6E /* ColorPickerSpec.swift in Sources */,
+				AE8595831C6A5DB200706602 /* SettingsEntityTableViewControllerSpec.swift in Sources */,
 				AE8595691C62C3E700706602 /* LoginViewControllerSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

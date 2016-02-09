@@ -4,21 +4,25 @@ import ApartKit
 public class SettingsEntityTableViewController: UITableViewController {
     public var onFinish: (State? -> Void)?
 
-    private var homeRepository: HomeRepository!
+    public private(set) var homeRepository: HomeRepository!
 
     private var entities = [State]()
 
-    func configure(homeRepository: HomeRepository) {
+    public func configure(homeRepository: HomeRepository) {
         self.homeRepository = homeRepository
 
         self.homeRepository.groups(includeScenes: false) { _, groups in
             self.entities = groups.map { $0.groupEntity }
+            self.tableView.reloadData()
         }
     }
 
+    private let cellIdentifier = "cell"
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
     }
 
     // MARK: - Table view data source
@@ -35,15 +39,17 @@ public class SettingsEntityTableViewController: UITableViewController {
         }
     }
 
-    /*
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+    override public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath)
 
-        // Configure the cell...
+        switch (indexPath.section) {
+        case 0: cell.textLabel?.text = "None"
+        case 1: cell.textLabel?.text = self.entities[indexPath.row].displayName
+        default: break
+        }
 
         return cell
     }
-    */
 
     public override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0 {
@@ -51,5 +57,6 @@ public class SettingsEntityTableViewController: UITableViewController {
         } else {
             self.onFinish?(self.entities[indexPath.row])
         }
+        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
 }

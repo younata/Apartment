@@ -15,6 +15,10 @@ class SettingsViewControllerSpec: QuickSpec {
             let injector = Injector()
 
             homeRepository = FakeHomeRepository()
+            homeRepository.backendURL = NSURL(string: "https://example.com")
+            homeRepository.backendPassword = "Hello"
+            homeRepository.watchComplicationEntityId = "test.state"
+            homeRepository.watchGlanceEntityId = "test.state"
             injector.bind(HomeRepository.self, toInstance: homeRepository)
 
             subject = injector.create(SettingsViewController)!
@@ -24,6 +28,10 @@ class SettingsViewControllerSpec: QuickSpec {
 
         it("makes a request to the homeRepository for the configuration") {
             expect(homeRepository.configurationCallback).toNot(beNil())
+        }
+
+        it("makes a request to the homeRepository for the current states") {
+            expect(homeRepository.statesCallback).toNot(beNil())
         }
 
         context("when the request succeeds") {
@@ -58,18 +66,52 @@ class SettingsViewControllerSpec: QuickSpec {
                     expect(settingsView.titleLabel.text) == "Watch Complication Entity"
                 }
 
-                it("has the detail label 'Not Set' if the complication entity is not set") {
+                it("has the detail label 'Not Set' if the complication entity is not set or if we haven't heard from the server yet") {
                     expect(settingsView.detailLabel.text) == "Not Set"
                 }
 
-                it("shows a WatchEntitySettingsController on tap") {
-                    settingsView.gestureRecognizers?.first?.recognize()
+                context("when the home states come back") {
+                    beforeEach {
+                        let state = State(attributes: ["friendly_name": "Test"], entityId: "test.state", lastChanged: NSDate(), lastUpdated: NSDate(), state: "Testing")
+                        homeRepository.statesCallbacks.forEach {
+                            $0([state])
+                        }
+                    }
 
-                    expect(subject.shownViewController).to(beAKindOf(SettingsEntityTableViewController.self))
+                    it("updates the detail label text to the complication entity display name if it's there") {
+                        expect(settingsView.detailLabel.text) == "Test"
+                    }
+                }
 
-                    if let setvc = subject.shownViewController as? SettingsEntityTableViewController {
-                        setvc.onFinish?(nil)
-                        expect(homeRepository.watchComplicationEntityId).to(beNil())
+                context("when tapped") {
+                    beforeEach {
+                        settingsView.gestureRecognizers?.first?.recognize()
+                    }
+
+                    it("shows a WatchEntitySettingsController") {
+                        expect(subject.presentedViewController).to(beAKindOf(SettingsEntityTableViewController.self))
+                        if let setvc = subject.presentedViewController as? SettingsEntityTableViewController {
+                            expect(setvc.homeRepository as? FakeHomeRepository === homeRepository) == true
+                        }
+                    }
+
+                    context("when an entity is selected") {
+                        it("sets the homeRepository's watchComplicationEntityId to that entity's id") {
+                            let entity = State(attributes: [:], entityId: "test.state", lastChanged: NSDate(), lastUpdated: NSDate(), state: "")
+                            if let setvc = subject.presentedViewController as? SettingsEntityTableViewController {
+                                setvc.onFinish?(entity)
+                                expect(homeRepository.watchComplicationEntityId) == entity.entityId
+                            } else { fail("precondition failed") }
+                        }
+                    }
+
+                    context("when nothing is selected") {
+                        it("sets the homeRepository's watchComplicationEntityId to nil") {
+                            if let setvc = subject.presentedViewController as? SettingsEntityTableViewController {
+                                setvc.onFinish?(nil)
+                                expect(homeRepository.watchComplicationEntityId).to(beNil())
+                            } else { fail("precondition failed") }
+                        }
                     }
                 }
             }
@@ -84,18 +126,52 @@ class SettingsViewControllerSpec: QuickSpec {
                     expect(settingsView.titleLabel.text) == "Watch Glance Entity"
                 }
 
-                it("has the detail label 'Not Set' if the complication entity is not set") {
+                it("has the detail label 'Not Set' if the complication entity is not set or if we haven't heard from the server yet") {
                     expect(settingsView.detailLabel.text) == "Not Set"
                 }
 
-                it("shows a WatchEntitySettingsController on tap") {
-                    settingsView.gestureRecognizers?.first?.recognize()
+                context("when the home states come back") {
+                    beforeEach {
+                        let state = State(attributes: ["friendly_name": "Test"], entityId: "test.state", lastChanged: NSDate(), lastUpdated: NSDate(), state: "Testing")
+                        homeRepository.statesCallbacks.forEach {
+                            $0([state])
+                        }
+                    }
 
-                    expect(subject.shownViewController).to(beAKindOf(SettingsEntityTableViewController.self))
+                    it("updates the detail label text to the complication entity display name if it's there") {
+                        expect(settingsView.detailLabel.text) == "Test"
+                    }
+                }
 
-                    if let setvc = subject.shownViewController as? SettingsEntityTableViewController {
-                        setvc.onFinish?(nil)
-                        expect(homeRepository.watchGlanceEntityId).to(beNil())
+                context("when tapped") {
+                    beforeEach {
+                        settingsView.gestureRecognizers?.first?.recognize()
+                    }
+
+                    it("shows a WatchEntitySettingsController") {
+                        expect(subject.presentedViewController).to(beAKindOf(SettingsEntityTableViewController.self))
+                        if let setvc = subject.presentedViewController as? SettingsEntityTableViewController {
+                            expect(setvc.homeRepository as? FakeHomeRepository === homeRepository) == true
+                        }
+                    }
+
+                    context("when an entity is selected") {
+                        it("sets the homeRepository's watchGlanceEntityId to that entity's id") {
+                            let entity = State(attributes: [:], entityId: "test.state", lastChanged: NSDate(), lastUpdated: NSDate(), state: "")
+                            if let setvc = subject.presentedViewController as? SettingsEntityTableViewController {
+                                setvc.onFinish?(entity)
+                                expect(homeRepository.watchGlanceEntityId) == entity.entityId
+                            } else { fail("precondition failed") }
+                        }
+                    }
+
+                    context("when nothing is selected") {
+                        it("sets the homeRepository's watchGlanceEntityId to nil") {
+                            if let setvc = subject.presentedViewController as? SettingsEntityTableViewController {
+                                setvc.onFinish?(nil)
+                                expect(homeRepository.watchGlanceEntityId).to(beNil())
+                            } else { fail("precondition failed") }
+                        }
                     }
                 }
             }

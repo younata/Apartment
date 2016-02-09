@@ -21,8 +21,6 @@ public class SettingsWatchEntityView: UIView {
         return label
     }()
 
-    public var onTap: (Void -> Void)?
-
     public override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -32,16 +30,9 @@ public class SettingsWatchEntityView: UIView {
         self.titleLabel.autoPinEdgesToSuperviewMarginsExcludingEdge(.Trailing)
         self.detailLabel.autoPinEdgesToSuperviewMarginsExcludingEdge(.Leading)
         self.detailLabel.autoPinEdge(.Leading, toEdge: .Trailing, ofView: self.titleLabel)
-
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("didTap"))
-        self.addGestureRecognizer(tapGestureRecognizer)
     }
 
     public required init?(coder aDecoder: NSCoder) {
         fatalError("not implemented")
-    }
-
-    @objc private func didTap() {
-        self.onTap?()
     }
 }

@@ -32,8 +32,10 @@ class FakeHomeRepository: HomeRepository {
     }
 
     var statesCallback: ([State] -> Void)?
+    var statesCallbacks: [([State] -> Void)] = []
     func states(callback: [State] -> Void) {
         statesCallback = callback
+        self.statesCallbacks.append(callback)
     }
 
     var servicesCallback: ([Service] -> Void)?

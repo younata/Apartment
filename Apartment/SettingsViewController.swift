@@ -47,6 +47,12 @@ public class SettingsViewController: UIViewController {
         self.stackView.addArrangedSubview(self.complicationView)
         self.stackView.addArrangedSubview(self.glanceView)
 
+        let complicationTap = UITapGestureRecognizer(target: self, action: Selector("didTapComplicationView"))
+        self.complicationView.addGestureRecognizer(complicationTap)
+
+        let glanceTap = UITapGestureRecognizer(target: self, action: Selector("didTapGlanceView"))
+        self.glanceView.addGestureRecognizer(glanceTap)
+
         let button = UIButton(type: .System)
         button.setTitle("Logout", forState: .Normal)
         button.addTarget(self, action: Selector("didTapLogout"), forControlEvents: .TouchUpInside)
@@ -64,6 +70,31 @@ public class SettingsViewController: UIViewController {
                 self.versionLabel.text = "version \(config.version)"
             }
         }
+
+        self.homeRepository.watchComplicationEntity {
+            self.complicationView.entity = $0
+        }
+        self.homeRepository.watchGlanceEntity {
+            self.glanceView.entity = $0
+        }
+    }
+
+    @objc private func didTapComplicationView() {
+        let settingsEntityTableViewController = SettingsEntityTableViewController()
+        settingsEntityTableViewController.configure(self.homeRepository)
+        settingsEntityTableViewController.onFinish = { state in
+            self.homeRepository.watchComplicationEntityId = state?.entityId
+        }
+        self.presentViewController(settingsEntityTableViewController, animated: true, completion: nil)
+    }
+
+    @objc private func didTapGlanceView() {
+        let settingsEntityTableViewController = SettingsEntityTableViewController()
+        settingsEntityTableViewController.configure(self.homeRepository)
+        settingsEntityTableViewController.onFinish = { state in
+            self.homeRepository.watchGlanceEntityId = state?.entityId
+        }
+        self.presentViewController(settingsEntityTableViewController, animated: true, completion: nil)
     }
 
     @objc private func didTapLogout() {
