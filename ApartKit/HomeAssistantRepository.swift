@@ -2,15 +2,16 @@ import Foundation
 import WatchConnectivity
 
 public protocol HomeRepositorySubscriber: NSObjectProtocol {
-    func didUpdateStates(states: [State])
     func didChangeLogoutStatus(loggedIn: Bool)
 }
 
 public protocol HomeRepository {
-    var backendURL: NSURL! { get set }
-    var backendPassword: String! { get set }
+    var backendURL: NSURL? { get set }
+    var backendPassword: String? { get set }
     var watchGlanceEntityId: String? { get set }
     var watchComplicationEntityId: String? { get set }
+
+    var subscribers: [HomeRepositorySubscriber] { get }
 
     func addSubscriber(subscriber: HomeRepositorySubscriber)
 
@@ -26,30 +27,38 @@ public protocol HomeRepository {
 }
 
 public extension HomeRepository {
-    var configured: Bool {
+    var loggedIn: Bool {
         return self.backendPassword?.isEmpty == false && self.backendURL?.absoluteString.isEmpty == false
     }
 
     mutating func logout() {
+        let wasConfigured = self.loggedIn
         self.backendURL = nil
         self.backendPassword = nil
+        guard wasConfigured else { return }
+        for subscriber in self.subscribers {
+            subscriber.didChangeLogoutStatus(false)
+        }
     }
 
     func watchGlanceEntity(callback: State? -> Void) {
+        guard self.loggedIn else { callback(nil); return }
         guard let entityId = self.watchGlanceEntityId else { callback(nil); return }
         self.states {
-            return $0.filter { $0.entityId == entityId }.first
+            callback($0.filter { $0.entityId == entityId }.first)
         }
     }
 
     func watchComplicationEntity(callback: State? -> Void) {
+        guard self.loggedIn else { callback(nil); return }
         guard let entityId = self.watchComplicationEntityId else { callback(nil); return }
         self.states {
-            return $0.filter { $0.entityId == entityId }.first
+            callback($0.filter { $0.entityId == entityId }.first)
         }
     }
 
     func groups(includeScenes includeScenes: Bool, callback: ([State], [Group]) -> Void) {
+        guard self.loggedIn else { callback([], []); return }
         self.states { states in
             let groups = states.filter { $0.isGroup && $0.groupAutoCreated != true }
             var groupData = [(State, [State])]()
@@ -62,8 +71,10 @@ public extension HomeRepository {
 
             if includeScenes {
                 let scenes = states.filter({ $0.isScene && !$0.hidden }).sort({ $0.displayName.lowercaseString < $1.displayName.lowercaseString })
-                let sceneGroup = State(attributes: ["friendly_name": "Scenes"], entityId: "group.scenes", lastChanged: NSDate(), lastUpdated: NSDate(), state: "")
-                groupData.insert((sceneGroup, scenes), atIndex: 0)
+                if !scenes.isEmpty {
+                    let sceneGroup = State(attributes: ["friendly_name": "Scenes"], entityId: "group.scenes", lastChanged: NSDate(), lastUpdated: NSDate(), state: "")
+                    groupData.insert((sceneGroup, scenes), atIndex: 0)
+                }
             }
 
             callback(states, groupData.map { Group(data: $0) } )
@@ -84,7 +95,7 @@ public extension HomeRepository {
 
 class HomeAssistantRepository: HomeRepository {
     private var _backendURL: NSURL?
-    var backendURL: NSURL! {
+    var backendURL: NSURL? {
         get {
             let url = self.homeService.baseURL
             if url == nil {
@@ -107,15 +118,15 @@ class HomeAssistantRepository: HomeRepository {
                 return
             }
             _backendURL = newValue
-            self.homeService.baseURL = newValue.URLByAppendingPathComponent("api", isDirectory: true)
-            if self.configured {
+            self.homeService.baseURL = newValue?.URLByAppendingPathComponent("api", isDirectory: true)
+            if self.loggedIn {
                 self.breakCache()
                 self.sendWatchLoginCredentials()
             }
         }
     }
 
-    var backendPassword: String! {
+    var backendPassword: String? {
         get {
             return self.homeService.apiKey
         }
@@ -125,7 +136,7 @@ class HomeAssistantRepository: HomeRepository {
             }
             self.homeService.apiKey = newValue
 
-            if self.configured {
+            if self.loggedIn {
                 self.breakCache()
                 self.sendWatchLoginCredentials()
             }
@@ -149,8 +160,6 @@ class HomeAssistantRepository: HomeRepository {
 
     let homeService: HomeAssistantService
 
-    private let subscribers = NSHashTable.weakObjectsHashTable()
-
     init(homeService: HomeAssistantService) {
         self.homeService = homeService
         self.watchDelegate.didUpdateData = {
@@ -165,12 +174,21 @@ class HomeAssistantRepository: HomeRepository {
         }
     }
 
+    private let _subscribers = NSHashTable.weakObjectsHashTable()
+    var subscribers: [HomeRepositorySubscriber] {
+        return self._subscribers.allObjects.reduce([HomeRepositorySubscriber]()) {
+            if let subscriber = $1 as? HomeRepositorySubscriber {
+                return $0 + [subscriber]
+            }
+            return $0
+        }
+    }
     func addSubscriber(subscriber: HomeRepositorySubscriber) {
-        self.subscribers.addObject(subscriber)
+        self._subscribers.addObject(subscriber)
     }
 
     func apiAvailable(callback: Bool -> Void) {
-        if !self.configured {
+        if !self.loggedIn {
             callback(false)
         } else {
             self.homeService.apiAvailable(callback)
@@ -178,6 +196,7 @@ class HomeAssistantRepository: HomeRepository {
     }
 
     func configuration(callback: HomeConfiguration? -> Void) {
+        guard self.loggedIn else { callback(nil); return }
         if let configuration = self._configuration {
             callback(configuration)
         }
@@ -188,12 +207,14 @@ class HomeAssistantRepository: HomeRepository {
     }
 
     func history(entity: State?, callback: [State] -> Void) {
+        guard self.loggedIn else { callback([]); return }
         self.homeService.history(NSDate(), state: entity) { states, error in
             callback(states ?? [])
         }
     }
 
     func states(callback: [State] -> Void) {
+        guard self.loggedIn else { callback([]); return }
         if !self._states.isEmpty {
             callback(self._states)
         }
@@ -202,6 +223,7 @@ class HomeAssistantRepository: HomeRepository {
     }
 
     func services(callback: [Service] -> Void) {
+        guard self.loggedIn else { callback([]); return }
         if !self._services.isEmpty {
             callback(self._services)
         }
@@ -218,6 +240,7 @@ class HomeAssistantRepository: HomeRepository {
     }
 
     func updateService(service: Service, method: String, onEntity state: State, callback: ([State], NSError?) -> Void) {
+        guard self.loggedIn else { callback([], nil); return }
         self.homeService.callService(service.domain, method: method, data: ["entity_id": state.entityId]) { states, error in
             callback(states, error)
             if error == nil {
@@ -241,11 +264,6 @@ class HomeAssistantRepository: HomeRepository {
         self._states = newStates
 
         self.updateWatchSession()
-
-        for object in self.subscribers.allObjects {
-            guard let subscriber = object as? HomeRepositorySubscriber else { continue }
-            subscriber.didUpdateStates(self._states)
-        }
     }
 
     private func updateWatchSession() {
@@ -262,9 +280,9 @@ class HomeAssistantRepository: HomeRepository {
     }
 
     private func sendWatchLoginCredentials() {
-        guard self.configured else { return }
+        guard self.loggedIn else { return }
         do {
-            try self.watchSession?.updateApplicationContext(["backendURL": self._backendURL!.absoluteString, "backendPassword": self.backendPassword])
+            try self.watchSession?.updateApplicationContext(["backendURL": self._backendURL!.absoluteString, "backendPassword": self.backendPassword!])
         } catch let error as NSError {
             print("Error sending watch credentials: \(error)")
         }

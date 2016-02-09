@@ -74,7 +74,7 @@ class SettingsViewControllerSpec: QuickSpec {
 
                     button.sendActionsForControlEvents(.TouchUpInside)
 
-                    expect(homeRepository.configured) == false
+                    expect(homeRepository.loggedIn) == false
                 }
             }
         }

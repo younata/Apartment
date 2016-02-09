@@ -64,7 +64,7 @@ public class HomeViewController: UIViewController {
     }
 
     public override func viewWillAppear(animated: Bool) {
-        if self.homeRepository.configured {
+        if self.homeRepository.loggedIn {
             self.onLogin()
         } else {
             let loginViewController = self.injector!.create(LoginViewController)!
