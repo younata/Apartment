@@ -13,10 +13,6 @@ class LoginViewControllerSpec: QuickSpec {
         var homeRepository: FakeHomeRepository!
         var userDefaults: FakeUserDefaults!
 
-        var presentingViewController: UIViewController!
-
-        var onLoginCallCount = 0
-
         beforeEach {
             injector = Injector()
 
@@ -27,15 +23,6 @@ class LoginViewControllerSpec: QuickSpec {
             injector.bind(NSUserDefaults.self, toInstance: userDefaults)
 
             subject = injector.create(LoginViewController)!
-
-            presentingViewController = UIViewController()
-            presentingViewController.presentViewController(subject, animated: false, completion: nil)
-
-            onLoginCallCount = 0
-
-            subject.onLogin = {
-                onLoginCallCount += 1
-            }
         }
 
         it("initially makes the 'login' button disabled") {
@@ -88,21 +75,9 @@ class LoginViewControllerSpec: QuickSpec {
                 expect(subject.loginButton.enabled) == false
             }
 
-            it("does not call onLogin") {
-                expect(onLoginCallCount) == 0
-            }
-
             context("and if our credentials are good") {
                 beforeEach {
                     homeRepository.apiAvailableCallback?(true)
-                }
-
-                it("dismisses itself") {
-                    expect(presentingViewController.presentedViewController).to(beNil())
-                }
-
-                it("calls onLogin") {
-                    expect(onLoginCallCount) == 1
                 }
 
                 it("saves the url and password to user defaults") {
@@ -122,10 +97,6 @@ class LoginViewControllerSpec: QuickSpec {
 
                 it("tells the user that they dun goof'd") {
                     expect(subject.errorLabel.hidden) == false
-                }
-
-                it("does not call onLogin") {
-                    expect(onLoginCallCount) == 0
                 }
 
                 context("when the user tries again") {

@@ -6,7 +6,7 @@ import CoreLocation
 
 private class FakeHomeRepositorySubscriber: NSObject, HomeRepositorySubscriber {
     var userLoggedIn: Bool? = nil
-    private func didChangeLogoutStatus(loggedIn: Bool) {
+    private func didChangeLoginStatus(loggedIn: Bool) {
         self.userLoggedIn = loggedIn
     }
 }
@@ -33,6 +33,30 @@ class HomeAssistantRepositorySpec: QuickSpec {
 
         it("returns nil as the backendPassword until it is set") {
             expect(subject.backendPassword).to(beNil())
+        }
+
+        it("calling login actually checks that the api is available before informing any subscribers") {
+            subject.backendURL = NSURL(string: "https://example.com")
+            subject.backendPassword = "hello"
+
+            expect(subscriber.userLoggedIn).to(beNil())
+            expect(homeService.apiAvailableCallback).to(beNil())
+
+            var userDidLogin: Bool? = nil
+            subject.login(url: NSURL(string: "https://example.com")!, password: "hello") {
+                userDidLogin = $0
+            }
+
+            expect(homeService.apiAvailableCallback).toNot(beNil())
+            expect(userDidLogin).to(beNil())
+
+            homeService.apiAvailableCallback?(false)
+            expect(subscriber.userLoggedIn).to(beNil())
+            expect(userDidLogin) == false
+
+            homeService.apiAvailableCallback?(true)
+            expect(subscriber.userLoggedIn) == true
+            expect(userDidLogin) == true
         }
 
         describe("logging out") {

@@ -28,20 +28,42 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         if NSClassFromString("XCTestCase") != nil && launchOptions?["test"] as? Bool != true {
             self.window?.rootViewController = UIViewController()
         } else {
+            self.homeRepository.addSubscriber(self)
             if let url = self.userDefaults.URLForKey("backendURL"), let password = self.userDefaults.stringForKey("backendPassword") {
                 self.homeRepository.backendURL = url
                 self.homeRepository.backendPassword = password
+                self.showLoggedInViewControllerHierarchy()
+            } else {
+                self.showLoggedOutViewControllerHierarchy()
             }
-            let homeViewController = anInjector.create(HomeViewController.self)!
-            let navController = UINavigationController(rootViewController: homeViewController)
-            navController.toolbarHidden = false
-            navController.delegate = self
-            let splitViewController = UISplitViewController()
-            splitViewController.viewControllers = [navController]
-            self.window?.rootViewController = splitViewController
         }
 
         return true
+    }
+
+    private func showLoggedInViewControllerHierarchy() {
+        let homeViewController = anInjector.create(HomeViewController)!
+        let navController = UINavigationController(rootViewController: homeViewController)
+        navController.toolbarHidden = false
+        navController.delegate = self
+        let splitViewController = UISplitViewController()
+        splitViewController.viewControllers = [navController]
+        self.window?.rootViewController = splitViewController
+    }
+
+    private func showLoggedOutViewControllerHierarchy() {
+        let loginViewController = anInjector.create(LoginViewController)!
+        self.window?.rootViewController = loginViewController
+    }
+}
+
+extension AppDelegate: HomeRepositorySubscriber {
+    public func didChangeLoginStatus(loggedIn: Bool) {
+        if loggedIn {
+            self.showLoggedInViewControllerHierarchy()
+        } else {
+            self.showLoggedOutViewControllerHierarchy()
+        }
     }
 }
 

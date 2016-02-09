@@ -12,8 +12,6 @@ public class LoginViewController: UIViewController {
         return self.injector!.create(NSUserDefaults)!
     }()
 
-    public var onLogin: (Void -> Void)?
-
     public private(set) lazy var errorLabel: UILabel = {
         let label = UILabel()
         label.hidden = true
@@ -83,19 +81,14 @@ public class LoginViewController: UIViewController {
     }
 
     @objc private func didTapLogin() {
-        self.homeRepository.backendPassword = self.password
-        self.homeRepository.backendURL = NSURL(string: urlString)
-
         self.loginButton.enabled = false
         self.errorLabel.hidden = true
 
-        self.homeRepository.apiAvailable { available in
+        self.homeRepository.login(url: NSURL(string: urlString)!, password: self.password) { available in
             self.loginButton.enabled = true
             if available {
-                self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
                 self.userDefaults.setObject(self.homeRepository.backendPassword, forKey: "backendPassword")
                 self.userDefaults.setURL(self.homeRepository.backendURL, forKey: "backendURL")
-                self.onLogin?()
             } else {
                 self.errorLabel.hidden = false
             }

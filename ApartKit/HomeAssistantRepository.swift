@@ -2,7 +2,7 @@ import Foundation
 import WatchConnectivity
 
 public protocol HomeRepositorySubscriber: NSObjectProtocol {
-    func didChangeLogoutStatus(loggedIn: Bool)
+    func didChangeLoginStatus(loggedIn: Bool)
 }
 
 public protocol HomeRepository {
@@ -10,6 +10,8 @@ public protocol HomeRepository {
     var backendPassword: String? { get set }
     var watchGlanceEntityId: String? { get set }
     var watchComplicationEntityId: String? { get set }
+
+
 
     var subscribers: [HomeRepositorySubscriber] { get }
 
@@ -31,13 +33,27 @@ public extension HomeRepository {
         return self.backendPassword?.isEmpty == false && self.backendURL?.absoluteString.isEmpty == false
     }
 
+    mutating func login(url url: NSURL, password: String, callback: Bool -> Void) {
+        self.backendURL = url
+        self.backendPassword = password
+
+        self.apiAvailable {
+            if $0 {
+                for subscriber in self.subscribers {
+                    subscriber.didChangeLoginStatus(self.loggedIn)
+                }
+            }
+            callback($0)
+        }
+    }
+
     mutating func logout() {
         let wasConfigured = self.loggedIn
         self.backendURL = nil
         self.backendPassword = nil
         guard wasConfigured else { return }
         for subscriber in self.subscribers {
-            subscriber.didChangeLogoutStatus(false)
+            subscriber.didChangeLoginStatus(false)
         }
     }
 
@@ -120,8 +136,7 @@ class HomeAssistantRepository: HomeRepository {
             _backendURL = newValue
             self.homeService.baseURL = newValue?.URLByAppendingPathComponent("api", isDirectory: true)
             if self.loggedIn {
-                self.breakCache()
-                self.sendWatchLoginCredentials()
+                self.login()
             }
         }
     }
@@ -137,8 +152,7 @@ class HomeAssistantRepository: HomeRepository {
             self.homeService.apiKey = newValue
 
             if self.loggedIn {
-                self.breakCache()
-                self.sendWatchLoginCredentials()
+                self.login()
             }
         }
     }
@@ -277,6 +291,11 @@ class HomeAssistantRepository: HomeRepository {
             message["watchComplicationEntity"] = entityId
         }
         self.watchSession?.transferUserInfo(message)
+    }
+
+    private func login() {
+        self.breakCache()
+        self.sendWatchLoginCredentials()
     }
 
     private func sendWatchLoginCredentials() {

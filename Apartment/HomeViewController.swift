@@ -64,20 +64,6 @@ public class HomeViewController: UIViewController {
     }
 
     public override func viewWillAppear(animated: Bool) {
-        if self.homeRepository.loggedIn {
-            self.onLogin()
-        } else {
-            let loginViewController = self.injector!.create(LoginViewController)!
-            loginViewController.onLogin = {
-                self.onLogin()
-            }
-            self.presentViewController(loginViewController, animated: true, completion: nil)
-        }
-    }
-
-    // MARK: Private
-
-    private func onLogin() {
         self.refreshControl?.beginRefreshing()
         self.refresh()
         self.homeRepository.configuration { configuration in

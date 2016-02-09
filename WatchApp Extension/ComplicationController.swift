@@ -8,7 +8,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, HomeRepositor
         return repo
     }()
 
-    func didChangeLogoutStatus(loggedIn: Bool) {
+    func didChangeLoginStatus(loggedIn: Bool) {
         let complicationServer = CLKComplicationServer.sharedInstance()
         for complication in complicationServer.activeComplications {
             complicationServer.reloadTimelineForComplication(complication)

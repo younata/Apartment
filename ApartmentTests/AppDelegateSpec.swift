@@ -34,6 +34,42 @@ class AppDelegateSpec: QuickSpec {
                     expect(homeRepository.backendPassword).to(beNil())
                     expect(homeRepository.backendURL).to(beNil())
                 }
+
+                it("should create a window") {
+                    expect(subject.window).toNot(beNil())
+                    expect(subject.window?.keyWindow).to(beTruthy())
+                }
+
+                it("assigns a LoginViewController as the root view controller") {
+                    guard let window = subject!.window else { fail("precondition failed"); return }
+
+                    expect(window.rootViewController).to(beAnInstanceOf(LoginViewController.self))
+                }
+
+                context("when the user logs in") {
+                    beforeEach {
+                        homeRepository.backendPassword = "hello"
+                        homeRepository.backendURL = NSURL(string: "https://example.com")
+
+                        for subscriber in homeRepository.subscribers {
+                            subscriber.didChangeLoginStatus(true)
+                        }
+                    }
+
+                    it("changes the assigned rootViewController") {
+                        guard let window = subject!.window else { fail("precondition failed"); return }
+
+                        expect(window.rootViewController).to(beAnInstanceOf(UISplitViewController.self))
+                        if let sv = window.rootViewController as? UISplitViewController {
+                            expect(sv.viewControllers.count) == 1
+                            expect(sv.viewControllers.first).to(beAnInstanceOf(UINavigationController.self))
+                            if let nc = sv.viewControllers.first as? UINavigationController {
+                                expect(nc.viewControllers.first).to(beAnInstanceOf(HomeViewController.self))
+                                expect(nc.toolbarHidden) == false
+                            }
+                        }
+                    }
+                }
             }
 
             context("if we have logged in before") {
@@ -48,28 +84,45 @@ class AppDelegateSpec: QuickSpec {
                     subject.window?.hidden = true
                 }
 
+                it("sets the credentials for the HomeRepository") {
+                    expect(homeRepository.backendPassword) == "password"
+                    expect(homeRepository.backendURL) == NSURL(string: "https://example.com")
+                }
+
                 it("should create a window") {
                     expect(subject.window).toNot(beNil())
                     expect(subject.window?.keyWindow).to(beTruthy())
                 }
 
-                it("should assign a rootViewController") {
-                    if let window = subject!.window {
-                        expect(window.rootViewController).to(beAnInstanceOf(UISplitViewController.self))
-                        if let sv = window.rootViewController as? UISplitViewController {
-                            expect(sv.viewControllers.count) == 1
-                            expect(sv.viewControllers.first).to(beAnInstanceOf(UINavigationController.self))
-                            if let nc = sv.viewControllers.first as? UINavigationController {
-                                expect(nc.viewControllers.first).to(beAnInstanceOf(HomeViewController.self))
-                                expect(nc.toolbarHidden) == false
-                            }
+                it("creates the logged in view hierarchy") {
+                    guard let window = subject!.window else { fail("precondition failed"); return }
+
+                    expect(window.rootViewController).to(beAnInstanceOf(UISplitViewController.self))
+                    if let sv = window.rootViewController as? UISplitViewController {
+                        expect(sv.viewControllers.count) == 1
+                        expect(sv.viewControllers.first).to(beAnInstanceOf(UINavigationController.self))
+                        if let nc = sv.viewControllers.first as? UINavigationController {
+                            expect(nc.viewControllers.first).to(beAnInstanceOf(HomeViewController.self))
+                            expect(nc.toolbarHidden) == false
                         }
                     }
                 }
 
-                it("sets the credentials for the HomeRepository") {
-                    expect(homeRepository.backendPassword) == "password"
-                    expect(homeRepository.backendURL) == NSURL(string: "https://example.com")
+                context("when the user logs out") {
+                    beforeEach {
+                        homeRepository.backendPassword = nil
+                        homeRepository.backendURL = nil
+
+                        for subscriber in homeRepository.subscribers {
+                            subscriber.didChangeLoginStatus(false)
+                        }
+                    }
+
+                    it("assigns a LoginViewController as the root view controller") {
+                        guard let window = subject!.window else { fail("precondition failed"); return }
+
+                        expect(window.rootViewController).to(beAnInstanceOf(LoginViewController.self))
+                    }
                 }
             }
 
@@ -77,6 +130,9 @@ class AppDelegateSpec: QuickSpec {
                 var navigationController: UINavigationController?
 
                 beforeEach {
+                    userDefaults.setURL(NSURL(string: "https://example.com"), forKey: "backendURL")
+                    userDefaults.setObject("password", forKey: "backendPassword")
+
                     subject.application(UIApplication.sharedApplication(), didFinishLaunchingWithOptions: ["test": true])
 
                     if let window = subject!.window {
