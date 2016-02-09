@@ -244,29 +244,42 @@ class HomeAssistantRepository: HomeRepository {
         }
     }
 
+    var dateOfLastRefresh: NSDate? = nil
+    private var statesCallbacks: [([State] -> Void)] = []
     func states(callback: [State] -> Void) {
         guard self.loggedIn else { callback([]); return }
-        if !self._states.isEmpty {
+        if !self._states.isEmpty && (dateOfLastRefresh?.timeIntervalSinceNow ?? 0) > -300 {
             callback(self._states)
+            return
         }
 
-        self.forceUpdateStates(callback)
+        self.statesCallbacks.append(callback)
+        guard self.statesCallbacks.count == 1 else { return }
+        self.forceUpdateStates()
     }
 
+    private var serviceCallbacks: [([Service] -> Void)] = []
     func services(callback: [Service] -> Void) {
         guard self.loggedIn else { callback([]); return }
         if !self._services.isEmpty {
             callback(self._services)
         }
 
+        self.serviceCallbacks.append(callback)
+        guard self.serviceCallbacks.count == 1 else { return }
         self.homeService.services { services, error in
             if let _ = error {
-                callback([])
+                for callback in self.serviceCallbacks {
+                    callback([])
+                }
                 return
             }
-            callback(services)
             self._services = services
             self.updateWatchSession()
+            for callback in self.serviceCallbacks {
+                callback(services)
+            }
+            self.serviceCallbacks = []
         }
     }
 
@@ -275,19 +288,25 @@ class HomeAssistantRepository: HomeRepository {
         self.homeService.callService(service.domain, method: method, data: ["entity_id": state.entityId]) { states, error in
             callback(states, error)
             if error == nil {
-                self.forceUpdateStates{ _ in }
+                self.forceUpdateStates()
             }
         }
     }
 
-    private func forceUpdateStates(callback: [State] -> Void) {
+    private func forceUpdateStates() {
         self.homeService.status {states, error in
             if let _ = error {
-                callback([])
+                for callback in self.statesCallbacks {
+                    callback([])
+                }
                 return
             }
             self.updateStates(states)
-            callback(self._states)
+            self.dateOfLastRefresh = NSDate()
+            for callback in self.statesCallbacks {
+                callback(self._states)
+            }
+            self.statesCallbacks = []
         }
     }
 
@@ -328,7 +347,7 @@ class HomeAssistantRepository: HomeRepository {
         self._services = []
         self._states = []
 
-        self.forceUpdateStates { _ in }
+        self.forceUpdateStates()
         self.services { _ in }
     }
 }

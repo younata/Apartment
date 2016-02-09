@@ -940,6 +940,31 @@ class HomeAssistantRepositorySpec: QuickSpec {
                     expect(homeService.statusCallback).toNot(beNil())
                 }
 
+                context("asking again for the states") {
+                    var oldStatusCallback: (([State], NSError?) -> (Void))?
+
+                    var secondRequestStates: [State]?
+
+                    beforeEach {
+                        oldStatusCallback = homeService.statusCallback
+
+                        homeService.statusCallback = nil
+
+                        subject.states { secondRequestStates = $0 }
+                    }
+
+                    it("does not make another call to the homeService") {
+                        expect(homeService.statusCallback).to(beNil())
+                    }
+
+                    it("lets both know when the services get called back") {
+                        oldStatusCallback?([], nil)
+
+                        expect(receivedStates) == []
+                        expect(secondRequestStates) == []
+                    }
+                }
+
                 context("when the request suceeds") {
                     let df = NSDateFormatter()
                     df.dateFormat = "HH:mm:ss dd-MM-yyyy"
@@ -960,10 +985,23 @@ class HomeAssistantRepositorySpec: QuickSpec {
 
                     it("should immediately returns with the states when we request them again") {
                         receivedStates = nil
+                        homeService.statusCallback = nil
                         subject.states {newStates in
                             receivedStates = newStates
                         }
                         expect(receivedStates).to(equal(states))
+                        expect(homeService.statusCallback).to(beNil())
+                    }
+
+                    it("breaks the cache if it's been more than a minute since the last refresh") {
+                        subject.dateOfLastRefresh = NSDate(timeIntervalSinceNow: -301)
+                        receivedStates = nil
+                        homeService.statusCallback = nil
+                        subject.states { newStates in
+                            receivedStates = newStates
+                        }
+                        expect(receivedStates).to(beNil())
+                        expect(homeService.statusCallback).toNot(beNil())
                     }
                 }
 
@@ -1019,6 +1057,31 @@ class HomeAssistantRepositorySpec: QuickSpec {
 
                 it("kicks off a request to the homeService for services") {
                     expect(homeService.servicesCallback).toNot(beNil())
+                }
+
+                context("asking again for the services") {
+                    var oldServiceCallback: (([Service], NSError?) -> (Void))?
+
+                    var secondRequestServices: [Service]?
+
+                    beforeEach {
+                        oldServiceCallback = homeService.servicesCallback
+
+                        homeService.servicesCallback = nil
+
+                        subject.services { secondRequestServices = $0 }
+                    }
+
+                    it("does not make another call to the homeService") {
+                        expect(homeService.servicesCallback).to(beNil())
+                    }
+
+                    it("lets both know when the services get called back") {
+                        oldServiceCallback?([], nil)
+
+                        expect(receivedServices) == []
+                        expect(secondRequestServices) == []
+                    }
                 }
 
                 context("when the request suceeds") {
