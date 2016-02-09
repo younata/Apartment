@@ -1,9 +1,16 @@
 import Foundation
 import WatchConnectivity
 
+public protocol HomeRepositorySubscriber: NSObjectProtocol {
+    func didUpdateStates(states: [State])
+    func didChangeLogoutStatus(loggedIn: Bool)
+}
+
 public protocol HomeRepository {
     var backendURL: NSURL! { get set }
     var backendPassword: String! { get set }
+    var watchGlanceEntityId: String? { get set }
+    var watchComplicationEntityId: String? { get set }
 
     func addSubscriber(subscriber: HomeRepositorySubscriber)
 
@@ -21,6 +28,25 @@ public protocol HomeRepository {
 public extension HomeRepository {
     var configured: Bool {
         return self.backendPassword?.isEmpty == false && self.backendURL?.absoluteString.isEmpty == false
+    }
+
+    mutating func logout() {
+        self.backendURL = nil
+        self.backendPassword = nil
+    }
+
+    func watchGlanceEntity(callback: State? -> Void) {
+        guard let entityId = self.watchGlanceEntityId else { callback(nil); return }
+        self.states {
+            return $0.filter { $0.entityId == entityId }.first
+        }
+    }
+
+    func watchComplicationEntity(callback: State? -> Void) {
+        guard let entityId = self.watchComplicationEntityId else { callback(nil); return }
+        self.states {
+            return $0.filter { $0.entityId == entityId }.first
+        }
     }
 
     func groups(includeScenes includeScenes: Bool, callback: ([State], [Group]) -> Void) {
@@ -54,10 +80,6 @@ public extension HomeRepository {
             }
         }
     }
-}
-
-public protocol HomeRepositorySubscriber: NSObjectProtocol {
-    func didUpdateStates(states: [State])
 }
 
 class HomeAssistantRepository: HomeRepository {
@@ -109,6 +131,9 @@ class HomeAssistantRepository: HomeRepository {
             }
         }
     }
+
+    var watchGlanceEntityId: String?
+    var watchComplicationEntityId: String?
 
     private var _states = [State]()
     private var _services = [Service]()
@@ -226,7 +251,13 @@ class HomeAssistantRepository: HomeRepository {
     private func updateWatchSession() {
         let states = self._states.map { $0.jsonObject }
         let services = self._services.map { ["domain": $0.domain, "methods": $0.methods.map { method in method.jsonObject } ] }
-        let message = ["states": states, "services": services]
+        var message: [String: AnyObject] = ["states": states, "services": services]
+        if let entityId = self.watchGlanceEntityId {
+            message["watchGlanceEntity"] = entityId
+        }
+        if let entityId = self.watchComplicationEntityId {
+            message["watchComplicationEntity"] = entityId
+        }
         self.watchSession?.transferUserInfo(message)
     }
 
@@ -280,6 +311,12 @@ private class WatchConnectivityDelegate: NSObject, WCSessionDelegate {
                 return $0
             }
         } else { services = [] }
+        if let glanceEntityId = userInfo["watchGlanceEntity"] as? String {
+            self.homeRepository?.watchGlanceEntityId = glanceEntityId
+        }
+        if let complicationEntityId = userInfo["watchComplicationEntity"] as? String {
+            self.homeRepository?.watchComplicationEntityId = complicationEntityId
+        }
         self.didUpdateData?(states, services)
     }
 }

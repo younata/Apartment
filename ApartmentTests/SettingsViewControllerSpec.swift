@@ -42,5 +42,41 @@ class SettingsViewControllerSpec: QuickSpec {
                 expect(subject.versionLabel.text) == "version 0.13.0"
             }
         }
+
+        context("the stackView") {
+            it("has 3 main subviews") {
+                expect(subject.stackView.arrangedSubviews.count) == 3
+            }
+
+            describe("the first subview") {
+                beforeEach {
+
+                }
+            }
+
+            describe("the middle subview") {
+
+            }
+
+            describe("the last subview") {
+                var button: UIButton!
+                beforeEach {
+                    button = subject.stackView.arrangedSubviews.last as? UIButton
+                }
+
+                it("is labeled 'Logout'") {
+                    expect(button.titleForState(.Normal)) == "Logout"
+                }
+
+                it("logs the user out") {
+                    homeRepository.backendURL = NSURL(string: "https://example.com")
+                    homeRepository.backendPassword = "hello"
+
+                    button.sendActionsForControlEvents(.TouchUpInside)
+
+                    expect(homeRepository.configured) == false
+                }
+            }
+        }
     }
 }

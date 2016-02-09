@@ -9,6 +9,11 @@ private class FakeHomeRepositorySubscriber: NSObject, HomeRepositorySubscriber {
     private func didUpdateStates(states: [State]) {
         self.states = states
     }
+
+    var userLoggedIn: Bool? = nil
+    private func didChangeLogoutStatus(loggedIn: Bool) {
+        self.userLoggedIn = loggedIn
+    }
 }
 
 class HomeAssistantRepositorySpec: QuickSpec {
@@ -35,6 +40,33 @@ class HomeAssistantRepositorySpec: QuickSpec {
             expect(subject.backendPassword).to(beNil())
         }
 
+        describe("logging out") {
+            context("when we're not logged in in the first place") {
+                it("does not inform any subscribers") {
+                    subject.logout()
+                    expect(subscriber.userLoggedIn).to(beNil())
+                }
+            }
+
+            context("when we are logged in") {
+                beforeEach {
+                    subject.backendURL = NSURL(string: "https://example.com")
+                    subject.backendPassword = "hello"
+
+                    subject.logout()
+                }
+
+                it("unsets the url and password") {
+                    expect(subject.backendURL == nil) == true
+                    expect(subject.backendPassword == nil) == true
+                }
+
+                it("informs any subscribers") {
+                    expect(subscriber.userLoggedIn) == false
+                }
+            }
+        }
+
         describe("testing if the api is available") {
             var apiIsAvailable: Bool?
             beforeEach {
@@ -43,6 +75,7 @@ class HomeAssistantRepositorySpec: QuickSpec {
 
             it("immediately returns false if the backendURL is not set") {
                 subject.backendPassword = "hello"
+                expect(subject.configured) == false
                 subject.apiAvailable { apiIsAvailable = $0 }
 
                 expect(apiIsAvailable) == false
@@ -51,6 +84,7 @@ class HomeAssistantRepositorySpec: QuickSpec {
 
             it("immediately returns false if the backendPassword is not set") {
                 subject.backendURL = NSURL(string: "https://example.com")
+                expect(subject.configured) == false
                 subject.apiAvailable { apiIsAvailable = $0 }
 
                 expect(apiIsAvailable) == false
@@ -62,6 +96,7 @@ class HomeAssistantRepositorySpec: QuickSpec {
                     subject.backendURL = NSURL(string: "https://example.com")
                     subject.backendPassword = "hello"
                     subject.apiAvailable { apiIsAvailable = $0 }
+                    expect(subject.configured) == true
                 }
 
                 it("calls out to the service") {
@@ -307,6 +342,65 @@ class HomeAssistantRepositorySpec: QuickSpec {
 
                     it("returns an empty array") {
                         expect(receivedStates) == []
+                    }
+                }
+            }
+        }
+
+        describe("getting the watch glance entity") {
+            var receivedEntity: State?
+            var didReceiveEntity = false
+
+            beforeEach {
+                receivedEntity = nil
+                didReceiveEntity = false
+            }
+
+            context("when the entity Id is nil") {
+                it("immediately returns nil") {
+                    subject.watchGlanceEntity {
+                        receivedEntity = $0
+                        didReceiveEntity = true
+                    }
+
+                    expect(receivedEntity).to(beNil())
+                    expect(didReceiveEntity) == true
+                }
+            }
+
+            context("when the entity Id is set") {
+                beforeEach {
+                    subject.watchGlanceEntityId = "test.state"
+                }
+
+                context("when we haven't already loaded the state history") {
+                    beforeEach {
+                        subject.watchGlanceEntity {
+                            receivedEntity = $0
+                            didReceiveEntity = true
+                        }
+                    }
+
+                    it("does not immediately return") {
+                        expect(didReceiveEntity) == false
+                    }
+
+                    it("makes a request to the server") {
+                        fail("implement me")
+                    }
+                }
+
+                context("after we have loaded the state history") {
+                    beforeEach {
+                        subject.watchGlanceEntity {
+                            receivedEntity = $0
+                            didReceiveEntity = true
+                        }
+
+                        it("immediately returns the entity") {
+//                            expect(receivedEntity) == 
+                            expect(didReceiveEntity) == true
+                        }
                     }
                 }
             }

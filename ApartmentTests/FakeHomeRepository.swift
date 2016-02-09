@@ -4,6 +4,9 @@ class FakeHomeRepository: HomeRepository {
     var backendURL: NSURL!
     var backendPassword: String!
 
+    var watchGlanceEntityId: String?
+    var watchComplicationEntityId: String?
+
     init() {}
 
     var apiAvailableCallback: (Bool -> Void)?
