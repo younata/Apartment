@@ -15,6 +15,10 @@ class InterfaceController: WKInterfaceController {
         super.awakeWithContext(context)
 
         self.homeRepository = (WKExtension.sharedExtension().delegate as! ExtensionDelegate).homeRepository
+    }
+
+    override func willActivate() {
+        super.willActivate()
         self.checkIfLoggedIn()
     }
 

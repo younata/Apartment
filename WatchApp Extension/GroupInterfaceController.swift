@@ -79,23 +79,33 @@ class GroupInterfaceController: WKInterfaceController {
 
         self.group = context?.group
         self.homeRepository = context?.homeRepository
+    }
+
+    override func willActivate() {
+        super.willActivate()
 
         if let group = self.group {
-            self.setTitle(group.groupEntity.displayName)
+            self.homeRepository?.groups(includeScenes: true) { _, groups in
+                let retrievedGroup = groups.filter {
+                    return $0.groupEntity.entityId == group.groupEntity.entityId
+                }.first ?? group
 
-            self.table.setRowTypes([RowType.Switch.rawValue, RowType.Label.rawValue])
+                self.setTitle(retrievedGroup.groupEntity.displayName)
 
-            self.table.setNumberOfRows(0, withRowType: "")
+                self.table.setRowTypes([RowType.Switch.rawValue, RowType.Label.rawValue])
 
-            for (idx, entity) in group.entities.enumerate() {
-                let rowType = entity.isSwitch || entity.isLight ? RowType.Switch.rawValue : RowType.Label.rawValue
-                self.table.insertRowsAtIndexes(NSIndexSet(index: idx), withRowType: rowType)
-                let rowController = self.table.rowControllerAtIndex(idx)
-                if let switchController = rowController as? SwitchTableRowController {
-                    switchController.homeRepository = self.homeRepository
-                    switchController.entity = entity
-                } else if let labelController = rowController as? ButtonTableRowController {
-                    labelController.entity = entity
+                self.table.setNumberOfRows(0, withRowType: "")
+
+                for (idx, entity) in retrievedGroup.entities.enumerate() {
+                    let rowType = entity.isSwitch || entity.isLight ? RowType.Switch.rawValue : RowType.Label.rawValue
+                    self.table.insertRowsAtIndexes(NSIndexSet(index: idx), withRowType: rowType)
+                    let rowController = self.table.rowControllerAtIndex(idx)
+                    if let switchController = rowController as? SwitchTableRowController {
+                        switchController.homeRepository = self.homeRepository
+                        switchController.entity = entity
+                    } else if let labelController = rowController as? ButtonTableRowController {
+                        labelController.entity = entity
+                    }
                 }
             }
         }
