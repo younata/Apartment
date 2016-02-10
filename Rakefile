@@ -7,6 +7,7 @@ namespace "build" do
   task :update_version do |t|
     version = `git describe --always`.strip
     run "/usr/libexec/PlistBuddy -c 'Set CFBundleShortVersionString #{version}' Apartment/Info.plist"
+    run "/usr/libexec/PlistBuddy -c 'Set CFBundleShortVersionString #{version}' WatchApp\\ Extension/Info.plist"
     puts "bumped to version #{version}"
   end
 end
