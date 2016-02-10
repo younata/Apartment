@@ -63,10 +63,13 @@ class ComplicationController: NSObject, CLKComplicationDataSource, HomeRepositor
             return
         }
 
-        let longText: String = entity.displayName
-        let shortText: String = entity.state.desnake
+        let name = entity.displayName
+        let state = entity.state.desnake
 
-        let template : CLKComplicationTemplate?
+        let longText = "\(name): \(state)"
+        let shortText = state
+
+        let template: CLKComplicationTemplate?
 
         switch (complication.family) {
         case .ModularSmall:
@@ -75,8 +78,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, HomeRepositor
             template = textTemplate
         case .ModularLarge:
             let textTemplate = CLKComplicationTemplateModularLargeStandardBody()
-            textTemplate.headerTextProvider = CLKSimpleTextProvider(text: longText)
-            textTemplate.body1TextProvider = CLKSimpleTextProvider(text: shortText)
+            textTemplate.body1TextProvider = CLKSimpleTextProvider(text: longText)
             template = textTemplate
         case .UtilitarianSmall:
             let textTemplate = CLKComplicationTemplateUtilitarianSmallRingText()
