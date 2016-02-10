@@ -244,14 +244,9 @@ class HomeAssistantRepository: HomeRepository {
         }
     }
 
-    var dateOfLastRefresh: NSDate? = nil
     private var statesCallbacks: [([State] -> Void)] = []
     func states(callback: [State] -> Void) {
         guard self.loggedIn else { callback([]); return }
-        if !self._states.isEmpty && (dateOfLastRefresh?.timeIntervalSinceNow ?? 0) > -300 {
-            callback(self._states)
-            return
-        }
 
         self.statesCallbacks.append(callback)
         guard self.statesCallbacks.count == 1 else { return }
@@ -302,7 +297,6 @@ class HomeAssistantRepository: HomeRepository {
                 return
             }
             self.updateStates(states)
-            self.dateOfLastRefresh = NSDate()
             for callback in self.statesCallbacks {
                 callback(self._states)
             }

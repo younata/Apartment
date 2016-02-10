@@ -875,14 +875,6 @@ class HomeAssistantRepositorySpec: QuickSpec {
                         expect(receivedStates) == states
                         expect(receivedGroups) == [group]
                     }
-
-                    it("should immediately returns with the states when we request them again") {
-                        receivedStates = nil
-                        subject.states {newStates in
-                            receivedStates = newStates
-                        }
-                        expect(receivedStates).to(equal(states))
-                    }
                 }
 
                 context("when the request fails") {
@@ -979,25 +971,14 @@ class HomeAssistantRepositorySpec: QuickSpec {
                         homeService.statusCallback?(states, nil)
                     }
 
-                    it("should call the callback with the states") {
+                    it("calls the callback with the states") {
                         expect(receivedStates).to(equal(states))
                     }
 
-                    it("should immediately returns with the states when we request them again") {
+                    it("does not cache any results") {
                         receivedStates = nil
                         homeService.statusCallback = nil
                         subject.states {newStates in
-                            receivedStates = newStates
-                        }
-                        expect(receivedStates).to(equal(states))
-                        expect(homeService.statusCallback).to(beNil())
-                    }
-
-                    it("breaks the cache if it's been more than a minute since the last refresh") {
-                        subject.dateOfLastRefresh = NSDate(timeIntervalSinceNow: -301)
-                        receivedStates = nil
-                        homeService.statusCallback = nil
-                        subject.states { newStates in
                             receivedStates = newStates
                         }
                         expect(receivedStates).to(beNil())
