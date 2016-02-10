@@ -28,7 +28,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, HomeRepositor
 
     func reloadComplicationEntity() {
         self.homeRepository?.watchComplicationEntity {
-            entity = $0
+            self.entity = $0
         }
     }
 

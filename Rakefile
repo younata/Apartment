@@ -8,6 +8,7 @@ namespace "build" do
     version = `git describe --always`.strip
     run "/usr/libexec/PlistBuddy -c 'Set CFBundleShortVersionString #{version}' Apartment/Info.plist"
     run "/usr/libexec/PlistBuddy -c 'Set CFBundleShortVersionString #{version}' WatchApp\\ Extension/Info.plist"
+    run "/usr/libexec/PlistBuddy -c 'Set CFBundleShortVersionString #{version}' WatchApp/Info.plist"
     puts "bumped to version #{version}"
   end
 end
