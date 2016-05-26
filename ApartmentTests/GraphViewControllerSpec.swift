@@ -97,7 +97,7 @@ class GraphViewControllerSpec: QuickSpec {
                         homeRepository.historyCallback = nil
                         homeRepository.historyState = nil
 
-                        tryAgain.handler()(tryAgain)
+                        tryAgain.handler(tryAgain)
 
                         expect(subject.presentedViewController).to(beNil())
                         expect(homeRepository.historyState) == entity
@@ -110,7 +110,7 @@ class GraphViewControllerSpec: QuickSpec {
                         homeRepository.historyCallback = nil
                         homeRepository.historyState = nil
 
-                        dismiss.handler()(dismiss)
+                        dismiss.handler(dismiss)
 
                         expect(subject.presentedViewController).to(beNil())
 

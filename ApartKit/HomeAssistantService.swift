@@ -12,7 +12,7 @@ class HomeAssistantService {
         self.urlSession = urlSession
         self.mainQueue = mainQueue
 
-        self.dateFormatter.dateFormat = "HH:mm:ss dd-MM-yyyy"
+        self.dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
     }
 
     func apiAvailable(callback: Bool -> Void) {

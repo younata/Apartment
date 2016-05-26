@@ -3,11 +3,7 @@ import PureLayout
 import Ra
 import ApartKit
 
-public class SettingsViewController: UIViewController {
-    private lazy var homeRepository: HomeRepository = {
-        return self.injector!.create(HomeRepository)!
-    }()
-
+public class SettingsViewController: UIViewController, Injectable {
     public let backendVersionLabel: UILabel = {
         let label = UILabel(forAutoLayout: ())
         label.textAlignment = .Center
@@ -44,6 +40,21 @@ public class SettingsViewController: UIViewController {
         return view
     }()
 
+    private let homeRepository: HomeRepository
+
+    public init(homeRepository: HomeRepository) {
+        self.homeRepository = homeRepository
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    public required convenience init(injector: Injector) {
+        self.init(homeRepository: injector.create(HomeRepository)!)
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     public override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -51,7 +62,7 @@ public class SettingsViewController: UIViewController {
 
         self.title = "Settings"
 
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Done", style: .Plain, target: self, action: Selector("dismiss"))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Done", style: .Plain, target: self, action: #selector(SettingsViewController.dismiss))
 
         self.view.addSubview(self.stackView)
         self.stackView.autoPinEdgeToSuperviewMargin(.Leading)
@@ -66,15 +77,15 @@ public class SettingsViewController: UIViewController {
             view.autoPinEdgeToSuperviewMargin(.Trailing)
         }
 
-        let complicationTap = UITapGestureRecognizer(target: self, action: Selector("didTapComplicationView"))
+        let complicationTap = UITapGestureRecognizer(target: self, action: #selector(SettingsViewController.didTapComplicationView))
         self.complicationView.addGestureRecognizer(complicationTap)
 
-        let glanceTap = UITapGestureRecognizer(target: self, action: Selector("didTapGlanceView"))
+        let glanceTap = UITapGestureRecognizer(target: self, action: #selector(SettingsViewController.didTapGlanceView))
         self.glanceView.addGestureRecognizer(glanceTap)
 
         let button = UIButton(type: .System)
         button.setTitle("Logout", forState: .Normal)
-        button.addTarget(self, action: Selector("didTapLogout"), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(SettingsViewController.didTapLogout), forControlEvents: .TouchUpInside)
         self.stackView.addArrangedSubview(button)
 
         let versionStackView = UIStackView(arrangedSubviews: [self.appVersionLabel, self.backendVersionLabel])

@@ -176,11 +176,15 @@ class HomeAssistantServiceSpec: QuickSpec {
                 }
 
                 it("returns a list of states on success") {
-                    let data = NSString(string: "[[{\"attributes\":{\"brightness\":254,\"friendly_name\":\"Bedroom\",\"xy_color\":[0.4499,0.408]},\"entity_id\":\"light.bedroom\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"auto\":true,\"entity_id\":[\"light.bedroom\",\"light.hue_lamp\",\"light.living_room\"],\"friendly_name\":\"all lights\"},\"entity_id\":\"group.all_lights\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"friendly_name\":\"internet switch\"},\"entity_id\":\"switch.internet_switch\",\"last_changed\":\"17:29:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"off\"}]]").dataUsingEncoding(NSUTF8StringEncoding)
+
+                    let data = NSString(string: "[[{\"attributes\":{\"brightness\":254,\"friendly_name\":\"Bedroom\",\"xy_color\":[0.4499,0.408]},\"entity_id\":\"light.bedroom\",\"last_changed\":\"2015-09-28T17:31:56.000+00:00\",\"last_updated\":\"2015-09-28T19:18:51.000+00:00\",\"state\":\"on\"}," +
+                        "{\"attributes\":{\"auto\":true,\"entity_id\":[\"light.bedroom\",\"light.hue_lamp\",\"light.living_room\"],\"friendly_name\":\"all lights\"},\"entity_id\":\"group.all_lights\",\"last_changed\":\"2015-09-28T17:31:56.000+00:00\",\"last_updated\":\"2015-09-28T19:18:51.000+00:00\",\"state\":\"on\"}," +
+                        "{\"attributes\":{\"friendly_name\":\"internet switch\"},\"entity_id\":\"switch.internet_switch\",\"last_changed\":\"2015-09-28T17:29:56.000+00:00\",\"last_updated\":\"2015-09-28T19:18:51.000+00:00\",\"state\":\"off\"}]]").dataUsingEncoding(NSUTF8StringEncoding)
                     urlSession.lastCompletionHandler(data, nil, nil)
                     mainQueue.runNextOperation()
 
                     let df = NSDateFormatter()
+                    df.timeZone = NSTimeZone(forSecondsFromGMT: 0)
                     df.dateFormat = "HH:mm:ss dd-MM-yyyy"
 
                     let states = [
@@ -209,11 +213,14 @@ class HomeAssistantServiceSpec: QuickSpec {
                 }
 
                 it("returns a list of states on success") {
-                    let data = NSString(string: "[[{\"attributes\":{\"brightness\":254,\"friendly_name\":\"Bedroom\",\"xy_color\":[0.4499,0.408]},\"entity_id\":\"light.bedroom\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"auto\":true,\"entity_id\":[\"light.bedroom\",\"light.hue_lamp\",\"light.living_room\"],\"friendly_name\":\"all lights\"},\"entity_id\":\"group.all_lights\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"friendly_name\":\"internet switch\"},\"entity_id\":\"switch.internet_switch\",\"last_changed\":\"17:29:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"off\"}]]").dataUsingEncoding(NSUTF8StringEncoding)
+                    let data = NSString(string: "[[{\"attributes\":{\"brightness\":254,\"friendly_name\":\"Bedroom\",\"xy_color\":[0.4499,0.408]},\"entity_id\":\"light.bedroom\",\"last_changed\":\"2015-09-28T17:31:56.000+00:00\",\"last_updated\":\"2015-09-28T19:18:51.000+00:00\",\"state\":\"on\"}," +
+                        "{\"attributes\":{\"auto\":true,\"entity_id\":[\"light.bedroom\",\"light.hue_lamp\",\"light.living_room\"],\"friendly_name\":\"all lights\"},\"entity_id\":\"group.all_lights\",\"last_changed\":\"2015-09-28T17:31:56.000+00:00\",\"last_updated\":\"2015-09-28T19:18:51.000+00:00\",\"state\":\"on\"}," +
+                        "{\"attributes\":{\"friendly_name\":\"internet switch\"},\"entity_id\":\"switch.internet_switch\",\"last_changed\":\"2015-09-28T17:29:56.000+00:00\",\"last_updated\":\"2015-09-28T19:18:51.000+00:00\",\"state\":\"off\"}]]").dataUsingEncoding(NSUTF8StringEncoding)
                     urlSession.lastCompletionHandler(data, nil, nil)
                     mainQueue.runNextOperation()
 
                     let df = NSDateFormatter()
+                    df.timeZone = NSTimeZone(forSecondsFromGMT: 0)
                     df.dateFormat = "HH:mm:ss dd-MM-yyyy"
 
                     let states = [
@@ -358,11 +365,14 @@ class HomeAssistantServiceSpec: QuickSpec {
                 }
 
                 it("returns all the updated states on success") {
-                    let data = NSString(string: "[{\"attributes\":{\"brightness\":254,\"friendly_name\":\"Bedroom\",\"xy_color\":[0.4499,0.408]},\"entity_id\":\"light.bedroom\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"auto\":true,\"entity_id\":[\"light.bedroom\",\"light.hue_lamp\",\"light.living_room\"],\"friendly_name\":\"all lights\"},\"entity_id\":\"group.all_lights\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"friendly_name\":\"internet switch\"},\"entity_id\":\"switch.internet_switch\",\"last_changed\":\"17:29:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"off\"}]").dataUsingEncoding(NSUTF8StringEncoding)
+                    let data = NSString(string: "[{\"attributes\":{\"brightness\":254,\"friendly_name\":\"Bedroom\",\"xy_color\":[0.4499,0.408]},\"entity_id\":\"light.bedroom\",\"last_changed\":\"2015-09-28T17:31:56.000+00:00\",\"last_updated\":\"2015-09-28T19:18:51.000+00:00\",\"state\":\"on\"}," +
+                        "{\"attributes\":{\"auto\":true,\"entity_id\":[\"light.bedroom\",\"light.hue_lamp\",\"light.living_room\"],\"friendly_name\":\"all lights\"},\"entity_id\":\"group.all_lights\",\"last_changed\":\"2015-09-28T17:31:56.000+00:00\",\"last_updated\":\"2015-09-28T19:18:51.000+00:00\",\"state\":\"on\"}," +
+                        "{\"attributes\":{\"friendly_name\":\"internet switch\"},\"entity_id\":\"switch.internet_switch\",\"last_changed\":\"2015-09-28T17:29:56.000+00:00\",\"last_updated\":\"2015-09-28T19:18:51.000+00:00\",\"state\":\"off\"}]").dataUsingEncoding(NSUTF8StringEncoding)
                     urlSession.lastCompletionHandler(data, nil, nil)
                     mainQueue.runNextOperation()
 
                     let df = NSDateFormatter()
+                    df.timeZone = NSTimeZone(forSecondsFromGMT: 0)
                     df.dateFormat = "HH:mm:ss dd-MM-yyyy"
 
                     let states = [
@@ -392,11 +402,14 @@ class HomeAssistantServiceSpec: QuickSpec {
                 }
 
                 it("returns all the current states on success") {
-                    let data = NSString(string: "[{\"attributes\":{\"brightness\":254,\"friendly_name\":\"Bedroom\",\"xy_color\":[0.4499,0.408]},\"entity_id\":\"light.bedroom\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"auto\":true,\"entity_id\":[\"light.bedroom\",\"light.hue_lamp\",\"light.living_room\"],\"friendly_name\":\"all lights\"},\"entity_id\":\"group.all_lights\",\"last_changed\":\"17:31:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"on\"},{\"attributes\":{\"friendly_name\":\"internet switch\"},\"entity_id\":\"switch.internet_switch\",\"last_changed\":\"17:29:56 28-09-2015\",\"last_updated\":\"19:18:51 28-09-2015\",\"state\":\"off\"}]").dataUsingEncoding(NSUTF8StringEncoding)
+                    let data = NSString(string: "[{\"attributes\":{\"brightness\":254,\"friendly_name\":\"Bedroom\",\"xy_color\":[0.4499,0.408]},\"entity_id\":\"light.bedroom\",\"last_changed\":\"2015-09-28T17:31:56.000+00:00\",\"last_updated\":\"2015-09-28T19:18:51.000+00:00\",\"state\":\"on\"}," +
+                        "{\"attributes\":{\"auto\":true,\"entity_id\":[\"light.bedroom\",\"light.hue_lamp\",\"light.living_room\"],\"friendly_name\":\"all lights\"},\"entity_id\":\"group.all_lights\",\"last_changed\":\"2015-09-28T17:31:56.000+00:00\",\"last_updated\":\"2015-09-28T19:18:51.000+00:00\",\"state\":\"on\"}," +
+                        "{\"attributes\":{\"friendly_name\":\"internet switch\"},\"entity_id\":\"switch.internet_switch\",\"last_changed\":\"2015-09-28T17:29:56.000+00:00\",\"last_updated\":\"2015-09-28T19:18:51.000+00:00\",\"state\":\"off\"}]").dataUsingEncoding(NSUTF8StringEncoding)
                     urlSession.lastCompletionHandler(data, nil, nil)
                     mainQueue.runNextOperation()
 
                     let df = NSDateFormatter()
+                    df.timeZone = NSTimeZone(forSecondsFromGMT: 0)
                     df.dateFormat = "HH:mm:ss dd-MM-yyyy"
 
                     let states = [
@@ -424,12 +437,13 @@ class HomeAssistantServiceSpec: QuickSpec {
                 }
 
                 it("returns the current state for that state on success") {
-                    let data = NSString(string: "{\"attributes\":{\"next_rising\":\"07:04:15 29-10-2013\",\"next_setting\":\"18:00:31 29-10-2013\"},\"entity_id\":\"sun.sun\",\"last_changed\":\"23:24:33 28-10-2013\",\"last_updated\":\"23:24:33 28-10-2015\",\"state\":\"below_horizon\"}").dataUsingEncoding(NSUTF8StringEncoding)
+                    let data = NSString(string: "{\"attributes\":{\"next_rising\":\"2013-10-29T07:04:15.000+00:00\",\"next_setting\":\"2013-10-29T18:00:31.000+00:00\"},\"entity_id\":\"sun.sun\",\"last_changed\":\"2013-10-28T23:24:33.000+00:00\",\"last_updated\":\"2015-10-28T23:24:33.000+00:00\",\"state\":\"below_horizon\"}").dataUsingEncoding(NSUTF8StringEncoding)
 
                     urlSession.lastCompletionHandler(data, nil, nil)
                     mainQueue.runNextOperation()
 
                     let df = NSDateFormatter()
+                    df.timeZone = NSTimeZone(forSecondsFromGMT: 0)
                     df.dateFormat = "HH:mm:ss dd-MM-yyyy"
 
                     let expectedState = State(attributes: ["next_rising": "07:04:15 29-10-2013", "next_setting": "18:00:31 29-10-2013"], entityId: "sun.sun", lastChanged: df.dateFromString("23:24:33 28-10-2013")!, lastUpdated: df.dateFromString("23:24:33 28-10-2015")!, state: "below_horizon")
@@ -456,12 +470,13 @@ class HomeAssistantServiceSpec: QuickSpec {
                 }
 
                 it("returns the new state for that state on success") {
-                    let data = NSString(string: "{\"attributes\":{\"next_rising\":\"07:04:15 29-10-2013\",\"next_setting\":\"18:00:31 29-10-2013\"},\"entity_id\":\"sun.sun\",\"last_changed\":\"23:24:33 28-10-2013\",\"last_updated\":\"23:24:33 28-10-2015\",\"state\":\"below_horizon\"}").dataUsingEncoding(NSUTF8StringEncoding)
+                    let data = NSString(string: "{\"attributes\":{\"next_rising\":\"2013-10-29T07:04:15.000+00:00\",\"next_setting\":\"2013-10-29T18:00:31.000+00:00\"},\"entity_id\":\"sun.sun\",\"last_changed\":\"2013-10-28T23:24:33.000+00:00\",\"last_updated\":\"2015-10-28T23:24:33.000+00:00\",\"state\":\"below_horizon\"}").dataUsingEncoding(NSUTF8StringEncoding)
 
                     urlSession.lastCompletionHandler(data, nil, nil)
                     mainQueue.runNextOperation()
 
                     let df = NSDateFormatter()
+                    df.timeZone = NSTimeZone(forSecondsFromGMT: 0)
                     df.dateFormat = "HH:mm:ss dd-MM-yyyy"
 
                     let expectedState = State(attributes: ["next_rising": "07:04:15 29-10-2013", "next_setting": "18:00:31 29-10-2013"], entityId: "sun.sun", lastChanged: df.dateFromString("23:24:33 28-10-2013")!, lastUpdated: df.dateFromString("23:24:33 28-10-2015")!, state: "below_horizon")

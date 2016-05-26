@@ -2,8 +2,9 @@ import UIKit
 import ApartKit
 import PureLayout
 import SwiftCharts
+import Ra
 
-public class GraphViewController: UIViewController {
+public class GraphViewController: UIViewController, Injectable {
     public var entity: State? {
         didSet {
             self.title = entity?.displayName
@@ -12,11 +13,23 @@ public class GraphViewController: UIViewController {
         }
     }
 
-    private lazy var homeRepository: HomeRepository = {
-        return self.injector!.create(HomeRepository)!
-    }()
-
     private let scrollView = UIScrollView(forAutoLayout: ())
+
+    private let homeRepository: HomeRepository
+
+    public init(homeRepository: HomeRepository) {
+        self.homeRepository = homeRepository
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    public required convenience init(injector: Injector) {
+        self.init(homeRepository: injector.create(HomeRepository)!)
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override public func viewDidLoad() {
         super.viewDidLoad()

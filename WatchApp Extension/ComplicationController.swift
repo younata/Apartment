@@ -34,7 +34,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, HomeRepositor
 
     func askComplicationServerToReload() {
         let complicationServer = CLKComplicationServer.sharedInstance()
-        for complication in complicationServer.activeComplications {
+        for complication in (complicationServer.activeComplications ?? []) {
             complicationServer.reloadTimelineForComplication(complication)
         }
     }

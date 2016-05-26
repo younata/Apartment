@@ -1,3 +1,5 @@
 github "younata/Ra"
 github "smileyborg/PureLayout"
 github "i-schuetz/SwiftCharts"
+github "antitypical/Result"
+github "cbguder/CBGPromise" "master"

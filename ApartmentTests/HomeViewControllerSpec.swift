@@ -396,7 +396,7 @@ class HomeViewControllerSpec: QuickSpec {
 
                                     if let actionSheet = subject.presentedViewController as? UIAlertController {
                                         let action = actionSheet.actions[idx]
-                                        action.handler()(action)
+                                        action.handler(action)
 
                                         expect(homeRepository.updateServiceService) == mediaPlayerService
                                         expect(homeRepository.updateServiceMethod) == method.id
@@ -421,7 +421,7 @@ class HomeViewControllerSpec: QuickSpec {
 
                                 if let actionSheet = subject.presentedViewController as? UIAlertController {
                                     let action = actionSheet.actions[mediaPlayerService.methods.count]
-                                    action.handler()(action)
+                                    action.handler(action)
 
                                     expect(subject.presentedViewController).to(beNil())
                                     expect(subject.shownDetailViewController).to(beAKindOf(GraphViewController.self))
@@ -436,7 +436,7 @@ class HomeViewControllerSpec: QuickSpec {
 
                                 if let actionSheet = subject.presentedViewController as? UIAlertController {
                                     let action = actionSheet.actions.last!
-                                    action.handler()(action)
+                                    action.handler(action)
 
                                     expect(subject.presentedViewController).to(beNil())
 

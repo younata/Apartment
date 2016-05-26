@@ -5,13 +5,11 @@ public protocol HomeRepositorySubscriber: NSObjectProtocol {
     func didChangeLoginStatus(loggedIn: Bool)
 }
 
-public protocol HomeRepository {
+public protocol HomeRepository: class {
     var backendURL: NSURL? { get set }
     var backendPassword: String? { get set }
     var watchGlanceEntityId: String? { get set }
     var watchComplicationEntityId: String? { get set }
-
-
 
     var subscribers: [HomeRepositorySubscriber] { get }
 
@@ -33,7 +31,7 @@ public extension HomeRepository {
         return self.backendPassword?.isEmpty == false && self.backendURL?.absoluteString.isEmpty == false
     }
 
-    mutating func login(url url: NSURL, password: String, callback: Bool -> Void) {
+    func login(url url: NSURL, password: String, callback: Bool -> Void) {
         self.backendURL = url
         self.backendPassword = password
 
@@ -47,7 +45,7 @@ public extension HomeRepository {
         }
     }
 
-    mutating func logout() {
+    func logout() {
         let wasConfigured = self.loggedIn
         self.backendURL = nil
         self.backendPassword = nil

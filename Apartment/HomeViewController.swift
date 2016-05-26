@@ -3,15 +3,11 @@ import Ra
 import ApartKit
 import PureLayout
 
-public class HomeViewController: UIViewController {
+public class HomeViewController: UIViewController, Injectable {
     private var states = [State]()
     private var groups = [Group]()
 
     private var services = [Service]()
-
-    private lazy var homeRepository: HomeRepository = {
-        return self.injector!.create(HomeRepository)!
-    }()
 
     private lazy var tableViewController = UITableViewController(style: .Grouped)
 
@@ -32,14 +28,34 @@ public class HomeViewController: UIViewController {
             super.init(coder: aDecoder)
         }
     }
+    private let homeRepository: HomeRepository
+    private let mapViewController: Void -> MapViewController
+    private let graphViewController: Void -> GraphViewController
+    private let settingsViewController: Void -> SettingsViewController
 
-    private lazy var mapViewController: MapViewController = {
-        return self.injector!.create(MapViewController)!
-    }()
+    public init(homeRepository: HomeRepository,
+                            mapViewController: Void -> MapViewController,
+                            graphViewController: Void -> GraphViewController,
+                            settingsViewController: Void -> SettingsViewController) {
+        self.homeRepository = homeRepository
+        self.mapViewController = mapViewController
+        self.graphViewController = graphViewController
+        self.settingsViewController = settingsViewController
+        super.init(nibName: nil, bundle: nil)
+    }
 
-    private lazy var graphViewController: GraphViewController = {
-        return self.injector!.create(GraphViewController)!
-    }()
+    public required convenience init(injector: Injector) {
+        self.init(
+            homeRepository: injector.create(HomeRepository)!,
+            mapViewController: { injector.create(MapViewController)! },
+            graphViewController: { injector.create(GraphViewController)! },
+            settingsViewController: { injector.create(SettingsViewController)! }
+        )
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,13 +72,13 @@ public class HomeViewController: UIViewController {
 
         self.title = "Apartment"
 
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Settings", style: .Plain, target: self, action: Selector("didTapSettings"))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Settings", style: .Plain, target: self, action: #selector(HomeViewController.didTapSettings))
 
         self.tableView.registerClass(TableViewCell.self, forCellReuseIdentifier: "cell")
         self.tableView.registerClass(SwitchTableViewCell.self, forCellReuseIdentifier: "switch")
 
         self.tableViewController.refreshControl = UIRefreshControl()
-        self.refreshControl?.addTarget(self, action: Selector("refresh"), forControlEvents: .ValueChanged)
+        self.refreshControl?.addTarget(self, action: #selector(HomeViewController.refresh), forControlEvents: .ValueChanged)
     }
 
     public override func viewWillAppear(animated: Bool) {
@@ -76,7 +92,7 @@ public class HomeViewController: UIViewController {
     }
 
     @objc private func didTapSettings() {
-        let navController = UINavigationController(rootViewController: self.injector!.create(SettingsViewController)!)
+        let navController = UINavigationController(rootViewController: self.settingsViewController())
         self.presentViewController(navController, animated: true, completion: nil)
     }
 
@@ -88,7 +104,7 @@ public class HomeViewController: UIViewController {
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
 
-            let mapItem = UIBarButtonItem(title: "Map", style: .Plain, target: self, action: Selector("showMap"))
+            let mapItem = UIBarButtonItem(title: "Map", style: .Plain, target: self, action: #selector(HomeViewController.showMap))
 
             let spacer = { return UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil) }
 
@@ -99,8 +115,9 @@ public class HomeViewController: UIViewController {
     }
 
     @objc private func showMap() {
-        self.mapViewController.configure(self.states)
-        self.showDetailViewController(self.mapViewController, sender: self)
+        let mapViewController = self.mapViewController()
+        mapViewController.configure(self.states)
+        self.showDetailViewController(mapViewController, sender: self)
     }
 
     private func entityAtIndexPath(indexPath: NSIndexPath) -> State {
@@ -172,8 +189,9 @@ extension HomeViewController: UITableViewDataSource {
     }
 
     private func showGraph(entity entity: State) {
-        self.graphViewController.entity = entity
-        self.showDetailViewController(self.graphViewController, sender: self)
+        let graphViewController = self.graphViewController()
+        graphViewController.entity = entity
+        self.showDetailViewController(graphViewController, sender: self)
     }
 }
 
@@ -184,8 +202,9 @@ extension HomeViewController: UITableViewDelegate {
         if entity.isScene {
             self.changeState(entity, on: true)
         } else if entity.isDeviceTracker {
-            self.mapViewController.configure([entity])
-            self.showDetailViewController(self.mapViewController, sender: self)
+            let mapViewController = self.mapViewController()
+            mapViewController.configure([entity])
+            self.showDetailViewController(mapViewController, sender: self)
         } else if !(entity.isSwitch || entity.isLight), let domain = entity.domain, service = self.serviceForDomain(domain) where service.domain != "homeassistant" {
             let actionSheet = UIAlertController(title: entity.displayName, message: nil, preferredStyle: .ActionSheet)
             for method in service.methods {

@@ -22,7 +22,7 @@ public class SwitchTableViewCell: UITableViewCell {
         self.contentView.addSubview(self.cellSwitch)
         self.cellSwitch.autoPinEdgesToSuperviewEdgesWithInsets(UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 16), excludingEdge: .Leading)
 
-        self.cellSwitch.addTarget(self, action: Selector("didTapSwitch"), forControlEvents: .ValueChanged)
+        self.cellSwitch.addTarget(self, action: #selector(SwitchTableViewCell.didTapSwitch), forControlEvents: .ValueChanged)
 
         self.contentView.addSubview(self._textLabel)
         self._textLabel.autoPinEdgesToSuperviewEdgesWithInsets(UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 0), excludingEdge: .Trailing)

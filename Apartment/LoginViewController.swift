@@ -3,15 +3,7 @@ import Ra
 import ApartKit
 import PureLayout
 
-public class LoginViewController: UIViewController {
-    private lazy var homeRepository: HomeRepository = {
-        return self.injector!.create(HomeRepository)!
-    }()
-
-    private lazy var userDefaults: NSUserDefaults = {
-        return self.injector!.create(NSUserDefaults)!
-    }()
-
+public class LoginViewController: UIViewController, Injectable {
     public private(set) lazy var errorLabel: UILabel = {
         let label = UILabel()
         label.hidden = true
@@ -44,12 +36,30 @@ public class LoginViewController: UIViewController {
         let button = UIButton(type: .System)
         button.enabled = false
         button.setTitle("Login", forState: .Normal)
-        button.addTarget(self, action: Selector("didTapLogin"), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(LoginViewController.didTapLogin), forControlEvents: .TouchUpInside)
         return button
     }()
 
     private var urlString: String = ""
     private var password: String = ""
+
+    private let homeRepository: HomeRepository
+    private let userDefaults: NSUserDefaults
+
+    public init(homeRepository: HomeRepository, userDefaults: NSUserDefaults) {
+        self.homeRepository = homeRepository
+        self.userDefaults = userDefaults
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    public required convenience init(injector: Injector) {
+        self.init(homeRepository: injector.create(HomeRepository)!,
+                  userDefaults: injector.create(NSUserDefaults)!)
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     public override func viewDidLoad() {
         super.viewDidLoad()

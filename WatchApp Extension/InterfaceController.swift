@@ -25,7 +25,7 @@ class InterfaceController: WKInterfaceController {
     @objc private func checkIfLoggedIn() {
         self.homeRepository?.apiAvailable { loggedIn in
             guard loggedIn else {
-                self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("checkIfLoggedIn"), userInfo: nil, repeats: false)
+                self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(InterfaceController.checkIfLoggedIn), userInfo: nil, repeats: false)
                 return
             }
             self.timer?.invalidate()
